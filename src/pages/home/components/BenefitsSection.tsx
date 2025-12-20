@@ -121,9 +121,9 @@ const BenefitsSection = () => {
         </div>
 
         {/* Benefits grid */}
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* First row - 3 cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-4 sm:mb-5 justify-items-center">
             {benefits.slice(0, 3).map((benefit, index) => (
               <BenefitCard 
                 key={benefit.title} 
@@ -136,7 +136,7 @@ const BenefitsSection = () => {
           </div>
           
           {/* Second row - 2 cards centered and inverted */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 max-w-xl sm:max-w-2xl mx-auto justify-items-center">
             {benefits.slice(3).map((benefit, index) => (
               <BenefitCard 
                 key={benefit.title} 
