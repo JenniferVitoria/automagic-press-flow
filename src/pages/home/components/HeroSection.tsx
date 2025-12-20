@@ -53,7 +53,7 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-6 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
               <AnimatedCtaButton>
                 Automatizar meu blog
               </AnimatedCtaButton>
@@ -64,7 +64,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right content - Animated Demo */}
-          <div className="mt-16 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400">
+          <div className="mt-8 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400 pb-8 lg:pb-0">
             <AnimatedDemo />
           </div>
         </div>
