@@ -46,6 +46,9 @@
     --gradient-primary: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(239, 100%, 98%) 100%);
 
+    /* Benefit cards (always dark ink for contrast on bright surfaces) */
+    --benefit-ink: 224 71% 4%;
+    --benefit-ink-muted: 224 32% 18%;
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -86,6 +89,9 @@
     --input: 215 28% 17%;
     --ring: 239 84% 67%;
 
+    /* Benefit cards (always dark ink for contrast on bright surfaces) */
+    --benefit-ink: 224 71% 4%;
+    --benefit-ink-muted: 224 32% 18%;
     --sidebar-background: 224 71% 4%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 239 84% 67%;
