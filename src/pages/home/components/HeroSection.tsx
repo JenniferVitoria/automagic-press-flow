@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import AutomationFlow from "./AutomationFlow";
+import AnimatedDemo from "./AnimatedDemo";
 
 const bulletPoints = [
   "100% automatizado",
@@ -64,9 +64,9 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right content - Flow visualization */}
+          {/* Right content - Animated Demo */}
           <div className="mt-16 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400">
-            <AutomationFlow />
+            <AnimatedDemo />
           </div>
         </div>
       </div>
