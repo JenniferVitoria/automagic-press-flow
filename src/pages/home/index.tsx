@@ -23,14 +23,24 @@ const HomePage = () => {
       </Helmet>
       <Header />
       <main className="min-h-screen bg-background pt-16">
-        <HeroSection />
+        <section id="inicio">
+          <HeroSection />
+        </section>
         <PainSection />
-        <HowItWorksSection />
-        <BenefitsSection />
+        <section id="como-funciona">
+          <HowItWorksSection />
+        </section>
+        <section id="beneficios">
+          <BenefitsSection />
+        </section>
         <AdSenseSection />
-        <PricingSection />
+        <section id="precos">
+          <PricingSection />
+        </section>
         <TestimonialsSection />
-        <FAQSection />
+        <section id="faq">
+          <FAQSection />
+        </section>
         <CTAFinalSection />
       </main>
       <Footer />
