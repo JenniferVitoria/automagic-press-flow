@@ -106,7 +106,7 @@ const AnimatedDemo = () => {
   // WordPressIcon is now defined outside the component with forwardRef
 
   return (
-    <div className="relative w-full max-w-[700px] aspect-[4/3.5] mx-auto perspective-container">
+    <div className="relative w-full max-w-[320px] sm:max-w-[400px] md:max-w-[700px] aspect-square sm:aspect-[4/4] md:aspect-[4/3.5] mx-auto perspective-container">
       {/* Brand particles background - WordPress & AdSense */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         {brandParticles.map((particle, i) => (
