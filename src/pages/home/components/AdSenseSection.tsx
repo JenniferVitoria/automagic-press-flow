@@ -137,8 +137,13 @@ const AdSenseSection = () => {
 
         {/* Two columns layout */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-5xl mx-auto">
-          {/* Left column - Text */}
-          <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`} style={{ transitionDelay: '200ms' }}>
+          {/* Illustration - appears first on mobile */}
+          <div className={`order-first lg:order-last transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`} style={{ transitionDelay: '200ms' }}>
+            <AdSenseIllustration isVisible={isVisible} />
+          </div>
+          
+          {/* Text column */}
+          <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`} style={{ transitionDelay: '300ms' }}>
             <p className="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed">
               A AutomaticPress não gera textos aleatórios. O conteúdo é estruturado para{" "}
               <span className="text-foreground font-medium">informar, reter leitores</span> e atender boas práticas que facilitam a monetização via Google AdSense.
@@ -162,7 +167,7 @@ const AdSenseSection = () => {
                       hover:-translate-y-1
                       ${isVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-8 scale-95'}
                     `}
-                    style={{ transitionDelay: `${300 + index * 150}ms` }}
+                    style={{ transitionDelay: `${400 + index * 150}ms` }}
                   >
                     {/* Hover glow effect */}
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -187,7 +192,7 @@ const AdSenseSection = () => {
                         transition-all duration-500
                         ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
                       `}
-                      style={{ transitionDelay: `${600 + index * 150}ms` }}
+                      style={{ transitionDelay: `${700 + index * 150}ms` }}
                     >
                       <div className="absolute inset-0 bg-green-500 rounded-full blur-sm opacity-50 animate-pulse" />
                       <div className="relative w-7 h-7 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
@@ -198,11 +203,6 @@ const AdSenseSection = () => {
                 );
               })}
             </div>
-          </div>
-          
-          {/* Right column - Illustration */}
-          <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`} style={{ transitionDelay: '400ms' }}>
-            <AdSenseIllustration isVisible={isVisible} />
           </div>
         </div>
       </div>
