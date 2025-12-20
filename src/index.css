@@ -800,4 +800,117 @@
       transform: translateY(80px) rotate(720deg) translateX(20px);
     }
   }
+
+  /* Magic Card Effects - Theme aware */
+  .magic-card {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  .magic-card--border-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      300px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--primary) / calc(0.4 * var(--glow-intensity))),
+      transparent 40%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+  }
+
+  .magic-card--destructive.magic-card--border-glow::before {
+    background: radial-gradient(
+      300px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--destructive) / calc(0.4 * var(--glow-intensity))),
+      transparent 40%
+    );
+  }
+
+  .magic-card--primary.magic-card--border-glow::before {
+    background: radial-gradient(
+      300px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--primary) / calc(0.5 * var(--glow-intensity))),
+      transparent 40%
+    );
+  }
+
+  /* Magic card inner glow */
+  .magic-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      400px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--primary) / calc(0.08 * var(--glow-intensity))),
+      transparent 50%
+    );
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .magic-card--destructive::after {
+    background: radial-gradient(
+      400px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--destructive) / calc(0.06 * var(--glow-intensity))),
+      transparent 50%
+    );
+  }
+
+  .magic-card--primary::after {
+    background: radial-gradient(
+      400px circle at var(--glow-x) var(--glow-y),
+      hsl(var(--primary) / calc(0.1 * var(--glow-intensity))),
+      transparent 50%
+    );
+  }
+
+  /* Magic ripple effects */
+  .magic-ripple-primary {
+    background: radial-gradient(
+      circle,
+      hsl(var(--primary) / 0.4) 0%,
+      hsl(var(--primary) / 0.2) 30%,
+      transparent 70%
+    );
+  }
+
+  .magic-ripple-destructive {
+    background: radial-gradient(
+      circle,
+      hsl(var(--destructive) / 0.4) 0%,
+      hsl(var(--destructive) / 0.2) 30%,
+      transparent 70%
+    );
+  }
+
+  /* Magic particle glow */
+  .magic-particle {
+    box-shadow: 0 0 6px currentColor;
+  }
+
+  /* Arrow pulse animation for PainSection */
+  .animate-arrow-pulse {
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes arrowPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
 }

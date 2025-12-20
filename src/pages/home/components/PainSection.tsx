@@ -10,6 +10,7 @@ import {
   Brain,
   Sparkles
 } from "lucide-react";
+import { MagicCard } from "@/components/ui/magic-card";
 
 const PainSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -62,13 +63,19 @@ const PainSection = () => {
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
           
           {/* Left Card - Situação Atual */}
-          <div 
-            className={`bg-background rounded-2xl p-8 border border-destructive/20 shadow-lg relative overflow-hidden transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          <MagicCard
+            variant="destructive"
+            enableTilt={true}
+            enableMagnetism={true}
+            enableParticles={true}
+            clickEffect={true}
+            enableBorderGlow={true}
+            className={`bg-background rounded-2xl border border-destructive/20 shadow-lg transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {/* Subtle red gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-destructive/[0.03] to-transparent rounded-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-destructive/[0.03] to-transparent rounded-2xl pointer-events-none" />
             
-            <div className="relative z-10">
+            <div className="relative z-10 p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                   <AlertCircle className="w-5 h-5 text-destructive" />
@@ -118,16 +125,22 @@ const PainSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </MagicCard>
 
           {/* Right Card - Com AutomaticPress */}
-          <div 
-            className={`bg-background rounded-2xl p-8 border border-primary/30 shadow-lg relative overflow-hidden transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          <MagicCard
+            variant="primary"
+            enableTilt={true}
+            enableMagnetism={true}
+            enableParticles={true}
+            clickEffect={true}
+            enableBorderGlow={true}
+            className={`bg-background rounded-2xl border border-primary/30 shadow-lg transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {/* Subtle primary gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.05] to-transparent rounded-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.05] to-transparent rounded-2xl pointer-events-none" />
             
-            <div className="relative z-10">
+            <div className="relative z-10 p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" />
@@ -179,7 +192,7 @@ const PainSection = () => {
             </div>
 
             {/* Flowing animation indicator */}
-            <div className="absolute -right-2 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-2">
+            <div className="absolute -right-2 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-2 z-20">
               {[...Array(3)].map((_, i) => (
                 <div 
                   key={i} 
@@ -188,7 +201,7 @@ const PainSection = () => {
                 />
               ))}
             </div>
-          </div>
+          </MagicCard>
         </div>
       </div>
     </section>
