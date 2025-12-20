@@ -62,10 +62,10 @@ interface TestimonialCardProps {
 
 const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
   return (
-    <div className="h-[320px] w-full perspective-[800px] group cursor-pointer">
+    <div className="h-[240px] w-full perspective-[800px] group cursor-pointer">
       <div 
         className="
-          relative w-full h-full transition-transform duration-[1500ms]
+          relative w-full h-full transition-transform duration-[1200ms]
           [transform-style:preserve-3d]
           group-hover:[transform:rotateX(180deg)_rotateZ(-180deg)]
         "
@@ -73,29 +73,32 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
         {/* Front */}
         <div 
           className="
-            absolute w-full h-full rounded-2xl p-6
-            bg-card border border-border/50
-            shadow-[0_0_10px_2px_hsl(var(--primary)/0.3)]
+            absolute w-full h-full rounded-xl p-5
+            bg-card/95 backdrop-blur-sm
+            border border-primary/20
+            shadow-[0_0_20px_0_hsl(var(--primary)/0.15),inset_0_1px_0_0_hsl(var(--primary)/0.1)]
             [backface-visibility:hidden]
             flex flex-col
+            hover:border-primary/40
+            transition-colors duration-300
           "
         >
-          {/* Profile badge top */}
-          <div className="absolute -top-0 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary rounded-b-lg shadow-[0_0_10px_2px_hsl(var(--primary)/0.5)]">
-            <p className="text-xs font-bold text-primary-foreground">Depoimento</p>
+          {/* Badge top center */}
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary rounded-full shadow-lg shadow-primary/30">
+            <p className="text-[10px] font-semibold text-primary-foreground tracking-wide">Depoimento</p>
           </div>
           
-          {/* Quote icon */}
-          <Quote className="absolute top-4 right-4 w-6 h-6 text-primary/20" />
+          {/* Quote icon top right */}
+          <Quote className="absolute top-3 right-3 w-5 h-5 text-primary/30" />
           
-          {/* Avatar */}
-          <div className="flex items-center gap-3 mt-4 mb-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/30">
-              <User className="w-6 h-6 text-primary" />
+          {/* Avatar + Name + Stars */}
+          <div className="flex items-center gap-3 mt-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
+              <User className="w-5 h-5 text-primary" />
             </div>
-            <div>
-              <h4 className="font-semibold text-foreground text-sm">{testimonial.name}</h4>
-              <div className="flex gap-0.5">
+            <div className="min-w-0">
+              <h4 className="font-semibold text-foreground text-sm truncate">{testimonial.name}</h4>
+              <div className="flex gap-0.5 mt-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 ))}
@@ -104,7 +107,7 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
           </div>
           
           {/* Testimonial text */}
-          <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+          <p className="text-muted-foreground text-[13px] leading-relaxed mt-4 line-clamp-5">
             "{testimonial.text}"
           </p>
         </div>
@@ -112,21 +115,26 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
         {/* Back */}
         <div 
           className="
-            absolute w-full h-full rounded-2xl p-6
-            bg-card border border-border/50
-            shadow-[0_0_10px_2px_hsl(var(--primary)/0.3)]
+            absolute w-full h-full rounded-xl p-5
+            bg-gradient-to-br from-primary/10 via-card to-primary/5
+            border border-primary/30
+            shadow-[0_0_25px_0_hsl(var(--primary)/0.2)]
             [backface-visibility:hidden]
             [transform:rotateX(180deg)_rotateZ(-180deg)]
-            flex flex-col items-center justify-center gap-4
+            flex flex-col items-center justify-center gap-3
           "
         >
-          <BadgeCheck className="w-16 h-16 text-primary" />
-          <p className="text-lg font-bold text-foreground text-center">Usuário Verificado</p>
-          <p className="text-primary font-semibold text-center">no AdSense</p>
+          <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+            <BadgeCheck className="w-8 h-8 text-primary" />
+          </div>
+          <div className="text-center">
+            <p className="text-base font-bold text-foreground">Usuário Verificado</p>
+            <p className="text-primary font-semibold text-sm">no AdSense</p>
+          </div>
           
-          <div className="flex items-center gap-2 mt-4 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-xs text-muted-foreground">Monetização Ativa</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-full border border-green-500/20 mt-2">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-[11px] text-green-400 font-medium">Monetização Ativa</span>
           </div>
         </div>
       </div>
