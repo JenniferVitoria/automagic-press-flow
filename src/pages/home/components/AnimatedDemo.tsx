@@ -159,7 +159,7 @@ const AnimatedDemo = () => {
           </div>
           <div className="flex-1 mx-4">
             <div className="h-7 rounded-md bg-background/60 flex items-center px-3">
-              <span className="text-xs text-muted-foreground">automaticpress.com/dashboard</span>
+              <span className="text-xs text-muted-foreground">automaticpress.com.br/dashboard</span>
             </div>
           </div>
         </div>
