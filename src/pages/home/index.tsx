@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "./components/HeroSection";
 import PainSection from "./components/PainSection";
 import HowItWorksSection from "./components/HowItWorksSection";
+import BenefitsSection from "./components/BenefitsSection";
 
 const HomePage = () => {
   return (
@@ -19,6 +20,7 @@ const HomePage = () => {
         <HeroSection />
         <PainSection />
         <HowItWorksSection />
+        <BenefitsSection />
       </main>
     </>
   );
