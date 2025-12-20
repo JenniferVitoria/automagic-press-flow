@@ -18,7 +18,7 @@ const AnimatedCtaButton: React.FC<AnimatedCtaButtonProps> = ({
     <button 
       onClick={onClick}
       className={cn(
-        "group relative flex items-center gap-4 px-8 py-3 text-lg font-bold text-white transition-all duration-500 border-none cursor-pointer",
+        "group relative flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white transition-all duration-500 border-none cursor-pointer whitespace-nowrap",
         "hover:shadow-[10px_10px_0_hsl(var(--accent))]",
         variant === 'primary' 
           ? "bg-primary shadow-[6px_6px_0_hsl(var(--foreground))]" 
@@ -28,10 +28,10 @@ const AnimatedCtaButton: React.FC<AnimatedCtaButtonProps> = ({
       )}
     >
       <span className="skew-x-[15deg]">{children}</span>
-      <span className="relative w-5 ml-4 transition-all duration-500 group-hover:mr-11 skew-x-[15deg]">
+      <span className="relative w-4 ml-2 transition-all duration-500 group-hover:mr-8 skew-x-[15deg]">
         <svg 
-          width="50px" 
-          height="20px" 
+          width="36px" 
+          height="14px" 
           viewBox="0 0 66 43" 
           version="1.1" 
           xmlns="http://www.w3.org/2000/svg"
