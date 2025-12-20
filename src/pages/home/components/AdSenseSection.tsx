@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Globe, FileText, CalendarCheck, Search, CheckCircle, DollarSign, TrendingUp } from "lucide-react";
+import { Globe, FileText, CalendarCheck, Search, Check, DollarSign, TrendingUp, CheckCircle } from "lucide-react";
 import adsenseIcon from "@/assets/adsense-icon.png";
 
 const highlights = [
@@ -151,14 +151,49 @@ const AdSenseSection = () => {
                 return (
                   <div 
                     key={highlight.text}
-                    className={`flex items-center gap-4 p-3 rounded-xl bg-muted/30 border border-border/30 transition-all duration-500 hover:bg-muted/50 hover:border-green-500/30 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
-                    style={{ transitionDelay: `${300 + index * 100}ms` }}
+                    className={`
+                      group relative flex items-center gap-4 p-4 rounded-2xl 
+                      bg-gradient-to-r from-muted/50 to-muted/20
+                      backdrop-blur-sm
+                      border border-border/40
+                      transition-all duration-500 ease-out
+                      hover:border-green-500/50 
+                      hover:shadow-lg hover:shadow-green-500/10
+                      hover:-translate-y-1
+                      ${isVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-8 scale-95'}
+                    `}
+                    style={{ transitionDelay: `${300 + index * 150}ms` }}
                   >
-                    <div className="flex-shrink-0 w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-green-500" />
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Icon container with glow */}
+                    <div className="relative flex-shrink-0">
+                      <div className="absolute inset-0 bg-green-500/30 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl flex items-center justify-center border border-green-500/20 group-hover:border-green-500/40 transition-all duration-300 group-hover:rotate-6">
+                        <Icon className="w-6 h-6 text-green-500 transition-transform duration-300 group-hover:scale-110" />
+                      </div>
                     </div>
-                    <span className="text-foreground font-medium">{highlight.text}</span>
-                    <CheckCircle className="w-5 h-5 text-green-500 ml-auto flex-shrink-0" />
+                    
+                    {/* Text */}
+                    <span className="relative text-foreground font-medium text-base sm:text-lg">
+                      {highlight.text}
+                    </span>
+                    
+                    {/* Animated check with glow */}
+                    <div 
+                      className={`
+                        relative ml-auto flex-shrink-0
+                        transition-all duration-500
+                        ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
+                      `}
+                      style={{ transitionDelay: `${600 + index * 150}ms` }}
+                    >
+                      <div className="absolute inset-0 bg-green-500 rounded-full blur-sm opacity-50 animate-pulse" />
+                      <div className="relative w-7 h-7 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
+                        <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                    </div>
                   </div>
                 );
               })}
