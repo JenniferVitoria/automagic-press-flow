@@ -4,6 +4,7 @@ import HeroSection from "./components/HeroSection";
 import PainSection from "./components/PainSection";
 import HowItWorksSection from "./components/HowItWorksSection";
 import BenefitsSection from "./components/BenefitsSection";
+import AdSenseSection from "./components/AdSenseSection";
 
 const HomePage = () => {
   return (
@@ -21,6 +22,7 @@ const HomePage = () => {
         <PainSection />
         <HowItWorksSection />
         <BenefitsSection />
+        <AdSenseSection />
       </main>
     </>
   );
