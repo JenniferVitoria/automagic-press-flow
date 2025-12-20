@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { 
   Zap, 
   Sparkles, 
@@ -16,6 +16,14 @@ import {
   Banknote
 } from "lucide-react";
 import adsenseIcon from "@/assets/adsense-icon.png";
+
+// WordPressIcon with forwardRef to avoid React warnings
+const WordPressIcon = forwardRef<SVGSVGElement, { size: number }>(({ size }, ref) => (
+  <svg ref={ref} viewBox="0 0 24 24" style={{ width: size, height: size }} fill="#21759b">
+    <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902zm.643 10.521A8.963 8.963 0 0020.991 12c0-1.052-.181-2.062-.514-3.001l-3.211 9.314zM12 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+  </svg>
+));
+WordPressIcon.displayName = 'WordPressIcon';
 
 const AnimatedDemo = () => {
   const [step, setStep] = useState(0);
@@ -95,11 +103,7 @@ const AnimatedDemo = () => {
     { type: 'adsense', bottom: '8%', left: '15%', size: 22, delay: 0.4 },
   ];
 
-  const WordPressIcon = ({ size }: { size: number }) => (
-    <svg viewBox="0 0 24 24" style={{ width: size, height: size }} fill="#21759b">
-      <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902zm.643 10.521A8.963 8.963 0 0020.991 12c0-1.052-.181-2.062-.514-3.001l-3.211 9.314zM12 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
-    </svg>
-  );
+  // WordPressIcon is now defined outside the component with forwardRef
 
   return (
     <div className="relative w-full max-w-[700px] aspect-[4/3.5] mx-auto perspective-container">
@@ -164,7 +168,7 @@ const AnimatedDemo = () => {
         <div className="relative h-[calc(100%-60px)] overflow-hidden">
           
           {/* ========== STEP 0: Seleção de Nicho ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div key={`step-0-${step === 0 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
             <div className="text-center mb-6">
               <h3 className="text-lg font-bold text-foreground mb-1">Escolha seu Nicho</h3>
               <p className="text-sm text-muted-foreground">Selecione o tema do seu blog</p>
@@ -212,7 +216,7 @@ const AnimatedDemo = () => {
           </div>
           
           {/* ========== STEP 1: Geração com IA ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 1 ? 'opacity-100 translate-x-0' : step < 1 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div key={`step-1-${step === 1 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 1 ? 'opacity-100 translate-x-0' : step < 1 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
             <div className="text-center mb-4">
               <h3 className="text-lg font-bold text-foreground flex items-center justify-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary animate-pulse" />
@@ -275,7 +279,7 @@ const AnimatedDemo = () => {
           </div>
           
           {/* ========== STEP 2: Preview do Artigo ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 2 ? 'opacity-100 translate-x-0' : step < 2 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div key={`step-2-${step === 2 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 2 ? 'opacity-100 translate-x-0' : step < 2 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
             <div className="flex-1 rounded-xl border border-border/50 bg-background/60 p-4 overflow-hidden">
               {/* Article Card */}
               <div className="flex gap-4 animate-fade-in">
@@ -348,7 +352,7 @@ const AnimatedDemo = () => {
           </div>
           
           {/* ========== STEP 3: Publicando no WordPress ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col items-center justify-center transition-all duration-700 ${step === 3 ? 'opacity-100 translate-x-0' : step < 3 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div key={`step-3-${step === 3 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col items-center justify-center transition-all duration-700 ${step === 3 ? 'opacity-100 translate-x-0' : step < 3 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
             {/* WordPress logo */}
             <div className="relative mb-6">
               <div className="w-20 h-20 rounded-2xl bg-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/30 animate-wp-rotate">
@@ -392,7 +396,7 @@ const AnimatedDemo = () => {
           </div>
           
           {/* ========== STEP 4: Tráfego Chegando ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 4 ? 'opacity-100 translate-x-0' : step < 4 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div key={`step-4-${step === 4 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col transition-all duration-700 ${step === 4 ? 'opacity-100 translate-x-0' : step < 4 ? 'opacity-0 translate-x-full pointer-events-none' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
             <div className="text-center mb-4">
               <h3 className="text-lg font-bold text-foreground flex items-center justify-center gap-2">
                 <TrendingUp className="w-5 h-5 text-emerald-500" />
@@ -453,7 +457,7 @@ const AnimatedDemo = () => {
           </div>
           
           {/* ========== STEP 5: Monetização AdSense ========== */}
-          <div className={`absolute inset-0 p-6 flex flex-col items-center justify-center transition-all duration-700 ${step === 5 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}`}>
+          <div key={`step-5-${step === 5 ? 'active' : 'inactive'}`} className={`absolute inset-0 p-6 flex flex-col items-center justify-center transition-all duration-700 ${step === 5 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}`}>
             {/* AdSense with glow */}
             <div className="relative mb-4">
               {/* Glow effect */}
