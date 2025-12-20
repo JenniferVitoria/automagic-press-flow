@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import HeroSection from "./components/HeroSection";
+import PainSection from "./components/PainSection";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <Header />
       <main className="min-h-screen bg-background pt-16">
         <HeroSection />
+        <PainSection />
       </main>
     </>
   );
