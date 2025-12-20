@@ -597,4 +597,69 @@
       opacity: 0.8;
     }
   }
+
+  /* Growing bar chart animation */
+  .animate-grow-bar {
+    animation: growBar 0.6s ease-out forwards;
+    transform-origin: bottom;
+    transform: scaleY(0);
+  }
+
+  @keyframes growBar {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  /* Title typing animation */
+  .animate-type-title {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typeTitle 1.5s steps(35) forwards;
+  }
+
+  @keyframes typeTitle {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Confetti continuous */
+  .animate-confetti-1 {
+    animation: confettiFall 2s ease-out infinite;
+    animation-delay: 0s;
+  }
+  .animate-confetti-2 {
+    animation: confettiFall 1.8s ease-out infinite;
+    animation-delay: 0.2s;
+  }
+  .animate-confetti-3 {
+    animation: confettiFall 2.2s ease-out infinite;
+    animation-delay: 0.1s;
+  }
+  .animate-confetti-4 {
+    animation: confettiFall 1.9s ease-out infinite;
+    animation-delay: 0.3s;
+  }
+  .animate-confetti-5 {
+    animation: confettiFall 2.1s ease-out infinite;
+    animation-delay: 0.15s;
+  }
+
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg) translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(80px) rotate(720deg) translateX(20px);
+    }
+  }
 }
