@@ -72,7 +72,7 @@ const HowItWorksSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-24 bg-background relative overflow-hidden"
+      className="py-12 sm:py-16 md:py-24 bg-background relative overflow-hidden"
     >
       {/* Subtle background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />

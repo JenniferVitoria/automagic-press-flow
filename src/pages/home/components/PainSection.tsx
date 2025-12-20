@@ -36,7 +36,7 @@ const PainSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-24 bg-gradient-to-b from-muted/40 via-muted/20 to-background relative overflow-hidden"
+      className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-muted/40 via-muted/20 to-background relative overflow-hidden"
     >
       {/* Grid pattern background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-60" />

@@ -16,7 +16,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
       
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-screen flex-col items-center justify-center py-20 lg:flex-row lg:gap-16">
+        <div className="flex min-h-[100dvh] flex-col items-center justify-center py-12 sm:py-16 lg:py-20 lg:flex-row lg:gap-16">
           {/* Left content */}
           <div className="flex-1 text-center lg:text-left">
             {/* Badge */}
@@ -64,7 +64,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right content - Animated Demo */}
-          <div className="mt-8 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400 pb-8 lg:pb-0">
+          <div className="mt-6 w-full max-w-[280px] sm:max-w-none sm:mt-8 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400">
             <AnimatedDemo />
           </div>
         </div>
