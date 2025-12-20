@@ -85,15 +85,15 @@ export default {
         },
         "flow": {
           "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(400%)" },
         },
-        "pulse-ring": {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.3" },
-          "50%": { transform: "scale(1.3)", opacity: "0" },
+        "card-appear": {
+          "0%": { opacity: "0", transform: "translateY(30px) scale(0.9)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
-        "dot-pulse": {
-          "0%, 100%": { opacity: "1", transform: "translateY(-50%) scale(1)" },
-          "50%": { opacity: "0.5", transform: "translateY(-50%) scale(1.5)" },
+        "arrow-pulse": {
+          "0%, 100%": { opacity: "0.4", transform: "translateX(0)" },
+          "50%": { opacity: "1", transform: "translateX(3px)" },
         },
       },
       animation: {
@@ -101,9 +101,9 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out forwards",
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
-        "flow": "flow 2s ease-in-out infinite",
-        "pulse-ring": "pulse-ring 2s ease-in-out infinite",
-        "dot-pulse": "dot-pulse 1.5s ease-in-out infinite",
+        "flow": "flow 3s ease-in-out infinite",
+        "card-appear": "card-appear 0.6s ease-out forwards",
+        "arrow-pulse": "arrow-pulse 1.5s ease-in-out infinite",
       },
     },
   },
