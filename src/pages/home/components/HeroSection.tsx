@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import AnimatedDemo from "./AnimatedDemo";
+import AnimatedCtaButton from "@/components/ui/animated-cta-button";
 
 const bulletPoints = [
   "100% automatizado",
@@ -53,14 +53,13 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
-              <Button variant="hero" size="lg" className="group">
-                Quero automatizar meu blog
-                <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
-              </Button>
-              <Button variant="heroOutline" size="lg">
+            <div className="flex flex-col gap-6 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
+              <AnimatedCtaButton>
+                Automatizar meu blog
+              </AnimatedCtaButton>
+              <AnimatedCtaButton variant="secondary" className="bg-secondary text-secondary-foreground">
                 Ver como funciona
-              </Button>
+              </AnimatedCtaButton>
             </div>
           </div>
 
