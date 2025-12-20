@@ -33,8 +33,11 @@ const Header = () => {
           <Button variant="ghost" className="hidden sm:inline-flex" asChild>
             <a href="https://app.automaticpress.com.br/login">Login</a>
           </Button>
-          <Button asChild>
-            <a href="https://app.automaticpress.com.br/register">Cadastrar-se</a>
+          <Button asChild className="text-xs sm:text-sm px-3 sm:px-4">
+            <a href="https://app.automaticpress.com.br/register">
+              <span className="hidden sm:inline">Cadastrar-se</span>
+              <span className="sm:hidden">Criar conta</span>
+            </a>
           </Button>
         </div>
       </nav>

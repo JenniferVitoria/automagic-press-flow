@@ -46,13 +46,12 @@ const PainSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Title */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-            Criar conteúdo manualmente é lento.
-            <br />
-            <span className="text-muted-foreground">Blog sem consistência não monetiza.</span>
+        <div className={`text-center mb-12 md:mb-16 px-2 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
+            <span className="block md:inline">Criar conteúdo manualmente é lento.</span>{" "}
+            <span className="block md:inline text-muted-foreground">Blog sem consistência não monetiza.</span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Produzir artigos com frequência, otimizar SEO e ainda pensar em monetização 
             exige tempo e processo. Sem consistência, o blog não cresce — e o AdSense 
             demora ou nem chega.
@@ -60,7 +59,7 @@ const PainSection = () => {
         </div>
 
         {/* Comparative Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto items-stretch px-2">
           
           {/* Left Card - Situação Atual */}
           <MagicCard
@@ -75,7 +74,7 @@ const PainSection = () => {
             {/* Subtle red gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-destructive/[0.03] to-transparent rounded-2xl pointer-events-none" />
             
-            <div className="relative z-10 p-8">
+            <div className="relative z-10 p-5 sm:p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                   <AlertCircle className="w-5 h-5 text-destructive" />
@@ -140,7 +139,7 @@ const PainSection = () => {
             {/* Subtle primary gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.05] to-transparent rounded-2xl pointer-events-none" />
             
-            <div className="relative z-10 p-8">
+            <div className="relative z-10 p-5 sm:p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" />

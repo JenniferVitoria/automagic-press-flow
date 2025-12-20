@@ -83,16 +83,15 @@ const HowItWorksSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`text-center mb-12 md:mb-16 px-2 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             Como Funciona
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Como a AutomaticPress funciona
-            <br />
-            <span className="text-gradient">na prática</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
+            <span className="block sm:inline">Como a AutomaticPress funciona</span>{" "}
+            <span className="block sm:inline text-gradient">na prática</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Do setup inicial à monetização, tudo automatizado em 5 passos simples.
           </p>
         </div>
@@ -154,11 +153,11 @@ const HowItWorksSection = () => {
         </div>
 
         {/* CTA */}
-        <div className={`text-center mt-16 transition-all duration-700 delay-[1000ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <p className="text-muted-foreground mb-4">
+        <div className={`text-center mt-12 md:mt-16 px-4 transition-all duration-700 delay-[1000ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-sm sm:text-base text-muted-foreground mb-4">
             Pronto para automatizar seu blog?
           </p>
-          <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors group">
+          <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors group">
             Começar Agora
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
