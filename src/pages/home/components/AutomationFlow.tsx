@@ -102,7 +102,7 @@ const AutomationFlow = () => {
                   `}
                 >
                   {/* Icon */}
-                  <div className="text-white transition-all duration-300 group-hover:scale-90 group-hover:-translate-y-1">
+                  <div className="text-gray-900 transition-all duration-300 group-hover:scale-90 group-hover:-translate-y-1">
                     {'displayName' in IconComponent || IconComponent.toString().includes('lucide') ? (
                       <IconComponent className="h-6 w-6 sm:h-8 sm:w-8" />
                     ) : (
@@ -112,7 +112,7 @@ const AutomationFlow = () => {
                   
                   {/* Reveal text on hover */}
                   <div className="absolute bottom-1 sm:bottom-2 opacity-0 max-h-0 overflow-hidden transition-all duration-300 group-hover:opacity-100 group-hover:max-h-10">
-                    <span className="text-[10px] sm:text-xs font-medium text-white/90">{step.subtext}</span>
+                    <span className="text-[10px] sm:text-xs font-medium text-gray-900">{step.subtext}</span>
                   </div>
                 </div>
                 
