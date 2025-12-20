@@ -51,15 +51,15 @@ const BenefitCard = ({ benefit, index, isVisible, inverted = false }: BenefitCar
     >
       <div className="benefit-card">
         {/* Logo circles */}
-        <div className="benefit-logo">
-          <span className="benefit-circle benefit-circle1" />
-          <span className="benefit-circle benefit-circle2" />
-          <span className="benefit-circle benefit-circle3" />
-          <span className="benefit-circle benefit-circle4" />
-          <span className="benefit-circle benefit-circle5">
-            <Icon className="w-5 h-5 text-primary-foreground" />
-          </span>
-        </div>
+          <div className="benefit-logo">
+            <span className="benefit-circle benefit-circle1" />
+            <span className="benefit-circle benefit-circle2" />
+            <span className="benefit-circle benefit-circle3" />
+            <span className="benefit-circle benefit-circle4" />
+            <span className="benefit-circle benefit-circle5">
+              <Icon className="benefit-icon w-5 h-5" />
+            </span>
+          </div>
         
         {/* Glass effect */}
         <div className="benefit-glass" />
