@@ -229,11 +229,11 @@ const TestimonialsSection = () => {
             setApi={setApi}
             className="w-full max-w-6xl mx-auto"
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-4 pt-4">
               {testimonials.map((testimonial, index) => (
                 <CarouselItem 
                   key={index} 
-                  className="pl-4 md:basis-1/2 lg:basis-1/3"
+                  className="pl-4 md:basis-1/2 lg:basis-1/3 pt-2"
                 >
                   <TestimonialCard testimonial={testimonial} />
                 </CarouselItem>
