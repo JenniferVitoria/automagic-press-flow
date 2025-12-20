@@ -3,10 +3,9 @@ import { Check } from "lucide-react";
 import AutomationFlow from "./AutomationFlow";
 
 const bulletPoints = [
-  "Postagens automáticas e recorrentes",
-  "Conteúdo focado em SEO e AdSense",
-  "Ideal para quem quer escalar blogs",
-  "Sem trabalho manual repetitivo",
+  "100% automatizado",
+  "SEO + AdSense",
+  "Escalável",
 ];
 
 const HeroSection = () => {
@@ -31,31 +30,27 @@ const HeroSection = () => {
 
             {/* Headline */}
             <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl animate-fade-in-up">
-              Automatize conteúdos, publique todos os dias e{" "}
-              <span className="text-gradient">monetize com AdSense</span>{" "}
-              no piloto automático
+              Automatize conteúdos e{" "}
+              <span className="text-gradient">monetize com AdSense</span>
             </h1>
 
             {/* Subheadline */}
             <p className="mb-8 text-lg text-muted-foreground sm:text-xl animate-fade-in-up animation-delay-100">
-              A AutomaticPress cria, agenda e publica artigos otimizados para 
-              monetização em blogs WordPress, de forma rápida, segura e escalável.
+              Automação inteligente para blogs WordPress focados em SEO e monetização.
             </p>
 
-            {/* Bullet points */}
-            <ul className="mb-10 space-y-3 animate-fade-in-up animation-delay-200">
+            {/* Bullet points - micro labels */}
+            <div className="mb-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start animate-fade-in-up animation-delay-200">
               {bulletPoints.map((point, index) => (
-                <li 
+                <span 
                   key={index} 
-                  className="flex items-center justify-center gap-3 text-muted-foreground lg:justify-start"
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-foreground"
                 >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                    <Check className="h-3 w-3 text-primary" />
-                  </span>
+                  <Check className="h-3.5 w-3.5 text-primary" />
                   {point}
-                </li>
+                </span>
               ))}
-            </ul>
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
