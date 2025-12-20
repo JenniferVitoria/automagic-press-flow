@@ -414,30 +414,60 @@
     }
   }
 
-  /* Cursor move and click animation */
-  .animate-cursor-move-click {
-    animation: cursorMoveClick 2.5s ease-in-out infinite;
+  /* Cursor animation for card selection */
+  .animate-cursor-to-card {
+    animation: cursorToCard 2.5s ease-in-out infinite;
   }
 
-  @keyframes cursorMoveClick {
+  @keyframes cursorToCard {
     0% {
-      transform: translate(40px, 30px) scale(1);
+      transform: translate(80px, 60px) scale(1);
       opacity: 0;
     }
-    15% {
+    20% {
       opacity: 1;
     }
-    40% {
-      transform: translate(0, 0) scale(1);
-    }
     50% {
-      transform: translate(0, 0) scale(0.8);
+      transform: translate(0, 0) scale(1);
     }
     60% {
+      transform: translate(0, 0) scale(0.75);
+    }
+    70% {
       transform: translate(0, 0) scale(1);
     }
-    80% {
+    85% {
+      opacity: 1;
+    }
+    100% {
       transform: translate(0, 0) scale(1);
+      opacity: 0;
+    }
+  }
+
+  /* Cursor animation for button click */
+  .animate-cursor-to-button {
+    animation: cursorToButton 2s ease-in-out infinite;
+  }
+
+  @keyframes cursorToButton {
+    0% {
+      transform: translate(60px, 50px) scale(1);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    55% {
+      transform: translate(0, 0) scale(1);
+    }
+    65% {
+      transform: translate(0, 0) scale(0.7);
+    }
+    75% {
+      transform: translate(0, 0) scale(1);
+    }
+    90% {
       opacity: 1;
     }
     100% {
