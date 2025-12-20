@@ -136,7 +136,7 @@ const AnimatedDemo = () => {
               <p className="text-sm text-muted-foreground">Selecione o tema do seu blog</p>
             </div>
             
-            <div className="flex justify-center gap-4 flex-wrap relative">
+            <div className="flex justify-center gap-4 flex-wrap">
               {niches.map((niche, i) => (
                 <div 
                   key={niche.name}
@@ -156,15 +156,17 @@ const AnimatedDemo = () => {
                       <Check className="w-4 h-4 text-primary-foreground" />
                     </div>
                   )}
+                  
+                  {/* Cursor appears on Finanças card (index 1) */}
+                  {niche.selected && (
+                    <div className="absolute z-50 animate-cursor-to-card" style={{ top: '20px', left: '40px' }}>
+                      <svg className="w-8 h-8 drop-shadow-xl" viewBox="0 0 24 24" fill="none">
+                        <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="hsl(var(--foreground))" stroke="hsl(var(--background))" strokeWidth="1.5"/>
+                      </svg>
+                    </div>
+                  )}
                 </div>
               ))}
-              
-              {/* Animated mouse cursor moving to Finanças card */}
-              <div className="absolute z-50 animate-cursor-move-click" style={{ top: '50%', left: '30%' }}>
-                <svg className="w-10 h-10 drop-shadow-xl" viewBox="0 0 24 24" fill="none">
-                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="hsl(var(--foreground))" stroke="hsl(var(--background))" strokeWidth="1.5"/>
-                </svg>
-              </div>
             </div>
             
             <div className="mt-auto text-center">
@@ -291,20 +293,22 @@ const AnimatedDemo = () => {
             </div>
             
             {/* Publish button with cursor */}
-            <div className="mt-4 flex justify-center relative">
-              <button className="relative px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 text-primary-foreground shadow-lg shadow-blue-500/30 animate-pulse">
-                <span className="flex items-center gap-2">
-                  <Zap className="w-5 h-5" />
-                  Publicar Agora
-                </span>
-                <span className="absolute inset-0 rounded-xl animate-ping bg-blue-400/30" />
-              </button>
-              
-              {/* Animated mouse cursor moving to button */}
-              <div className="absolute z-50 animate-cursor-move-click" style={{ right: '-20px', bottom: '-15px' }}>
-                <svg className="w-10 h-10 drop-shadow-xl" viewBox="0 0 24 24" fill="none">
-                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="hsl(var(--foreground))" stroke="hsl(var(--background))" strokeWidth="1.5"/>
-                </svg>
+            <div className="mt-4 flex justify-center">
+              <div className="relative">
+                <button className="relative px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 text-primary-foreground shadow-lg shadow-blue-500/30 animate-pulse">
+                  <span className="flex items-center gap-2">
+                    <Zap className="w-5 h-5" />
+                    Publicar Agora
+                  </span>
+                  <span className="absolute inset-0 rounded-xl animate-ping bg-blue-400/30" />
+                </button>
+                
+                {/* Animated mouse cursor moving to button center */}
+                <div className="absolute z-50 animate-cursor-to-button" style={{ top: '50%', left: '50%' }}>
+                  <svg className="w-8 h-8 drop-shadow-xl" viewBox="0 0 24 24" fill="none">
+                    <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="hsl(var(--foreground))" stroke="hsl(var(--background))" strokeWidth="1.5"/>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
