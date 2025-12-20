@@ -476,6 +476,29 @@
     }
   }
 
+  /* Arrow CTA button animations */
+  .animate-arrow-color-1 {
+    animation: arrowColorAnim 1s infinite 0.6s;
+  }
+  .animate-arrow-color-2 {
+    animation: arrowColorAnim 1s infinite 0.4s;
+  }
+  .animate-arrow-color-3 {
+    animation: arrowColorAnim 1s infinite 0.2s;
+  }
+
+  @keyframes arrowColorAnim {
+    0% {
+      fill: white;
+    }
+    50% {
+      fill: hsl(var(--accent));
+    }
+    100% {
+      fill: white;
+    }
+  }
+
   /* Typing line animations */
   .animate-type-line-1 {
     animation: typeLine 0.4s ease-out forwards;
