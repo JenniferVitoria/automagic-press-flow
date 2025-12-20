@@ -137,7 +137,7 @@ const AnimatedDemo = () => {
       <div className="absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[100px]" />
       
       {/* Main container - Browser mockup with 3D effect */}
-      <div className="relative h-full w-full rounded-2xl border-2 border-border/50 bg-card/90 backdrop-blur-sm overflow-hidden animate-float-card card-3d">
+      <div className="relative h-full w-full rounded-2xl border border-primary/30 bg-card/90 backdrop-blur-sm overflow-hidden animate-float-card card-3d">
         {/* Progress bar at top */}
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-muted/30 z-20">
           <div 
