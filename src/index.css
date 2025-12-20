@@ -118,14 +118,22 @@
     background-image: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
   }
 
-  /* Hero background gradient */
+  /* Hero background gradient - Theme aware */
   .bg-hero-gradient {
     background: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(239, 100%, 98%) 100%);
   }
 
-  /* Grid pattern */
+  .dark .bg-hero-gradient {
+    background: linear-gradient(180deg, hsl(224, 71%, 4%) 0%, hsl(224, 60%, 8%) 100%);
+  }
+
+  /* Grid pattern - Theme aware */
   .bg-grid-pattern {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(99 102 241 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  }
+
+  .dark .bg-grid-pattern {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(99 102 241 / 0.15)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   }
 
   /* Animations */
