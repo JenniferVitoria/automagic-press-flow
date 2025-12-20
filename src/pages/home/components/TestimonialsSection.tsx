@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { User, Star, Quote } from "lucide-react";
+import { User, Star, Quote, BadgeCheck } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -62,40 +62,74 @@ interface TestimonialCardProps {
 
 const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
   return (
-    <div 
-      className="
-        group relative h-full p-6 rounded-2xl
-        bg-card/80 backdrop-blur-sm
-        border border-border/50
-        transition-all duration-500
-        hover:border-primary/30
-        hover:shadow-xl hover:shadow-primary/5
-        hover:-translate-y-1
-      "
-    >
-      {/* Quote icon decorative */}
-      <Quote className="absolute top-4 right-4 w-8 h-8 text-primary/10 group-hover:text-primary/20 transition-colors duration-300" />
-      
-      {/* Avatar and info */}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/40 transition-colors duration-300">
-          <User className="w-6 h-6 text-primary" />
+    <div className="h-[320px] w-full perspective-[800px] group cursor-pointer">
+      <div 
+        className="
+          relative w-full h-full transition-transform duration-[1500ms]
+          [transform-style:preserve-3d]
+          group-hover:[transform:rotateX(180deg)_rotateZ(-180deg)]
+        "
+      >
+        {/* Front */}
+        <div 
+          className="
+            absolute w-full h-full rounded-2xl p-6
+            bg-card border border-border/50
+            shadow-[0_0_10px_2px_hsl(var(--primary)/0.3)]
+            [backface-visibility:hidden]
+            flex flex-col
+          "
+        >
+          {/* Profile badge top */}
+          <div className="absolute -top-0 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary rounded-b-lg shadow-[0_0_10px_2px_hsl(var(--primary)/0.5)]">
+            <p className="text-xs font-bold text-primary-foreground">Depoimento</p>
+          </div>
+          
+          {/* Quote icon */}
+          <Quote className="absolute top-4 right-4 w-6 h-6 text-primary/20" />
+          
+          {/* Avatar */}
+          <div className="flex items-center gap-3 mt-4 mb-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/30">
+              <User className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground text-sm">{testimonial.name}</h4>
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Testimonial text */}
+          <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+            "{testimonial.text}"
+          </p>
         </div>
-        <div>
-          <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-          {/* 5 stars */}
-          <div className="flex gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            ))}
+        
+        {/* Back */}
+        <div 
+          className="
+            absolute w-full h-full rounded-2xl p-6
+            bg-card border border-border/50
+            shadow-[0_0_10px_2px_hsl(var(--primary)/0.3)]
+            [backface-visibility:hidden]
+            [transform:rotateX(180deg)_rotateZ(-180deg)]
+            flex flex-col items-center justify-center gap-4
+          "
+        >
+          <BadgeCheck className="w-16 h-16 text-primary" />
+          <p className="text-lg font-bold text-foreground text-center">Usuário Verificado</p>
+          <p className="text-primary font-semibold text-center">no AdSense</p>
+          
+          <div className="flex items-center gap-2 mt-4 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-xs text-muted-foreground">Monetização Ativa</span>
           </div>
         </div>
       </div>
-      
-      {/* Testimonial text */}
-      <p className="text-muted-foreground text-sm leading-relaxed">
-        "{testimonial.text}"
-      </p>
     </div>
   );
 };
