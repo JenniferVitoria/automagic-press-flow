@@ -312,56 +312,88 @@
     }
   }
 
-  /* Floating cards around demo - different timings */
-  .animate-float-card-1 {
-    animation: floatCardAround1 5s ease-in-out infinite;
+  /* Side floating cards - smaller, positioned laterally */
+  .animate-float-card-side-1 {
+    animation: floatCardSide1 5s ease-in-out infinite;
   }
 
-  .animate-float-card-2 {
-    animation: floatCardAround2 6s ease-in-out infinite;
+  .animate-float-card-side-2 {
+    animation: floatCardSide2 5.5s ease-in-out infinite;
   }
 
-  .animate-float-card-3 {
-    animation: floatCardAround3 5.5s ease-in-out infinite;
-  }
-
-  .animate-float-card-4 {
-    animation: floatCardAround4 4.5s ease-in-out infinite;
-  }
-
-  @keyframes floatCardAround1 {
+  @keyframes floatCardSide1 {
     0%, 100% {
-      transform: translateY(0) translateX(0);
+      transform: translateY(-50%) translateX(0);
     }
     50% {
-      transform: translateY(-12px) translateX(5px);
+      transform: translateY(calc(-50% - 10px)) translateX(5px);
     }
   }
 
-  @keyframes floatCardAround2 {
+  @keyframes floatCardSide2 {
     0%, 100% {
-      transform: translateY(0) translateX(0);
+      transform: translateY(-50%) translateX(0);
     }
     50% {
-      transform: translateY(-10px) translateX(-8px);
+      transform: translateY(calc(-50% - 12px)) translateX(-5px);
     }
   }
 
-  @keyframes floatCardAround3 {
+  /* Background particles */
+  .animate-particle-1 {
+    animation: floatParticle 8s ease-in-out infinite;
+  }
+  .animate-particle-2 {
+    animation: floatParticle 10s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  .animate-particle-3 {
+    animation: floatParticle 12s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+  .animate-particle-4 {
+    animation: floatParticle 9s ease-in-out infinite;
+    animation-delay: 0.5s;
+  }
+  .animate-particle-5 {
+    animation: floatParticle 11s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
+  .animate-particle-6 {
+    animation: floatParticle 13s ease-in-out infinite;
+    animation-delay: 3s;
+  }
+
+  @keyframes floatParticle {
     0%, 100% {
-      transform: translateY(0) translateX(0);
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 0.15;
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) scale(1.1);
+      opacity: 0.25;
     }
     50% {
-      transform: translateY(-8px) translateX(6px);
+      transform: translateY(-10px) translateX(-5px) scale(0.9);
+      opacity: 0.2;
+    }
+    75% {
+      transform: translateY(-30px) translateX(15px) scale(1.05);
+      opacity: 0.15;
     }
   }
 
-  @keyframes floatCardAround4 {
+  /* Cursor hover animation */
+  .animate-cursor-hover {
+    animation: cursorHover 1.5s ease-in-out infinite;
+  }
+
+  @keyframes cursorHover {
     0%, 100% {
-      transform: translateY(0) translateX(0);
+      transform: translateY(0);
     }
     50% {
-      transform: translateY(-14px) translateX(-4px);
+      transform: translateY(-3px);
     }
   }
 
@@ -379,6 +411,190 @@
     }
     60% {
       transform: scale(1) translate(0, 0);
+    }
+  }
+
+  /* Typing line animations */
+  .animate-type-line-1 {
+    animation: typeLine 0.4s ease-out forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .animate-type-line-2 {
+    animation: typeLine 0.4s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .animate-type-line-3 {
+    animation: typeLine 0.4s ease-out forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .animate-type-line-4 {
+    animation: typeLine 0.4s ease-out forwards;
+    animation-delay: 0.7s;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .animate-type-line-5 {
+    animation: typeLine 0.4s ease-out forwards;
+    animation-delay: 0.9s;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @keyframes typeLine {
+    from {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+
+  /* Blinking cursor */
+  .animate-blink {
+    animation: blink 0.8s steps(2) infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* WordPress logo subtle rotation */
+  .animate-wp-rotate {
+    animation: wpRotate 0.6s ease-out;
+  }
+
+  @keyframes wpRotate {
+    0% {
+      transform: rotate(-5deg) scale(0.9);
+    }
+    50% {
+      transform: rotate(3deg) scale(1.02);
+    }
+    100% {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  /* Glow pulse for AdSense */
+  .animate-glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+  }
+
+  /* Sparkle animations */
+  .animate-sparkle-1 {
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+  .animate-sparkle-2 {
+    animation: sparkle 1.5s ease-in-out infinite;
+    animation-delay: 0.3s;
+  }
+  .animate-sparkle-3 {
+    animation: sparkle 1.5s ease-in-out infinite;
+    animation-delay: 0.6s;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+  }
+
+  /* Confetti animations */
+  .animate-confetti-1 {
+    animation: confettiFall 1.5s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+  .animate-confetti-2 {
+    animation: confettiFall 1.3s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  .animate-confetti-3 {
+    animation: confettiFall 1.4s ease-out forwards;
+    animation-delay: 0.15s;
+  }
+  .animate-confetti-4 {
+    animation: confettiFall 1.6s ease-out forwards;
+    animation-delay: 0.25s;
+  }
+  .animate-confetti-5 {
+    animation: confettiFall 1.2s ease-out forwards;
+    animation-delay: 0.3s;
+  }
+
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(60px) rotate(360deg);
+    }
+  }
+
+  /* Float money animations */
+  .animate-float-money-1 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0s;
+  }
+
+  .animate-float-money-2 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.3s;
+  }
+
+  .animate-float-money-3 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.6s;
+  }
+
+  .animate-float-money-4 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.9s;
+  }
+
+  @keyframes floatMoney {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-10px) rotate(10deg);
+      opacity: 0.8;
     }
   }
 }
