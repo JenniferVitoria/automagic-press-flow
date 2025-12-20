@@ -312,6 +312,59 @@
     }
   }
 
+  /* Floating cards around demo - different timings */
+  .animate-float-card-1 {
+    animation: floatCardAround1 5s ease-in-out infinite;
+  }
+
+  .animate-float-card-2 {
+    animation: floatCardAround2 6s ease-in-out infinite;
+  }
+
+  .animate-float-card-3 {
+    animation: floatCardAround3 5.5s ease-in-out infinite;
+  }
+
+  .animate-float-card-4 {
+    animation: floatCardAround4 4.5s ease-in-out infinite;
+  }
+
+  @keyframes floatCardAround1 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-12px) translateX(5px);
+    }
+  }
+
+  @keyframes floatCardAround2 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-10px) translateX(-8px);
+    }
+  }
+
+  @keyframes floatCardAround3 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-8px) translateX(6px);
+    }
+  }
+
+  @keyframes floatCardAround4 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-14px) translateX(-4px);
+    }
+  }
+
   /* Cursor click animation */
   .animate-cursor-click {
     animation: cursorClick 0.8s ease-in-out infinite;

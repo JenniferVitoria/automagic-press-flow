@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { TrendingUp, DollarSign, Users, BarChart3, Zap, Coins, Banknote, CircleDollarSign } from "lucide-react";
 import adsenseIcon from "@/assets/adsense-icon.png";
 
 const AnimatedDemo = () => {
@@ -13,12 +14,65 @@ const AnimatedDemo = () => {
   }, []);
 
   return (
-    <div className="relative w-full max-w-[500px] aspect-square mx-auto">
+    <div className="relative w-full max-w-[600px] aspect-square mx-auto">
       {/* Glow effect */}
       <div className="absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[80px]" />
       
+      {/* Floating cards around the demo */}
+      {/* Top left - Mais Tráfego */}
+      <div className="absolute -top-4 -left-4 z-10 animate-float-card-1">
+        <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm px-4 py-3 shadow-lg">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
+            <TrendingUp className="h-5 w-5 text-emerald-500" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Mais <span className="text-emerald-500">Tráfego</span></p>
+            <span className="inline-block mt-1 text-xs font-medium text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full">+384% em 60 dias</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Top right - Visitantes */}
+      <div className="absolute -top-2 -right-4 z-10 animate-float-card-2">
+        <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm px-4 py-3 shadow-lg">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <Users className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-gradient">+1.247</p>
+            <p className="text-xs text-muted-foreground">visitantes/dia</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Bottom left - Artigos */}
+      <div className="absolute -bottom-2 -left-6 z-10 animate-float-card-3">
+        <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm px-4 py-3 shadow-lg">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-500/10">
+            <BarChart3 className="h-5 w-5 text-violet-500" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Artigos <span className="text-violet-500">Publicados</span></p>
+            <p className="text-xs text-muted-foreground">+127 este mês</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Bottom right - Receita */}
+      <div className="absolute -bottom-4 -right-2 z-10 animate-float-card-4">
+        <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm px-4 py-3 shadow-lg">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
+            <DollarSign className="h-5 w-5 text-amber-500" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Mais <span className="text-amber-500">Receita</span></p>
+            <p className="text-lg font-bold text-amber-500">R$ 2.847</p>
+          </div>
+        </div>
+      </div>
+      
       {/* Main container - Browser mockup with floating animation */}
-      <div className="relative h-full w-full rounded-2xl border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl overflow-hidden animate-float-card">
+      <div className="relative h-[85%] w-[85%] mx-auto mt-[7.5%] rounded-2xl border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl overflow-hidden animate-float-card">
         {/* Browser header */}
         <div className="flex items-center gap-2 border-b border-border/50 bg-muted/30 px-4 py-3">
           <div className="flex gap-1.5">
@@ -49,9 +103,7 @@ const AnimatedDemo = () => {
                 `}
               >
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                  <Zap className="w-5 h-5" />
                   Gerar Artigo
                 </span>
                 
@@ -167,11 +219,27 @@ const AnimatedDemo = () => {
                 <img src={adsenseIcon} alt="Google AdSense" className="w-24 h-24 object-contain" />
               </div>
               
-              {/* Floating money symbols */}
-              <div className="absolute -top-4 -left-4 text-2xl animate-float-money-1">💰</div>
-              <div className="absolute -top-2 -right-6 text-xl animate-float-money-2">💵</div>
-              <div className="absolute -bottom-4 -left-6 text-xl animate-float-money-3">💰</div>
-              <div className="absolute -bottom-2 -right-4 text-2xl animate-float-money-4">💵</div>
+              {/* Floating money icons - modern icons instead of emojis */}
+              <div className="absolute -top-4 -left-4 animate-float-money-1">
+                <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
+                  <Coins className="w-4 h-4 text-amber-500" />
+                </div>
+              </div>
+              <div className="absolute -top-2 -right-6 animate-float-money-2">
+                <div className="w-7 h-7 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <Banknote className="w-4 h-4 text-green-500" />
+                </div>
+              </div>
+              <div className="absolute -bottom-4 -left-6 animate-float-money-3">
+                <div className="w-7 h-7 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                  <CircleDollarSign className="w-4 h-4 text-emerald-500" />
+                </div>
+              </div>
+              <div className="absolute -bottom-2 -right-4 animate-float-money-4">
+                <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
+                  <DollarSign className="w-4 h-4 text-amber-500" />
+                </div>
+              </div>
               
               {/* Active badge */}
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-bounce-in whitespace-nowrap">
