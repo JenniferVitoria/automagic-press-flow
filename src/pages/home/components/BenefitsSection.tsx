@@ -1,75 +1,75 @@
 import { useEffect, useRef, useState } from "react";
-import { RefreshCw, Clock, FolderOpen, Layers, Activity } from "lucide-react";
+import { RefreshCw, Clock, FolderOpen, Layers, Activity, LucideIcon } from "lucide-react";
+import "./BenefitsCard.css";
 
 const benefits = [
   {
     icon: RefreshCw,
-    title: "Publicação automática e recorrente",
+    title: "Publicação automática",
     description: "Artigos publicados automaticamente no horário ideal"
   },
   {
     icon: Clock,
-    title: "Economia de tempo e esforço",
+    title: "Economia de tempo",
     description: "Libere horas da sua rotina para focar no que importa"
   },
   {
     icon: FolderOpen,
-    title: "Conteúdo organizado por categoria",
+    title: "Conteúdo organizado",
     description: "Artigos estruturados e distribuídos por nicho"
   },
   {
     icon: Layers,
-    title: "Ideal para múltiplos sites",
+    title: "Múltiplos sites",
     description: "Gerencie vários blogs a partir de um único painel"
   },
   {
     icon: Activity,
-    title: "Processo contínuo e previsível",
+    title: "Processo previsível",
     description: "Fluxo constante de conteúdo, sem surpresas"
   }
 ];
 
-const BenefitCard = ({ 
-  benefit, 
-  index, 
-  isVisible 
-}: { 
-  benefit: typeof benefits[0]; 
-  index: number; 
+interface BenefitCardProps {
+  benefit: {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  };
+  index: number;
   isVisible: boolean;
-}) => {
+  inverted?: boolean;
+}
+
+const BenefitCard = ({ benefit, index, isVisible, inverted = false }: BenefitCardProps) => {
   const Icon = benefit.icon;
   
   return (
-    <div
-      className={`
-        group relative bg-background/80 backdrop-blur-sm border border-border/50 
-        rounded-2xl p-5 sm:p-6 transition-all duration-500
-        hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
-        ${isVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
-        }
-      `}
-      style={{ 
-        transitionDelay: isVisible ? `${index * 100}ms` : '0ms'
-      }}
+    <div 
+      className={`benefit-parent ${inverted ? 'inverted' : ''} ${isVisible ? 'visible' : ''}`}
+      style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms' }}
     >
-      {/* Icon container */}
-      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-        <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+      <div className="benefit-card">
+        {/* Logo circles */}
+        <div className="benefit-logo">
+          <span className="benefit-circle benefit-circle1" />
+          <span className="benefit-circle benefit-circle2" />
+          <span className="benefit-circle benefit-circle3" />
+          <span className="benefit-circle benefit-circle4" />
+          <span className="benefit-circle benefit-circle5">
+            <Icon className="w-5 h-5 text-primary-foreground" />
+          </span>
+        </div>
+        
+        {/* Glass effect */}
+        <div className="benefit-glass" />
+        
+        {/* Content */}
+        <div className="benefit-content">
+          <span className="benefit-title">{benefit.title}</span>
+          <span className="benefit-text">{benefit.description}</span>
+        </div>
       </div>
-      
-      {/* Content */}
-      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
-        {benefit.title}
-      </h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">
-        {benefit.description}
-      </p>
-
-      {/* Hover glow effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
     </div>
   );
 };
@@ -120,28 +120,30 @@ const BenefitsSection = () => {
           </p>
         </div>
 
-        {/* Benefits grid - 3 cards on top, 2 centered below */}
-        <div className="max-w-5xl mx-auto">
+        {/* Benefits grid */}
+        <div className="max-w-6xl mx-auto">
           {/* First row - 3 cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8 justify-items-center">
             {benefits.slice(0, 3).map((benefit, index) => (
               <BenefitCard 
                 key={benefit.title} 
                 benefit={benefit} 
                 index={index}
                 isVisible={isVisible}
+                inverted={false}
               />
             ))}
           </div>
           
-          {/* Second row - 2 cards centered */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto">
+          {/* Second row - 2 cards centered and inverted */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto justify-items-center">
             {benefits.slice(3).map((benefit, index) => (
               <BenefitCard 
                 key={benefit.title} 
                 benefit={benefit} 
                 index={index + 3}
                 isVisible={isVisible}
+                inverted={true}
               />
             ))}
           </div>

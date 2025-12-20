@@ -1,0 +1,257 @@
+/* Benefit Card 3D Styles */
+.benefit-parent {
+  width: 260px;
+  height: 280px;
+  perspective: 1000px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.benefit-parent.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.benefit-card {
+  height: 100%;
+  border-radius: 40px;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 100%);
+  transition: all 0.5s ease-in-out;
+  transform-style: preserve-3d;
+  box-shadow: hsl(var(--primary) / 0) 40px 50px 25px -40px, hsl(var(--primary) / 0.2) 0px 25px 25px -5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Inverted card - mirror the gradient */
+.benefit-parent.inverted .benefit-card {
+  background: linear-gradient(225deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 100%);
+}
+
+.benefit-glass {
+  transform-style: preserve-3d;
+  position: absolute;
+  inset: 8px;
+  border-radius: 45px;
+  border-top-right-radius: 100%;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.6) 100%);
+  transform: translate3d(0px, 0px, 25px);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Inverted glass - flip to left */
+.benefit-parent.inverted .benefit-glass {
+  border-top-right-radius: 45px;
+  border-top-left-radius: 100%;
+  border-left: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.benefit-content {
+  padding: 90px 30px 0px 25px;
+  transform: translate3d(0, 0, 26px);
+  position: relative;
+  z-index: 10;
+}
+
+.benefit-title {
+  display: block;
+  color: hsl(var(--primary-foreground));
+  font-weight: 800;
+  font-size: 18px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-text {
+  display: block;
+  color: hsl(var(--primary-foreground) / 0.85);
+  font-size: 14px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+/* Logo circles container */
+.benefit-logo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+/* Inverted logo - move to left */
+.benefit-parent.inverted .benefit-logo {
+  right: auto;
+  left: 0;
+}
+
+.benefit-circle {
+  display: block;
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  box-shadow: rgba(100, 100, 111, 0.15) -10px 10px 20px 0px;
+  backdrop-filter: blur(5px);
+  background: hsl(var(--primary-foreground) / 0.15);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Inverted circles - position on left */
+.benefit-parent.inverted .benefit-circle {
+  right: auto;
+  left: 0;
+}
+
+.benefit-circle1 {
+  width: 140px;
+  transform: translate3d(0, 0, 20px);
+  top: 8px;
+  right: 8px;
+}
+
+.benefit-parent.inverted .benefit-circle1 {
+  right: auto;
+  left: 8px;
+}
+
+.benefit-circle2 {
+  width: 115px;
+  transform: translate3d(0, 0, 40px);
+  top: 10px;
+  right: 10px;
+  backdrop-filter: blur(1px);
+  transition-delay: 0.4s;
+}
+
+.benefit-parent.inverted .benefit-circle2 {
+  right: auto;
+  left: 10px;
+}
+
+.benefit-circle3 {
+  width: 90px;
+  transform: translate3d(0, 0, 60px);
+  top: 15px;
+  right: 15px;
+  transition-delay: 0.8s;
+}
+
+.benefit-parent.inverted .benefit-circle3 {
+  right: auto;
+  left: 15px;
+}
+
+.benefit-circle4 {
+  width: 65px;
+  transform: translate3d(0, 0, 80px);
+  top: 20px;
+  right: 20px;
+  transition-delay: 1.2s;
+}
+
+.benefit-parent.inverted .benefit-circle4 {
+  right: auto;
+  left: 20px;
+}
+
+.benefit-circle5 {
+  width: 40px;
+  transform: translate3d(0, 0, 100px);
+  top: 25px;
+  right: 25px;
+  display: grid;
+  place-content: center;
+  transition-delay: 1.6s;
+  background: hsl(var(--primary) / 0.8);
+}
+
+.benefit-parent.inverted .benefit-circle5 {
+  right: auto;
+  left: 25px;
+}
+
+/* Hover effects - normal */
+.benefit-parent:hover .benefit-card {
+  transform: rotate3d(1, 1, 0, 25deg);
+  box-shadow: hsl(var(--primary) / 0.3) 30px 50px 25px -40px, hsl(var(--primary) / 0.1) 0px 25px 30px 0px;
+}
+
+/* Hover effects - inverted (flip direction) */
+.benefit-parent.inverted:hover .benefit-card {
+  transform: rotate3d(1, -1, 0, 25deg);
+  box-shadow: hsl(var(--primary) / 0.3) -30px 50px 25px -40px, hsl(var(--primary) / 0.1) 0px 25px 30px 0px;
+}
+
+/* Circle hover animations */
+.benefit-parent:hover .benefit-circle2 {
+  transform: translate3d(0, 0, 60px);
+}
+
+.benefit-parent:hover .benefit-circle3 {
+  transform: translate3d(0, 0, 80px);
+}
+
+.benefit-parent:hover .benefit-circle4 {
+  transform: translate3d(0, 0, 100px);
+}
+
+.benefit-parent:hover .benefit-circle5 {
+  transform: translate3d(0, 0, 120px);
+}
+
+/* Dark mode adjustments */
+.dark .benefit-glass {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.25) 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .benefit-parent.inverted .benefit-glass {
+  border-left: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .benefit-parent {
+    width: 240px;
+    height: 260px;
+  }
+  
+  .benefit-content {
+    padding: 80px 25px 0px 20px;
+  }
+  
+  .benefit-title {
+    font-size: 16px;
+  }
+  
+  .benefit-text {
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  
+  .benefit-circle1 {
+    width: 120px;
+  }
+  
+  .benefit-circle2 {
+    width: 100px;
+  }
+  
+  .benefit-circle3 {
+    width: 80px;
+  }
+  
+  .benefit-circle4 {
+    width: 60px;
+  }
+  
+  .benefit-circle5 {
+    width: 35px;
+  }
+}
