@@ -333,6 +333,30 @@
     }
   }
 
+  /* Brand particles floating animation - WordPress & AdSense */
+  .animate-float-brand-particle {
+    animation: floatBrandParticle 10s ease-in-out infinite;
+  }
+
+  @keyframes floatBrandParticle {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg) scale(1);
+      opacity: 0.12;
+    }
+    25% {
+      transform: translateY(-12px) rotate(3deg) scale(1.05);
+      opacity: 0.18;
+    }
+    50% {
+      transform: translateY(-6px) rotate(-2deg) scale(1);
+      opacity: 0.14;
+    }
+    75% {
+      transform: translateY(-18px) rotate(4deg) scale(1.02);
+      opacity: 0.16;
+    }
+  }
+
   /* Side floating cards - smaller, positioned laterally */
   .animate-float-card-side-1 {
     animation: floatCardSide1 5s ease-in-out infinite;

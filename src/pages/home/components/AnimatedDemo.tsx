@@ -83,19 +83,53 @@ const AnimatedDemo = () => {
 
   const keywords = ["Marketing", "SEO", "Vendas", "Conversão"];
 
+  // Brand particles configuration
+  const brandParticles = [
+    { type: 'wordpress', top: '8%', left: '5%', size: 28, delay: 0 },
+    { type: 'adsense', top: '18%', right: '6%', size: 24, delay: 1.2 },
+    { type: 'wordpress', bottom: '25%', left: '8%', size: 22, delay: 2.4 },
+    { type: 'adsense', top: '55%', right: '4%', size: 26, delay: 0.8 },
+    { type: 'wordpress', bottom: '12%', right: '12%', size: 24, delay: 1.8 },
+    { type: 'adsense', top: '38%', left: '3%', size: 20, delay: 2.8 },
+    { type: 'wordpress', top: '70%', left: '6%', size: 18, delay: 3.2 },
+    { type: 'adsense', bottom: '8%', left: '15%', size: 22, delay: 0.4 },
+  ];
+
+  const WordPressIcon = ({ size }: { size: number }) => (
+    <svg viewBox="0 0 24 24" style={{ width: size, height: size }} fill="#21759b">
+      <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902zm.643 10.521A8.963 8.963 0 0020.991 12c0-1.052-.181-2.062-.514-3.001l-3.211 9.314zM12 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+    </svg>
+  );
+
   return (
     <div className="relative w-full max-w-[700px] aspect-[4/3.5] mx-auto perspective-container">
-      {/* Floating particles background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(8)].map((_, i) => (
+      {/* Brand particles background - WordPress & AdSense */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        {brandParticles.map((particle, i) => (
           <div 
             key={i}
-            className={`absolute w-2 h-2 rounded-full bg-primary/20 animate-particle-${(i % 6) + 1}`}
+            className="absolute animate-float-brand-particle"
             style={{
-              top: `${10 + (i * 12)}%`,
-              left: `${5 + (i * 11)}%`,
+              top: particle.top,
+              left: particle.left,
+              right: particle.right,
+              bottom: particle.bottom,
+              animationDelay: `${particle.delay}s`,
+              opacity: 0.15,
+              filter: 'blur(0.5px)',
             }}
-          />
+          >
+            {particle.type === 'wordpress' ? (
+              <WordPressIcon size={particle.size} />
+            ) : (
+              <img 
+                src={adsenseIcon} 
+                alt="" 
+                style={{ width: particle.size, height: particle.size }}
+                className="opacity-80"
+              />
+            )}
+          </div>
         ))}
       </div>
 
