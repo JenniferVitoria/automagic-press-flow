@@ -7,6 +7,13 @@ import {
   TrendingUp,
   ArrowRight
 } from "lucide-react";
+import {
+  WordPressIllustration,
+  CategoriesIllustration,
+  AIWritingIllustration,
+  PublishIllustration,
+  ScaleIllustration
+} from "./StepIllustrations";
 
 const steps = [
   {
@@ -14,30 +21,35 @@ const steps = [
     title: "Conecte seu WordPress",
     description: "Integração simples e segura com seu site.",
     icon: Link2,
+    illustration: WordPressIllustration,
   },
   {
     number: "02",
     title: "Defina categorias e frequência",
     description: "Você escolhe os temas e o ritmo de publicação.",
     icon: Settings2,
+    illustration: CategoriesIllustration,
   },
   {
     number: "03",
     title: "A IA cria os artigos",
     description: "Conteúdo estruturado, informativo e otimizado.",
     icon: Brain,
+    illustration: AIWritingIllustration,
   },
   {
     number: "04",
     title: "Publicação automática",
     description: "Os posts entram no ar sozinhos, no horário certo.",
     icon: Rocket,
+    illustration: PublishIllustration,
   },
   {
     number: "05",
     title: "Escala e monetização",
     description: "Seu site cresce com consistência e SEO.",
     icon: TrendingUp,
+    illustration: ScaleIllustration,
   },
 ];
 
@@ -55,7 +67,7 @@ const HowItWorksSection = () => {
           steps.forEach((_, index) => {
             setTimeout(() => {
               setActiveStep(prev => Math.max(prev, index));
-            }, 300 + index * 200);
+            }, 400 + index * 300);
           });
         }
       },
@@ -101,11 +113,20 @@ const HowItWorksSection = () => {
         <div className="hidden lg:block">
           <div className="relative max-w-6xl mx-auto">
             {/* Connection Line */}
-            <div className="absolute top-16 left-0 right-0 h-0.5 bg-border">
+            <div className="absolute top-[140px] left-0 right-0 h-0.5 bg-border">
               <div 
                 className="h-full bg-gradient-to-r from-primary via-primary to-primary/50 transition-all duration-1000 ease-out"
                 style={{ 
                   width: activeStep >= 4 ? '100%' : activeStep >= 0 ? `${(activeStep + 1) * 20}%` : '0%'
+                }}
+              />
+              {/* Traveling particle */}
+              <div 
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary shadow-lg transition-all duration-700 ease-out"
+                style={{ 
+                  left: activeStep >= 4 ? '100%' : activeStep >= 0 ? `${(activeStep + 1) * 20}%` : '0%',
+                  boxShadow: '0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5)',
+                  opacity: activeStep >= 0 ? 1 : 0
                 }}
               />
             </div>
@@ -118,6 +139,7 @@ const HowItWorksSection = () => {
                   step={step}
                   index={index}
                   isActive={index <= activeStep}
+                  isCurrentlyAnimating={index === activeStep}
                   isVisible={isVisible}
                 />
               ))}
@@ -139,13 +161,14 @@ const HowItWorksSection = () => {
             </div>
 
             {/* Steps */}
-            <div className="space-y-8">
+            <div className="space-y-6">
               {steps.map((step, index) => (
                 <MobileStepCard 
                   key={index}
                   step={step}
                   index={index}
                   isActive={index <= activeStep}
+                  isCurrentlyAnimating={index === activeStep}
                   isVisible={isVisible}
                 />
               ))}
@@ -168,19 +191,22 @@ const HowItWorksSection = () => {
   );
 };
 
-// Desktop Step Card
+// Desktop Step Card with Illustration
 const StepCard = ({ 
   step, 
   index, 
   isActive,
+  isCurrentlyAnimating,
   isVisible 
 }: { 
   step: typeof steps[0]; 
   index: number;
   isActive: boolean;
+  isCurrentlyAnimating: boolean;
   isVisible: boolean;
 }) => {
   const Icon = step.icon;
+  const Illustration = step.illustration;
   
   return (
     <div 
@@ -191,16 +217,27 @@ const StepCard = ({
         transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
       }}
     >
+      {/* Illustration Area */}
+      <div 
+        className={`mb-4 h-20 rounded-xl overflow-hidden relative transition-all duration-500 ${
+          isActive 
+            ? 'bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20' 
+            : 'bg-muted/50 border border-border/50'
+        }`}
+      >
+        <Illustration isActive={isCurrentlyAnimating || isActive} />
+      </div>
+
       {/* Node */}
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-4">
         <div 
-          className={`relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+          className={`relative w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${
             isActive 
               ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25' 
               : 'bg-muted text-muted-foreground'
           }`}
         >
-          <Icon className="w-7 h-7" />
+          <Icon className="w-6 h-6" />
           
           {/* Number badge */}
           <span 
@@ -214,18 +251,18 @@ const StepCard = ({
           </span>
 
           {/* Glow effect when active */}
-          {isActive && (
-            <div className="absolute inset-0 rounded-2xl bg-primary/20 animate-ping" style={{ animationDuration: '2s' }} />
+          {isCurrentlyAnimating && (
+            <div className="absolute inset-0 rounded-2xl bg-primary/20 animate-ping" style={{ animationDuration: '1.5s' }} />
           )}
         </div>
       </div>
 
       {/* Content */}
       <div className="text-center px-2">
-        <h3 className={`font-semibold mb-2 transition-colors duration-300 ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
+        <h3 className={`font-semibold mb-2 transition-colors duration-300 text-sm ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
           {step.title}
         </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-xs text-muted-foreground leading-relaxed">
           {step.description}
         </p>
       </div>
@@ -233,19 +270,22 @@ const StepCard = ({
   );
 };
 
-// Mobile Step Card
+// Mobile Step Card with Illustration
 const MobileStepCard = ({ 
   step, 
   index, 
   isActive,
+  isCurrentlyAnimating,
   isVisible 
 }: { 
   step: typeof steps[0]; 
   index: number;
   isActive: boolean;
+  isCurrentlyAnimating: boolean;
   isVisible: boolean;
 }) => {
   const Icon = step.icon;
+  const Illustration = step.illustration;
   
   return (
     <div 
@@ -278,13 +318,24 @@ const MobileStepCard = ({
         </span>
 
         {/* Glow effect when active */}
-        {isActive && (
-          <div className="absolute inset-0 rounded-2xl bg-primary/20 animate-ping" style={{ animationDuration: '2s' }} />
+        {isCurrentlyAnimating && (
+          <div className="absolute inset-0 rounded-2xl bg-primary/20 animate-ping" style={{ animationDuration: '1.5s' }} />
         )}
       </div>
 
-      {/* Content */}
+      {/* Content with Illustration */}
       <div className="py-2">
+        {/* Illustration Area */}
+        <div 
+          className={`mb-3 h-20 rounded-xl overflow-hidden relative transition-all duration-500 ${
+            isActive 
+              ? 'bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20' 
+              : 'bg-muted/50 border border-border/50'
+          }`}
+        >
+          <Illustration isActive={isCurrentlyAnimating || isActive} />
+        </div>
+
         <h3 className={`font-semibold mb-1 transition-colors duration-300 ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
           {step.title}
         </h3>
