@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import adsenseIcon from "@/assets/adsense-icon.png";
 
 const AnimatedDemo = () => {
   const [step, setStep] = useState(0);
@@ -16,8 +17,8 @@ const AnimatedDemo = () => {
       {/* Glow effect */}
       <div className="absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[80px]" />
       
-      {/* Main container - Browser mockup */}
-      <div className="relative h-full w-full rounded-2xl border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl overflow-hidden">
+      {/* Main container - Browser mockup with floating animation */}
+      <div className="relative h-full w-full rounded-2xl border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl overflow-hidden animate-float-card">
         {/* Browser header */}
         <div className="flex items-center gap-2 border-b border-border/50 bg-muted/30 px-4 py-3">
           <div className="flex gap-1.5">
@@ -60,17 +61,17 @@ const AnimatedDemo = () => {
                 )}
               </button>
               
-              {/* Mouse cursor */}
+              {/* Mouse cursor - larger and more animated */}
               <div 
                 className={`
-                  absolute transition-all duration-700 ease-out
-                  ${step === 0 ? 'right-[-40px] bottom-[-40px] opacity-100' : ''}
-                  ${step === 1 ? 'right-[20px] bottom-[10px] opacity-100' : ''}
-                  ${step >= 2 ? 'right-[20px] bottom-[10px] opacity-0' : ''}
+                  absolute z-50 transition-all ease-out
+                  ${step === 0 ? 'right-[-60px] bottom-[-50px] opacity-100 duration-1000' : ''}
+                  ${step === 1 ? 'right-[15px] bottom-[5px] opacity-100 duration-500 scale-90' : ''}
+                  ${step >= 2 ? 'right-[15px] bottom-[5px] opacity-0 duration-300' : ''}
                 `}
               >
-                <svg className="w-8 h-8 drop-shadow-lg" viewBox="0 0 24 24" fill="none">
-                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="#1a1a1a" stroke="#fff" strokeWidth="1"/>
+                <svg className="w-14 h-14 drop-shadow-2xl" viewBox="0 0 24 24" fill="none">
+                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="#1a1a1a" stroke="#fff" strokeWidth="1.5"/>
                 </svg>
               </div>
             </div>
@@ -123,10 +124,10 @@ const AnimatedDemo = () => {
                 <span className="absolute inset-0 rounded-xl animate-ping bg-blue-400/30" />
               </button>
               
-              {/* Mouse cursor clicking */}
-              <div className="absolute right-[20px] bottom-[10px]">
-                <svg className="w-8 h-8 drop-shadow-lg animate-click" viewBox="0 0 24 24" fill="none">
-                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="#1a1a1a" stroke="#fff" strokeWidth="1"/>
+              {/* Mouse cursor clicking - larger */}
+              <div className="absolute right-[10px] bottom-[0px] z-50 animate-cursor-click">
+                <svg className="w-14 h-14 drop-shadow-2xl" viewBox="0 0 24 24" fill="none">
+                  <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-5.02h7.29c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 00-.85.35z" fill="#1a1a1a" stroke="#fff" strokeWidth="1.5"/>
                 </svg>
               </div>
             </div>
@@ -162,8 +163,8 @@ const AnimatedDemo = () => {
           <div className={`absolute inset-6 flex flex-col items-center justify-center transition-all duration-700 ${step === 5 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
             {/* AdSense with money */}
             <div className="relative">
-              <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-xl shadow-amber-500/30 animate-scale-in">
-                <span className="text-5xl font-bold text-white">$</span>
+              <div className="w-32 h-32 rounded-2xl bg-white flex items-center justify-center shadow-xl shadow-amber-500/20 animate-scale-in border-2 border-amber-200">
+                <img src={adsenseIcon} alt="Google AdSense" className="w-24 h-24 object-contain" />
               </div>
               
               {/* Floating money symbols */}
