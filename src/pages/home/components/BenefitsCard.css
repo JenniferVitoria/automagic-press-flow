@@ -59,15 +59,15 @@
 
 .benefit-title {
   display: block;
-  color: hsl(var(--primary-foreground));
+  color: hsl(var(--benefit-ink));
   font-weight: 800;
   font-size: 18px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .benefit-text {
   display: block;
-  color: hsl(var(--primary-foreground) / 0.85);
+  color: hsl(var(--benefit-ink) / 0.82);
   font-size: 14px;
   margin-top: 15px;
   line-height: 1.5;
@@ -167,6 +167,10 @@
   place-content: center;
   transition-delay: 1.6s;
   background: hsl(var(--primary) / 0.8);
+}
+
+.benefit-circle5 svg {
+  color: hsl(var(--benefit-ink));
 }
 
 .benefit-parent.inverted .benefit-circle5 {
