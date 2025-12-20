@@ -172,4 +172,123 @@
       transform: translateY(0);
     }
   }
+
+  /* Demo animations */
+  .animate-scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-click {
+    animation: click 0.3s ease-in-out;
+  }
+
+  .animate-float-money-1 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0s;
+  }
+
+  .animate-float-money-2 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.3s;
+  }
+
+  .animate-float-money-3 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.6s;
+  }
+
+  .animate-float-money-4 {
+    animation: floatMoney 2s ease-in-out infinite;
+    animation-delay: 0.9s;
+  }
+
+  .animate-fade-line-1 {
+    animation: fadeLine 0.3s ease-out forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+  }
+
+  .animate-fade-line-2 {
+    animation: fadeLine 0.3s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+  }
+
+  .animate-fade-line-3 {
+    animation: fadeLine 0.3s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+
+  .animate-fade-line-4 {
+    animation: fadeLine 0.3s ease-out forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+  }
+
+  .animate-fade-line-5 {
+    animation: fadeLine 0.3s ease-out forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes click {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+  }
+
+  @keyframes floatMoney {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-10px) rotate(10deg);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes fadeLine {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 }
