@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import Header from "@/components/Header";
 import HeroSection from "./components/HeroSection";
 
 const HomePage = () => {
@@ -11,7 +12,8 @@ const HomePage = () => {
           content="A AutomaticPress cria, agenda e publica artigos otimizados para monetização em blogs WordPress, de forma rápida, segura e escalável." 
         />
       </Helmet>
-      <main className="min-h-screen bg-background">
+      <Header />
+      <main className="min-h-screen bg-background pt-16">
         <HeroSection />
       </main>
     </>
