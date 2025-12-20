@@ -50,10 +50,10 @@ const CTAFinalSection = () => {
 
           {/* CTA Button */}
           <div 
-            className="animate-fade-in"
+            className="animate-fade-in flex justify-center"
             style={{ animationDelay: '300ms' }}
           >
-            <AnimatedCtaButton className="text-base md:text-lg px-8 py-4">
+            <AnimatedCtaButton className="text-sm md:text-lg px-5 md:px-8 py-3 md:py-4">
               Começar agora com AutomaticPress
             </AnimatedCtaButton>
           </div>
