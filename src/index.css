@@ -414,6 +414,38 @@
     }
   }
 
+  /* Cursor move and click animation */
+  .animate-cursor-move-click {
+    animation: cursorMoveClick 2.5s ease-in-out infinite;
+  }
+
+  @keyframes cursorMoveClick {
+    0% {
+      transform: translate(40px, 30px) scale(1);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    40% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(0, 0) scale(0.8);
+    }
+    60% {
+      transform: translate(0, 0) scale(1);
+    }
+    80% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0;
+    }
+  }
+
   /* Typing line animations */
   .animate-type-line-1 {
     animation: typeLine 0.4s ease-out forwards;
