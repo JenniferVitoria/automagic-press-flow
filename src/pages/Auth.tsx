@@ -127,6 +127,13 @@ const Auth = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    toast({ 
+      title: 'Em breve', 
+      description: 'Login com Google será implementado em breve' 
+    });
+  };
+
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setErrors({});
@@ -143,7 +150,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 dark:from-background dark:to-background p-4">
       {/* Container */}
-      <div className="w-full max-w-[350px] bg-gradient-to-b from-white to-[#f4f7fb] dark:from-card dark:to-card/80 rounded-[40px] p-6 sm:p-8 border-[5px] border-white dark:border-border/30 shadow-[0_30px_30px_-20px_rgba(133,189,215,0.88)] dark:shadow-[0_30px_30px_-20px_rgba(99,102,241,0.3)]">
+      <div className="w-full max-w-[380px] bg-gradient-to-b from-white to-[#f4f7fb] dark:from-card dark:to-card/80 rounded-[40px] p-6 sm:p-8 border-[5px] border-white dark:border-border/30 shadow-[0_30px_30px_-20px_rgba(133,189,215,0.88)] dark:shadow-[0_30px_30px_-20px_rgba(99,102,241,0.3)]">
         
         {/* Logo */}
         <div className="flex justify-center mb-4">
@@ -151,9 +158,12 @@ const Auth = () => {
         </div>
 
         {/* Heading */}
-        <h1 className="text-center font-black text-3xl text-primary mb-5">
-          {isLogin ? 'Entrar' : 'Criar Conta'}
+        <h1 className="text-center font-black text-2xl text-primary mb-1">
+          {isLogin ? 'Entrar na conta' : 'Criar Conta'}
         </h1>
+        <p className="text-center text-sm text-muted-foreground mb-6">
+          {isLogin ? 'Bem-vindo de volta!' : 'Preencha os dados abaixo'}
+        </p>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -232,46 +242,27 @@ const Auth = () => {
           </button>
         </form>
 
-        {/* Social Login */}
-        <div className="mt-6">
-          <span className="block text-center text-xs text-muted-foreground">
-            Ou entre com
-          </span>
-          <div className="flex justify-center gap-4 mt-3">
-            {/* Google */}
-            <button
-              type="button"
-              className="bg-gradient-to-br from-black to-gray-500 dark:from-primary dark:to-purple-600 border-[5px] border-white dark:border-background p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.88)] dark:shadow-[0_12px_10px_-8px_rgba(99,102,241,0.4)] transition-all hover:scale-[1.2] active:scale-90"
-              onClick={() => toast({ title: 'Em breve', description: 'Login com Google será implementado em breve' })}
-            >
-              <svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
-              </svg>
-            </button>
-
-            {/* Apple */}
-            <button
-              type="button"
-              className="bg-gradient-to-br from-black to-gray-500 dark:from-primary dark:to-purple-600 border-[5px] border-white dark:border-background p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.88)] dark:shadow-[0_12px_10px_-8px_rgba(99,102,241,0.4)] transition-all hover:scale-[1.2] active:scale-90"
-              onClick={() => toast({ title: 'Em breve', description: 'Login com Apple será implementado em breve' })}
-            >
-              <svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-              </svg>
-            </button>
-
-            {/* Twitter/X */}
-            <button
-              type="button"
-              className="bg-gradient-to-br from-black to-gray-500 dark:from-primary dark:to-purple-600 border-[5px] border-white dark:border-background p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.88)] dark:shadow-[0_12px_10px_-8px_rgba(99,102,241,0.4)] transition-all hover:scale-[1.2] active:scale-90"
-              onClick={() => toast({ title: 'Em breve', description: 'Login com X será implementado em breve' })}
-            >
-              <svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-              </svg>
-            </button>
-          </div>
+        {/* Divider */}
+        <div className="flex items-center gap-3 my-6">
+          <div className="flex-1 h-px bg-border/50" />
+          <span className="text-xs text-muted-foreground">ou</span>
+          <div className="flex-1 h-px bg-border/50" />
         </div>
+
+        {/* Google Login Button */}
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-3 py-3 px-5 text-sm font-bold uppercase text-gray-600 dark:text-foreground bg-white dark:bg-secondary border border-black/25 dark:border-border/50 rounded-lg cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-md"
+        >
+          <svg className="h-6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
+            <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
+            <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
+            <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" />
+            <path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" />
+          </svg>
+          Entrar com Google
+        </button>
 
         {/* Toggle Mode */}
         <div className="mt-6 text-center text-sm">
@@ -290,7 +281,7 @@ const Auth = () => {
 
         {/* Agreement */}
         <div className="mt-4 text-center">
-          <a href="#" className="text-[9px] text-primary hover:underline">
+          <a href="#" className="text-[10px] text-muted-foreground hover:text-primary transition-colors">
             Termos de uso e política de privacidade
           </a>
         </div>
