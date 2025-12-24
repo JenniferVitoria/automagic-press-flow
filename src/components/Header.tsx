@@ -213,9 +213,10 @@ const Header = () => {
                 </button>
               </>
             ) : (
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col w-full gap-3">
                 <LoginButton 
                   onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
+                  fullWidth
                 />
                 <button
                   onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
