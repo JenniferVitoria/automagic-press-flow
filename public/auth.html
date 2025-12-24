@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AutomaticPress</title>
+  <meta name="description" content="Faça login ou crie sua conta na AutomaticPress para automatizar seu blog WordPress.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 224 71% 4%;
+      --card: 0 0% 100%;
+      --card-foreground: 224 71% 4%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 220 14% 96%;
+      --secondary-foreground: 224 71% 4%;
+      --muted: 220 14% 96%;
+      --muted-foreground: 220 9% 46%;
+      --border: 220 13% 91%;
+      --destructive: 0 84% 60%;
+    }
+
+    .dark {
+      --background: 224 71% 4%;
+      --foreground: 210 40% 98%;
+      --card: 224 71% 4%;
+      --card-foreground: 210 40% 98%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 215 28% 17%;
+      --secondary-foreground: 210 40% 98%;
+      --muted: 215 28% 17%;
+      --muted-foreground: 218 11% 65%;
+      --border: 215 28% 17%;
+    }
+
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    body { 
+      background-color: hsl(var(--background)); 
+      color: hsl(var(--foreground)); 
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(239, 100%, 98%) 100%);
+    }
+    .dark .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(224, 71%, 4%) 0%, hsl(224, 60%, 8%) 100%);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bg-primary { background-color: hsl(var(--primary)); }
+    .text-primary { color: hsl(var(--primary)); }
+    .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+    .bg-muted { background-color: hsl(var(--muted)); }
+    .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+    .bg-card { background-color: hsl(var(--card)); }
+    .text-foreground { color: hsl(var(--foreground)); }
+    .border-border { border-color: hsl(var(--border)); }
+    .bg-background { background-color: hsl(var(--background)); }
+    .text-destructive { color: hsl(var(--destructive)); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+    .logo-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .card-container {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, hsl(239 84% 67% / 0.3), hsl(280 87% 65% / 0.3));
+      border-radius: 44px;
+      filter: blur(32px);
+      opacity: 0.5;
+    }
+    .dark .card-glow { opacity: 0.3; }
+
+    .auth-card {
+      position: relative;
+      background: hsl(var(--card));
+      border-radius: 40px;
+      padding: 1.5rem;
+      border: 4px solid hsl(var(--primary) / 0.4);
+      box-shadow: 
+        8px 8px 0px 0px hsl(var(--primary) / 0.3),
+        0 25px 50px -12px rgba(99, 102, 241, 0.25);
+    }
+    .dark .auth-card {
+      border-color: hsl(var(--primary) / 0.5);
+      box-shadow: 
+        8px 8px 0px 0px hsl(var(--primary) / 0.4),
+        0 25px 50px -12px rgba(99, 102, 241, 0.4);
+    }
+
+    .corner-accent {
+      position: absolute;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-color: hsl(var(--primary) / 0.5);
+    }
+    .corner-tl { top: 0.75rem; left: 0.75rem; border-top-width: 2px; border-left-width: 2px; border-radius: 0.75rem 0 0 0; }
+    .corner-tr { top: 0.75rem; right: 0.75rem; border-top-width: 2px; border-right-width: 2px; border-radius: 0 0.75rem 0 0; }
+    .corner-bl { bottom: 0.75rem; left: 0.75rem; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 0.75rem; }
+    .corner-br { bottom: 0.75rem; right: 0.75rem; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 0.75rem 0; }
+
+    .tab-container {
+      display: flex;
+      background: hsl(var(--muted) / 0.5);
+      border-radius: 1rem;
+      padding: 0.375rem;
+      border: 1px solid hsl(var(--border) / 0.5);
+    }
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: hsl(var(--muted-foreground));
+    }
+    .tab-btn:hover { color: hsl(var(--foreground)); }
+    .tab-btn.active {
+      background: hsl(var(--primary));
+      color: white;
+      box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
+    }
+
+    .input-field {
+      width: 100%;
+      background: hsl(var(--background));
+      padding: 1rem 1rem 1rem 3rem;
+      border-radius: 1rem;
+      border: 2px solid hsl(var(--border));
+      box-shadow: 4px 4px 0px 0px hsl(var(--primary) / 0.1);
+      outline: none;
+      color: hsl(var(--foreground));
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .input-field::placeholder { color: hsl(var(--muted-foreground) / 0.5); }
+    .input-field:focus {
+      border-color: hsl(var(--primary));
+      box-shadow: 2px 2px 0px 0px hsl(var(--primary) / 0.2);
+      transform: translateX(2px) translateY(2px);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: hsl(var(--primary));
+      pointer-events: none;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: hsl(var(--muted-foreground));
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .password-toggle:hover { color: hsl(var(--primary)); }
+
+    .btn-submit {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      background: linear-gradient(90deg, hsl(239, 84%, 67%), hsl(280, 87%, 65%));
+      color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 2px solid hsl(var(--primary) / 0.5);
+      box-shadow: 6px 6px 0px 0px hsl(var(--primary) / 0.4);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover {
+      box-shadow: 3px 3px 0px 0px hsl(var(--primary) / 0.5);
+      transform: translateX(4px) translateY(4px);
+    }
+    .btn-submit:active {
+      box-shadow: 1px 1px 0px 0px hsl(var(--primary) / 0.5);
+      transform: translateX(6px) translateY(6px);
+    }
+
+    .btn-google {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: hsl(var(--foreground));
+      background: hsl(var(--background));
+      border: 2px solid hsl(var(--border));
+      border-radius: 1rem;
+      box-shadow: 4px 4px 0px 0px hsl(var(--primary) / 0.1);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-google:hover {
+      box-shadow: 2px 2px 0px 0px hsl(var(--primary) / 0.15);
+      transform: translateX(2px) translateY(2px);
+      border-color: hsl(var(--primary) / 0.4);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+    }
+    .divider-text {
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+      font-weight: 500;
+      padding: 0 0.5rem;
+    }
+
+    .fixed-btn {
+      position: fixed;
+      z-index: 50;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: hsl(var(--background) / 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid hsl(var(--border) / 0.5);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .fixed-btn:hover { background: hsl(var(--muted)); }
+    .theme-btn { top: 1rem; right: 1rem; }
+    .back-btn { 
+      top: 1rem; 
+      left: 1rem; 
+      width: auto;
+      padding: 0 1rem;
+      font-size: 0.875rem;
+      gap: 0.25rem;
+    }
+
+    #signupFields { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.3s; }
+    #signupFields.visible { max-height: 100px; opacity: 1; }
+  </style>
+</head>
+<body class="bg-hero-gradient antialiased">
+  <!-- Theme Toggle -->
+  <button class="fixed-btn theme-btn" onclick="document.documentElement.classList.toggle('dark')">
+    <i data-lucide="sun" class="w-4 h-4 dark:hidden"></i>
+    <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+  </button>
+
+  <!-- Back Button -->
+  <a href="home.html" class="fixed-btn back-btn">
+    ← Voltar
+  </a>
+
+  <!-- Card Container -->
+  <div class="card-container animate-fade-in">
+    <!-- Glow effect -->
+    <div class="card-glow"></div>
+    
+    <!-- Main Card -->
+    <div class="auth-card">
+      <!-- Corner accents -->
+      <div class="corner-accent corner-tl"></div>
+      <div class="corner-accent corner-tr"></div>
+      <div class="corner-accent corner-bl"></div>
+      <div class="corner-accent corner-br"></div>
+      
+      <!-- Logo -->
+      <div class="flex justify-center mb-5">
+        <div class="p-3 rounded-2xl" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(280 87% 65% / 0.1)); border: 1px solid hsl(var(--primary) / 0.2);">
+          <div class="logo-icon">AP</div>
+        </div>
+      </div>
+
+      <!-- Tab Toggle -->
+      <div class="tab-container mb-6">
+        <button type="button" class="tab-btn active" id="loginTab" onclick="switchTab('login')">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          Entrar
+        </button>
+        <button type="button" class="tab-btn" id="signupTab" onclick="switchTab('signup')">
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          Criar Conta
+        </button>
+      </div>
+
+      <!-- Subtitle -->
+      <p class="text-center text-sm text-muted-foreground mb-6" id="subtitle">
+        Bem-vindo de volta! Entre com suas credenciais.
+      </p>
+
+      <!-- Form -->
+      <form onsubmit="handleSubmit(event)" class="space-y-4">
+        <!-- Full Name (signup only) -->
+        <div id="signupFields">
+          <div class="input-wrapper">
+            <i data-lucide="user" class="w-5 h-5 input-icon"></i>
+            <input type="text" placeholder="Nome completo" class="input-field" id="fullName">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="input-wrapper">
+          <i data-lucide="mail" class="w-5 h-5 input-icon"></i>
+          <input type="email" placeholder="E-mail" class="input-field" id="email" required>
+        </div>
+
+        <!-- Password -->
+        <div class="input-wrapper">
+          <i data-lucide="lock" class="w-5 h-5 input-icon"></i>
+          <input type="password" placeholder="Senha" class="input-field" id="password" required style="padding-right: 3rem;">
+          <button type="button" class="password-toggle" onclick="togglePassword()">
+            <i data-lucide="eye" class="w-5 h-5" id="eyeIcon"></i>
+          </button>
+        </div>
+
+        <!-- Forgot Password (login only) -->
+        <div class="text-right" id="forgotLink">
+          <a href="forgot-password.html" class="text-xs text-primary hover:underline font-medium">
+            Esqueceu a senha?
+          </a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">
+          <i data-lucide="log-in" class="w-5 h-5" id="submitIcon"></i>
+          <span id="submitText">Entrar</span>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="divider my-6">
+        <div class="divider-line"></div>
+        <span class="divider-text">ou</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Google Login Button -->
+      <button type="button" class="btn-google" onclick="alert('Login com Google será implementado em breve')">
+        <svg class="h-5" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
+          <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"/>
+          <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"/>
+          <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"/>
+          <path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"/>
+        </svg>
+        Entrar com Google
+      </button>
+
+      <!-- Agreement -->
+      <div class="mt-6 text-center">
+        <a href="#" class="text-xs text-muted-foreground hover:text-primary transition-colors">
+          Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let isLogin = true;
+
+    function switchTab(tab) {
+      isLogin = tab === 'login';
+      
+      document.getElementById('loginTab').classList.toggle('active', isLogin);
+      document.getElementById('signupTab').classList.toggle('active', !isLogin);
+      document.getElementById('signupFields').classList.toggle('visible', !isLogin);
+      document.getElementById('forgotLink').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('subtitle').textContent = isLogin 
+        ? 'Bem-vindo de volta! Entre com suas credenciais.' 
+        : 'Crie sua conta para começar.';
+      document.getElementById('submitText').textContent = isLogin ? 'Entrar' : 'Criar Conta';
+      
+      // Update icon
+      const submitIcon = document.getElementById('submitIcon');
+      submitIcon.setAttribute('data-lucide', isLogin ? 'log-in' : 'user-plus');
+      lucide.createIcons();
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const fullName = document.getElementById('fullName').value;
+      
+      if (isLogin) {
+        alert('Login realizado! (Demonstração - sem backend)\n\nEmail: ' + email);
+      } else {
+        alert('Conta criada! (Demonstração - sem backend)\n\nNome: ' + fullName + '\nEmail: ' + email);
+      }
+    }
+  </script>
+</body>
+</html>

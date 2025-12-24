@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutomaticPress - Automatize seu blog WordPress com IA</title>
+  <meta name="description" content="A AutomaticPress cria, agenda e publica artigos otimizados para monetização em blogs WordPress, de forma rápida, segura e escalável.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 224 71% 4%;
+      --card: 0 0% 100%;
+      --card-foreground: 224 71% 4%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 220 14% 96%;
+      --secondary-foreground: 224 71% 4%;
+      --muted: 220 14% 96%;
+      --muted-foreground: 220 9% 46%;
+      --accent: 239 84% 67%;
+      --destructive: 0 84% 60%;
+      --border: 220 13% 91%;
+      --ring: 239 84% 67%;
+    }
+
+    .dark {
+      --background: 224 71% 4%;
+      --foreground: 210 40% 98%;
+      --card: 224 71% 4%;
+      --card-foreground: 210 40% 98%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 215 28% 17%;
+      --secondary-foreground: 210 40% 98%;
+      --muted: 215 28% 17%;
+      --muted-foreground: 218 11% 65%;
+      --border: 215 28% 17%;
+    }
+
+    * { font-family: 'Inter', sans-serif; }
+    body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+    .dark body { background-color: hsl(224 71% 4%); color: hsl(210 40% 98%); }
+
+    .text-gradient {
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(239, 100%, 98%) 100%);
+    }
+    .dark .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(224, 71%, 4%) 0%, hsl(224, 60%, 8%) 100%);
+    }
+
+    .bg-primary { background-color: hsl(var(--primary)); }
+    .text-primary { color: hsl(var(--primary)); }
+    .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+    .bg-muted { background-color: hsl(var(--muted)); }
+    .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+    .bg-card { background-color: hsl(var(--card)); }
+    .text-foreground { color: hsl(var(--foreground)); }
+    .border-border { border-color: hsl(var(--border)); }
+    .bg-destructive { background-color: hsl(var(--destructive)); }
+    .text-destructive { color: hsl(var(--destructive)); }
+    .bg-background { background-color: hsl(var(--background)); }
+
+    .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+    .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+    .animation-delay-100 { animation-delay: 100ms; }
+    .animation-delay-200 { animation-delay: 200ms; }
+    .animation-delay-300 { animation-delay: 300ms; }
+    .animation-delay-400 { animation-delay: 400ms; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+    .animate-ping { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      color: white;
+      padding: 0.875rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.5);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -10px rgba(99, 102, 241, 0.6); }
+
+    .btn-secondary {
+      background-color: hsl(var(--secondary));
+      color: hsl(var(--secondary-foreground));
+      padding: 0.875rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .card-magic {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .card-magic:hover { border-color: hsl(var(--primary) / 0.3); box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15); }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 1rem;
+      background: hsl(var(--primary) / 0.1);
+      color: hsl(var(--primary));
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Navigation pill style */
+    .nav-pill {
+      display: flex;
+      align-items: center;
+      background: hsl(var(--muted) / 0.5);
+      border-radius: 9999px;
+      padding: 0.25rem;
+      border: 1px solid hsl(var(--border) / 0.5);
+    }
+    .nav-pill a {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 9999px;
+      color: hsl(var(--muted-foreground));
+      transition: all 0.3s;
+    }
+    .nav-pill a:hover { color: hsl(var(--foreground)); background: hsl(var(--muted)); }
+    .nav-pill a.active { background: hsl(var(--primary)); color: white; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25); }
+
+    /* Footer link style */
+    footer a { transition: color 0.2s; }
+    footer a:hover { color: hsl(var(--primary)); }
+
+    /* Pricing card */
+    .pricing-highlighted {
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(239, 84%, 60%) 100%);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.4);
+    }
+
+    /* FAQ Accordion */
+    .faq-item { border: 1px solid hsl(var(--border) / 0.5); border-radius: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+    .faq-item:hover { border-color: hsl(var(--primary) / 0.3); }
+    .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
+    .faq-answer { padding: 0 1.5rem 1.25rem; color: hsl(var(--muted-foreground)); display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-icon { transition: transform 0.3s; }
+
+    /* Testimonial card */
+    .testimonial-card {
+      background: hsl(var(--card) / 0.95);
+      border: 1px solid hsl(var(--primary) / 0.2);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      box-shadow: 0 0 20px 0 hsl(var(--primary) / 0.15);
+    }
+
+    /* Dark mode toggle */
+    .theme-toggle {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: hsl(var(--muted) / 0.5);
+      border: 1px solid hsl(var(--border) / 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .theme-toggle:hover { background: hsl(var(--muted)); }
+
+    /* Logo */
+    .logo-icon {
+      width: 2rem;
+      height: 2rem;
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 0.875rem;
+    }
+
+    .step-node {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: hsl(var(--primary));
+      color: white;
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.4);
+    }
+    .step-node.inactive {
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      box-shadow: none;
+    }
+
+    /* Benefit card */
+    .benefit-card-container {
+      perspective: 800px;
+    }
+    .benefit-card {
+      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .benefit-card:hover { transform: translateY(-4px); }
+    .benefit-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Mobile menu */
+    .mobile-menu { display: none; }
+    .mobile-menu.open { display: block; }
+
+    @media (max-width: 1024px) {
+      .desktop-nav { display: none; }
+      .mobile-menu-btn { display: flex; }
+    }
+    @media (min-width: 1025px) {
+      .mobile-menu-btn { display: none; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b-2 border-l-2 border-r-2 rounded-b-2xl shadow-lg" style="border-color: hsl(239 84% 67% / 0.3);">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="#inicio" class="flex items-center gap-3">
+        <div class="logo-icon">AP</div>
+        <span class="text-xl font-bold text-gradient">AutomaticPress</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="desktop-nav hidden lg:flex items-center">
+        <div class="nav-pill">
+          <a href="#inicio" class="active">Início</a>
+          <a href="#como-funciona">Como Funciona</a>
+          <a href="#beneficios">Benefícios</a>
+          <a href="#precos">Preços</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-3">
+        <button class="theme-toggle" onclick="document.documentElement.classList.toggle('dark')">
+          <i data-lucide="sun" class="w-4 h-4 dark:hidden"></i>
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+        </button>
+        <a href="auth.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          Entrar
+        </a>
+        <a href="auth.html" class="hidden sm:inline-flex btn-primary text-sm py-2.5 px-5">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          Começar Grátis
+        </a>
+        <button class="mobile-menu-btn theme-toggle lg:hidden" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu lg:hidden bg-background/95 backdrop-blur-xl border-b-2 border-l-2 border-r-2 rounded-b-3xl shadow-2xl" style="border-color: hsl(239 84% 67% / 0.3);">
+      <div class="px-4 py-6 space-y-2">
+        <a href="#inicio" class="flex items-center justify-between py-3 px-4 rounded-xl bg-primary/10 text-primary border border-primary/20">
+          <span class="flex items-center gap-3"><span>🏠</span><span class="font-medium">Início</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#como-funciona" class="flex items-center justify-between py-3 px-4 rounded-xl text-foreground hover:bg-muted/50">
+          <span class="flex items-center gap-3"><span>⚙️</span><span class="font-medium">Como Funciona</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
+        </a>
+        <a href="#beneficios" class="flex items-center justify-between py-3 px-4 rounded-xl text-foreground hover:bg-muted/50">
+          <span class="flex items-center gap-3"><span>✨</span><span class="font-medium">Benefícios</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
+        </a>
+        <a href="#precos" class="flex items-center justify-between py-3 px-4 rounded-xl text-foreground hover:bg-muted/50">
+          <span class="flex items-center gap-3"><span>💰</span><span class="font-medium">Preços</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
+        </a>
+        <a href="#faq" class="flex items-center justify-between py-3 px-4 rounded-xl text-foreground hover:bg-muted/50">
+          <span class="flex items-center gap-3"><span>❓</span><span class="font-medium">FAQ</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
+        </a>
+        <div class="pt-4 mt-4 border-t border-border/30 space-y-3">
+          <a href="auth.html" class="flex w-full items-center justify-center py-3 px-4 text-muted-foreground hover:text-foreground border border-border/50 rounded-xl transition-all hover:bg-muted/50">
+            Entrar
+          </a>
+          <a href="auth.html" class="flex w-full items-center justify-center gap-2 py-3.5 px-4 bg-gradient-to-r from-primary to-purple-500 text-white rounded-xl font-medium shadow-lg">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            Começar Grátis
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section id="inicio" class="relative overflow-hidden bg-hero-gradient">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex min-h-screen flex-col items-center justify-center py-12 lg:flex-row lg:gap-16">
+          <!-- Left content -->
+          <div class="flex-1 text-center lg:text-left">
+            <!-- Badge -->
+            <div class="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-primary animate-fade-in" style="border-color: hsl(239 84% 67% / 0.2); background: hsl(239 84% 67% / 0.05);">
+              <span class="relative flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" style="background: hsl(239 84% 67%);"></span>
+                <span class="relative inline-flex h-2 w-2 rounded-full" style="background: hsl(239 84% 67%);"></span>
+              </span>
+              Automatização inteligente para WordPress
+            </div>
+
+            <!-- Headline -->
+            <h1 class="mb-6 text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl animate-fade-in-up">
+              Automatize conteúdos e <span class="text-gradient">monetize com AdSense</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="mb-8 text-lg text-muted-foreground sm:text-xl animate-fade-in-up animation-delay-100">
+              Automação inteligente para blogs WordPress focados em SEO e monetização.
+            </p>
+
+            <!-- Bullet points -->
+            <div class="mb-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start animate-fade-in-up animation-delay-200">
+              <span class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-foreground" style="border-color: hsl(239 84% 67% / 0.2); background: hsl(239 84% 67% / 0.05);">
+                <i data-lucide="check" class="h-3.5 w-3.5 text-primary"></i>
+                100% automatizado
+              </span>
+              <span class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-foreground" style="border-color: hsl(239 84% 67% / 0.2); background: hsl(239 84% 67% / 0.05);">
+                <i data-lucide="check" class="h-3.5 w-3.5 text-primary"></i>
+                SEO + AdSense
+              </span>
+              <span class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-foreground" style="border-color: hsl(239 84% 67% / 0.2); background: hsl(239 84% 67% / 0.05);">
+                <i data-lucide="check" class="h-3.5 w-3.5 text-primary"></i>
+                Escalável
+              </span>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start animate-fade-in-up animation-delay-300">
+              <a href="auth.html" class="btn-primary">
+                Automatizar meu blog
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+              <a href="#como-funciona" class="btn-secondary">
+                Ver como funciona
+              </a>
+            </div>
+          </div>
+
+          <!-- Right content - Demo placeholder -->
+          <div class="mt-8 flex-1 lg:mt-0 animate-fade-in-up animation-delay-400">
+            <div class="relative mx-auto max-w-md">
+              <!-- Mock browser window -->
+              <div class="rounded-2xl border bg-card p-4 shadow-2xl" style="border-color: hsl(var(--border));">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                  <div class="flex-1 mx-4 h-6 rounded bg-muted"></div>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                      <i data-lucide="file-text" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div class="flex-1">
+                      <div class="h-3 w-3/4 rounded bg-muted mb-2"></div>
+                      <div class="h-2 w-1/2 rounded bg-muted"></div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                      <i data-lucide="file-text" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div class="flex-1">
+                      <div class="h-3 w-2/3 rounded bg-muted mb-2"></div>
+                      <div class="h-2 w-2/5 rounded bg-muted"></div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                      <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 p-3 rounded-lg border-2 border-dashed" style="border-color: hsl(239 84% 67% / 0.3);">
+                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center animate-pulse">
+                      <i data-lucide="loader-2" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div class="flex-1">
+                      <div class="h-3 w-1/2 rounded bg-primary/20 mb-2 animate-pulse"></div>
+                      <div class="h-2 w-1/3 rounded bg-primary/10 animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pain Section -->
+    <section class="py-16 md:py-24 relative overflow-hidden" style="background: linear-gradient(180deg, hsl(220 14% 96% / 0.4) 0%, hsl(220 14% 96% / 0.2) 50%, hsl(var(--background)) 100%);">
+      <div class="max-w-7xl mx-auto px-4">
+        <!-- Title -->
+        <div class="text-center mb-12 md:mb-16">
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
+            <span>Criar conteúdo manualmente é lento.</span>
+            <span class="text-muted-foreground"> Blog sem consistência não monetiza.</span>
+          </h2>
+          <p class="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Produzir artigos com frequência, otimizar SEO e ainda pensar em monetização exige tempo e processo. Sem consistência, o blog não cresce — e o AdSense demora ou nem chega.
+          </p>
+        </div>
+
+        <!-- Comparative Cards -->
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+          <!-- Situação Atual -->
+          <div class="card-magic border-l-4" style="border-left-color: hsl(0 84% 60%);">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: hsl(0 84% 60% / 0.1);">
+                <i data-lucide="alert-circle" class="w-5 h-5 text-destructive"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-foreground">Situação Atual</h3>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(0 84% 60% / 0.1);">
+                  <i data-lucide="clock" class="w-4 h-4 text-destructive"></i>
+                </div>
+                <span class="text-muted-foreground">Horas criando um único artigo</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(0 84% 60% / 0.1);">
+                  <i data-lucide="list-todo" class="w-4 h-4 text-destructive"></i>
+                </div>
+                <span class="text-muted-foreground">Lista de tarefas infinita</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(0 84% 60% / 0.1);">
+                  <i data-lucide="file-text" class="w-4 h-4 text-destructive"></i>
+                </div>
+                <span class="text-muted-foreground">Publicação inconsistente</span>
+              </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-border grid grid-cols-2 gap-4">
+              <div class="p-3 rounded-lg" style="background: hsl(0 84% 60% / 0.05); border: 1px solid hsl(0 84% 60% / 0.1);">
+                <p class="text-xs text-muted-foreground mb-1">Posts/mês</p>
+                <p class="text-xl font-bold text-destructive">2-4</p>
+              </div>
+              <div class="p-3 rounded-lg" style="background: hsl(0 84% 60% / 0.05); border: 1px solid hsl(0 84% 60% / 0.1);">
+                <p class="text-xs text-muted-foreground mb-1">Tempo gasto</p>
+                <p class="text-xl font-bold text-destructive">+20h</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Com AutomaticPress -->
+          <div class="card-magic border-l-4" style="border-left-color: hsl(239 84% 67%);">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: hsl(239 84% 67% / 0.1);">
+                <i data-lucide="sparkles" class="w-5 h-5 text-primary"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-foreground">Com AutomaticPress</h3>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(239 84% 67% / 0.1);">
+                  <i data-lucide="brain" class="w-4 h-4 text-primary"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                  <span class="text-foreground">IA cria artigos otimizados</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(239 84% 67% / 0.1);">
+                  <i data-lucide="zap" class="w-4 h-4 text-primary"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                  <span class="text-foreground">Publicação automática diária</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(239 84% 67% / 0.1);">
+                  <i data-lucide="trending-up" class="w-4 h-4 text-primary"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                  <span class="text-foreground">Crescimento consistente</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-border grid grid-cols-2 gap-4">
+              <div class="p-3 rounded-lg" style="background: hsl(239 84% 67% / 0.05); border: 1px solid hsl(239 84% 67% / 0.1);">
+                <p class="text-xs text-muted-foreground mb-1">Posts/mês</p>
+                <p class="text-xl font-bold text-primary">30+</p>
+              </div>
+              <div class="p-3 rounded-lg" style="background: hsl(239 84% 67% / 0.05); border: 1px solid hsl(239 84% 67% / 0.1);">
+                <p class="text-xs text-muted-foreground mb-1">Tempo gasto</p>
+                <p class="text-xl font-bold text-primary">~2h</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="como-funciona" class="py-16 md:py-24 bg-background relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-12 md:mb-16">
+          <span class="section-badge mb-4">Como Funciona</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
+            Como a AutomaticPress funciona <span class="text-gradient">na prática</span>
+          </h2>
+          <p class="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Do setup inicial à monetização, tudo automatizado em 5 passos simples.
+          </p>
+        </div>
+
+        <!-- Steps - Desktop -->
+        <div class="hidden lg:block max-w-6xl mx-auto">
+          <div class="relative">
+            <!-- Connection Line -->
+            <div class="absolute top-16 left-0 right-0 h-0.5 bg-border">
+              <div class="h-full w-full" style="background: linear-gradient(90deg, hsl(239 84% 67%), hsl(239 84% 67% / 0.5));"></div>
+            </div>
+
+            <!-- Steps Grid -->
+            <div class="grid grid-cols-5 gap-4">
+              <!-- Step 1 -->
+              <div class="relative pt-8 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="step-node relative">
+                    <i data-lucide="link-2" class="w-7 h-7"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">1</span>
+                  </div>
+                </div>
+                <h3 class="font-semibold mb-2 text-foreground">Conecte seu WordPress</h3>
+                <p class="text-sm text-muted-foreground">Integração simples e segura com seu site.</p>
+              </div>
+              <!-- Step 2 -->
+              <div class="relative pt-8 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="step-node relative">
+                    <i data-lucide="settings-2" class="w-7 h-7"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">2</span>
+                  </div>
+                </div>
+                <h3 class="font-semibold mb-2 text-foreground">Defina categorias e frequência</h3>
+                <p class="text-sm text-muted-foreground">Você escolhe os temas e o ritmo.</p>
+              </div>
+              <!-- Step 3 -->
+              <div class="relative pt-8 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="step-node relative">
+                    <i data-lucide="brain" class="w-7 h-7"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">3</span>
+                  </div>
+                </div>
+                <h3 class="font-semibold mb-2 text-foreground">A IA cria os artigos</h3>
+                <p class="text-sm text-muted-foreground">Conteúdo estruturado e otimizado.</p>
+              </div>
+              <!-- Step 4 -->
+              <div class="relative pt-8 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="step-node relative">
+                    <i data-lucide="rocket" class="w-7 h-7"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">4</span>
+                  </div>
+                </div>
+                <h3 class="font-semibold mb-2 text-foreground">Publicação automática</h3>
+                <p class="text-sm text-muted-foreground">Posts entram no ar sozinhos.</p>
+              </div>
+              <!-- Step 5 -->
+              <div class="relative pt-8 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="step-node relative">
+                    <i data-lucide="trending-up" class="w-7 h-7"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">5</span>
+                  </div>
+                </div>
+                <h3 class="font-semibold mb-2 text-foreground">Escala e monetização</h3>
+                <p class="text-sm text-muted-foreground">Seu site cresce com consistência.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps - Mobile -->
+        <div class="lg:hidden max-w-md mx-auto space-y-8">
+          <div class="relative pl-20">
+            <div class="step-node absolute left-0">
+              <i data-lucide="link-2" class="w-7 h-7"></i>
+              <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">1</span>
+            </div>
+            <h3 class="font-semibold mb-1 text-foreground">Conecte seu WordPress</h3>
+            <p class="text-sm text-muted-foreground">Integração simples e segura com seu site.</p>
+          </div>
+          <div class="relative pl-20">
+            <div class="step-node absolute left-0">
+              <i data-lucide="settings-2" class="w-7 h-7"></i>
+              <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">2</span>
+            </div>
+            <h3 class="font-semibold mb-1 text-foreground">Defina categorias e frequência</h3>
+            <p class="text-sm text-muted-foreground">Você escolhe os temas e o ritmo.</p>
+          </div>
+          <div class="relative pl-20">
+            <div class="step-node absolute left-0">
+              <i data-lucide="brain" class="w-7 h-7"></i>
+              <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">3</span>
+            </div>
+            <h3 class="font-semibold mb-1 text-foreground">A IA cria os artigos</h3>
+            <p class="text-sm text-muted-foreground">Conteúdo estruturado e otimizado.</p>
+          </div>
+          <div class="relative pl-20">
+            <div class="step-node absolute left-0">
+              <i data-lucide="rocket" class="w-7 h-7"></i>
+              <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">4</span>
+            </div>
+            <h3 class="font-semibold mb-1 text-foreground">Publicação automática</h3>
+            <p class="text-sm text-muted-foreground">Posts entram no ar sozinhos.</p>
+          </div>
+          <div class="relative pl-20">
+            <div class="step-node absolute left-0">
+              <i data-lucide="trending-up" class="w-7 h-7"></i>
+              <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-background text-primary border-2 border-primary">5</span>
+            </div>
+            <h3 class="font-semibold mb-1 text-foreground">Escala e monetização</h3>
+            <p class="text-sm text-muted-foreground">Seu site cresce com consistência.</p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-12 md:mt-16">
+          <p class="text-sm sm:text-base text-muted-foreground mb-4">Pronto para automatizar seu blog?</p>
+          <a href="auth.html" class="btn-primary">
+            Começar Agora
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="relative py-16 md:py-24 overflow-hidden">
+      <div class="absolute inset-0" style="background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.1) 50%, hsl(var(--background)) 100%);"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-12 sm:mb-16">
+          <span class="section-badge mb-4">Benefícios</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+            Automação real para quem quer <span class="text-primary">escalar</span>
+          </h2>
+          <p class="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Tudo que você precisa para transformar seu blog em uma máquina de conteúdo
+          </p>
+        </div>
+
+        <!-- Benefits grid -->
+        <div class="max-w-4xl mx-auto">
+          <!-- First row - 3 cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+            <div class="benefit-card-container">
+              <div class="benefit-card">
+                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                  <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Publicação automática</h3>
+                <p class="text-white/80 text-sm">Artigos publicados automaticamente no horário ideal</p>
+              </div>
+            </div>
+            <div class="benefit-card-container">
+              <div class="benefit-card">
+                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                  <i data-lucide="clock" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Economia de tempo</h3>
+                <p class="text-white/80 text-sm">Libere horas da sua rotina para focar no que importa</p>
+              </div>
+            </div>
+            <div class="benefit-card-container">
+              <div class="benefit-card">
+                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                  <i data-lucide="folder-open" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Conteúdo organizado</h3>
+                <p class="text-white/80 text-sm">Artigos estruturados e distribuídos por nicho</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Second row - 2 cards centered -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
+            <div class="benefit-card-container">
+              <div class="benefit-card">
+                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                  <i data-lucide="layers" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Múltiplos sites</h3>
+                <p class="text-white/80 text-sm">Gerencie vários blogs a partir de um único painel</p>
+              </div>
+            </div>
+            <div class="benefit-card-container">
+              <div class="benefit-card">
+                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                  <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Processo previsível</h3>
+                <p class="text-white/80 text-sm">Fluxo constante de conteúdo, sem surpresas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AdSense Section -->
+    <section class="py-16 md:py-24 overflow-hidden relative">
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-10 sm:mb-14">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style="background: hsl(142 76% 36% / 0.1); border: 1px solid hsl(142 76% 36% / 0.2);">
+            <i data-lucide="dollar-sign" class="w-4 h-4" style="color: hsl(142 76% 36%);"></i>
+            <span class="text-sm font-medium" style="color: hsl(142 76% 36%);">Monetização</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Conteúdo pensado para monetização com <span style="color: hsl(142 76% 36%);">AdSense</span>
+          </h2>
+        </div>
+
+        <!-- Two columns -->
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-5xl mx-auto">
+          <!-- Illustration -->
+          <div class="order-first lg:order-last">
+            <div class="relative mx-auto max-w-sm">
+              <div class="rounded-3xl p-6 sm:p-8 shadow-xl overflow-hidden" style="background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted) / 0.3)); border: 1px solid hsl(var(--border) / 0.5);">
+                <!-- Chart bars -->
+                <div class="flex items-end justify-center gap-2 sm:gap-3 h-32 sm:h-40 mb-4">
+                  <div class="w-8 sm:w-10 rounded-t-lg" style="height: 40%; background: linear-gradient(to top, hsl(142 72% 29%), hsl(142 71% 45%));"></div>
+                  <div class="w-8 sm:w-10 rounded-t-lg" style="height: 55%; background: linear-gradient(to top, hsl(142 72% 29%), hsl(142 71% 45%));"></div>
+                  <div class="w-8 sm:w-10 rounded-t-lg" style="height: 45%; background: linear-gradient(to top, hsl(142 72% 29%), hsl(142 71% 45%));"></div>
+                  <div class="w-8 sm:w-10 rounded-t-lg" style="height: 70%; background: linear-gradient(to top, hsl(142 72% 29%), hsl(142 71% 45%));"></div>
+                  <div class="w-8 sm:w-10 rounded-t-lg" style="height: 90%; background: linear-gradient(to top, hsl(142 72% 29%), hsl(142 71% 45%));"></div>
+                </div>
+                <div class="flex items-center justify-center gap-2" style="color: hsl(142 76% 36%);">
+                  <i data-lucide="trending-up" class="w-5 h-5"></i>
+                  <span class="text-sm font-semibold">+127% crescimento</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text column -->
+          <div>
+            <p class="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed">
+              A AutomaticPress não gera textos aleatórios. O conteúdo é estruturado para <span class="text-foreground font-medium">informar, reter leitores</span> e atender boas práticas que facilitam a monetização via Google AdSense.
+            </p>
+            
+            <!-- Highlights -->
+            <div class="space-y-4">
+              <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: linear-gradient(90deg, hsl(var(--muted) / 0.5), hsl(var(--muted) / 0.2)); border: 1px solid hsl(var(--border) / 0.4);">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, hsl(142 76% 36% / 0.2), hsl(142 72% 29% / 0.1)); border: 1px solid hsl(142 76% 36% / 0.2);">
+                  <i data-lucide="globe" class="w-6 h-6" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-foreground font-medium">Estrutura amigável ao Google</span>
+                <div class="ml-auto w-7 h-7 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 72% 29%));">
+                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: linear-gradient(90deg, hsl(var(--muted) / 0.5), hsl(var(--muted) / 0.2)); border: 1px solid hsl(var(--border) / 0.4);">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, hsl(142 76% 36% / 0.2), hsl(142 72% 29% / 0.1)); border: 1px solid hsl(142 76% 36% / 0.2);">
+                  <i data-lucide="file-text" class="w-6 h-6" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-foreground font-medium">Conteúdo informativo e útil</span>
+                <div class="ml-auto w-7 h-7 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 72% 29%));">
+                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: linear-gradient(90deg, hsl(var(--muted) / 0.5), hsl(var(--muted) / 0.2)); border: 1px solid hsl(var(--border) / 0.4);">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, hsl(142 76% 36% / 0.2), hsl(142 72% 29% / 0.1)); border: 1px solid hsl(142 76% 36% / 0.2);">
+                  <i data-lucide="calendar-check" class="w-6 h-6" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-foreground font-medium">Consistência de publicações</span>
+                <div class="ml-auto w-7 h-7 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 72% 29%));">
+                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: linear-gradient(90deg, hsl(var(--muted) / 0.5), hsl(var(--muted) / 0.2)); border: 1px solid hsl(var(--border) / 0.4);">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, hsl(142 76% 36% / 0.2), hsl(142 72% 29% / 0.1)); border: 1px solid hsl(142 76% 36% / 0.2);">
+                  <i data-lucide="search" class="w-6 h-6" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-foreground font-medium">SEO aplicado automaticamente</span>
+                <div class="ml-auto w-7 h-7 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 72% 29%));">
+                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precos" class="py-16 md:py-24 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-12 sm:mb-16">
+          <span class="section-badge mb-4">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            Planos flexíveis
+          </span>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Planos simples e <span class="text-gradient">transparentes</span>
+          </h2>
+          <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Escolha o plano ideal para o seu crescimento. Todos incluem acesso à nossa IA avançada.
+          </p>
+        </div>
+        
+        <!-- Cards Grid -->
+        <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
+          <!-- Básico -->
+          <div class="rounded-3xl p-6 sm:p-8 bg-card border transition-all hover:-translate-y-2 hover:shadow-xl" style="border-color: hsl(var(--border) / 0.5);">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: hsl(var(--primary) / 0.1);">
+                <i data-lucide="zap" class="w-5 h-5 text-primary"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-foreground">Plano Básico</h3>
+                <p class="text-sm text-muted-foreground">Ideal para começar</p>
+              </div>
+            </div>
+            <div class="mb-6 flex items-baseline gap-1">
+              <span class="text-sm text-muted-foreground">R$</span>
+              <span class="text-5xl sm:text-6xl font-bold text-foreground">49</span>
+              <span class="text-2xl font-bold text-foreground">,90</span>
+              <span class="text-sm ml-1 text-muted-foreground">/mês</span>
+            </div>
+            <div class="h-px mb-6 bg-border"></div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">50 artigos por mês</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Suporte por email</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">1 site conectado</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Relatórios básicos</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 px-4 rounded-lg border text-foreground font-medium transition-all hover:bg-muted" style="border-color: hsl(var(--border));">Começar agora</button>
+          </div>
+
+          <!-- Pro (Highlighted) -->
+          <div class="rounded-3xl p-6 sm:p-8 relative z-10 pricing-highlighted md:scale-105">
+            <!-- Popular badge -->
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);">
+              <span class="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                Mais Popular
+              </span>
+            </div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold">Plano Pro</h3>
+                <p class="text-sm" style="color: rgba(255,255,255,0.7);">O mais escolhido</p>
+              </div>
+            </div>
+            <div class="mb-6 flex items-baseline gap-1">
+              <span class="text-sm" style="color: rgba(255,255,255,0.7);">R$</span>
+              <span class="text-5xl sm:text-6xl font-bold">79</span>
+              <span class="text-2xl font-bold" style="color: rgba(255,255,255,0.9);">,90</span>
+              <span class="text-sm ml-1" style="color: rgba(255,255,255,0.7);">/mês</span>
+            </div>
+            <div class="h-px mb-6" style="background: rgba(255,255,255,0.2);"></div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                  <i data-lucide="check" class="w-3 h-3"></i>
+                </div>
+                <span class="text-sm" style="color: rgba(255,255,255,0.9);">100 artigos por mês</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                  <i data-lucide="check" class="w-3 h-3"></i>
+                </div>
+                <span class="text-sm" style="color: rgba(255,255,255,0.9);">Suporte prioritário</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                  <i data-lucide="check" class="w-3 h-3"></i>
+                </div>
+                <span class="text-sm" style="color: rgba(255,255,255,0.9);">5 sites conectados</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                  <i data-lucide="check" class="w-3 h-3"></i>
+                </div>
+                <span class="text-sm" style="color: rgba(255,255,255,0.9);">Agendamento automático</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+                  <i data-lucide="check" class="w-3 h-3"></i>
+                </div>
+                <span class="text-sm" style="color: rgba(255,255,255,0.9);">Relatórios avançados</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 px-4 rounded-lg bg-white text-primary font-medium transition-all hover:bg-white/90 shadow-lg">Testar 7 dias grátis</button>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="rounded-3xl p-6 sm:p-8 bg-card border transition-all hover:-translate-y-2 hover:shadow-xl" style="border-color: hsl(var(--border) / 0.5);">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: hsl(var(--primary) / 0.1);">
+                <i data-lucide="crown" class="w-5 h-5 text-primary"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-foreground">Plano Enterprise</h3>
+                <p class="text-sm text-muted-foreground">Para grandes operações</p>
+              </div>
+            </div>
+            <div class="mb-6 flex items-baseline gap-1">
+              <span class="text-sm text-muted-foreground">R$</span>
+              <span class="text-5xl sm:text-6xl font-bold text-foreground">197</span>
+              <span class="text-2xl font-bold text-foreground">,00</span>
+              <span class="text-sm ml-1 text-muted-foreground">/mês</span>
+            </div>
+            <div class="h-px mb-6 bg-border"></div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Artigos ilimitados</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Suporte 24/7 dedicado</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Sites ilimitados</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Agendamento automático</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">API de integração</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: hsl(142 76% 36% / 0.1);">
+                  <i data-lucide="check" class="w-3 h-3" style="color: hsl(142 76% 36%);"></i>
+                </div>
+                <span class="text-sm text-muted-foreground">Gerente de conta</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 px-4 rounded-lg border text-foreground font-medium transition-all hover:bg-muted" style="border-color: hsl(var(--border));">Falar com vendas</button>
+          </div>
+        </div>
+        
+        <!-- Bottom note -->
+        <p class="text-center text-sm text-muted-foreground mt-10">
+          Todos os planos incluem suporte técnico e atualizações gratuitas. Cancele quando quiser.
+        </p>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 md:py-24 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-12 sm:mb-16">
+          <span class="section-badge mb-4">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            Depoimentos
+          </span>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
+            O que nossos clientes estão dizendo
+          </h2>
+          <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Veja como a AutomaticPress está transformando a forma de criar conteúdo
+          </p>
+        </div>
+        
+        <!-- Testimonials Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div class="testimonial-card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.1)); border: 1px solid hsl(var(--primary) / 0.2);">
+                <i data-lucide="user" class="w-5 h-5 text-primary"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-foreground text-sm">Lucas Andrade</h4>
+                <div class="flex gap-0.5 mt-0.5">
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">"Eu sempre travava na parte de manter consistência no blog. Com a AutomaticPress, os posts simplesmente começaram a sair sozinhos."</p>
+          </div>
+          <div class="testimonial-card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.1)); border: 1px solid hsl(var(--primary) / 0.2);">
+                <i data-lucide="user" class="w-5 h-5 text-primary"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-foreground text-sm">Mariana Lopes</h4>
+                <div class="flex gap-0.5 mt-0.5">
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">"O que mais me chamou atenção foi a organização. Tudo é automático, mas ao mesmo tempo muito bem estruturado."</p>
+          </div>
+          <div class="testimonial-card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.1)); border: 1px solid hsl(var(--primary) / 0.2);">
+                <i data-lucide="user" class="w-5 h-5 text-primary"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-foreground text-sm">Rafael Monteiro</h4>
+                <div class="flex gap-0.5 mt-0.5">
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">"Antes eu publicava quando dava tempo. Agora meu WordPress posta todos os dias sem eu precisar entrar no painel."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 md:py-24" style="background: hsl(var(--muted) / 0.3);">
+      <div class="max-w-3xl mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <span class="section-badge mb-4">❓ FAQ</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground">
+            Perguntas Frequentes
+          </h2>
+        </div>
+
+        <!-- Accordion -->
+        <div class="space-y-3">
+          <div class="faq-item bg-card" onclick="this.classList.toggle('open')">
+            <div class="faq-question">
+              <span>Preciso saber SEO para usar?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 faq-icon text-muted-foreground"></i>
+            </div>
+            <div class="faq-answer">
+              Não! A AutomaticPress já aplica automaticamente as melhores práticas de SEO em todos os artigos gerados. Títulos otimizados, meta descriptions, headings estruturadas e densidade de palavras-chave são configurados automaticamente.
+            </div>
+          </div>
+          <div class="faq-item bg-card" onclick="this.classList.toggle('open')">
+            <div class="faq-question">
+              <span>Funciona em qualquer WordPress?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 faq-icon text-muted-foreground"></i>
+            </div>
+            <div class="faq-answer">
+              Sim, funciona em qualquer instalação WordPress com acesso à API REST, que é o padrão na maioria das hospedagens. Basta conectar suas credenciais e começar a automatizar.
+            </div>
+          </div>
+          <div class="faq-item bg-card" onclick="this.classList.toggle('open')">
+            <div class="faq-question">
+              <span>Isso garante aprovação no AdSense?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 faq-icon text-muted-foreground"></i>
+            </div>
+            <div class="faq-answer">
+              A plataforma foca em criar conteúdo de alta qualidade que aumenta significativamente suas chances de aprovação, mas a decisão final depende das políticas do Google. Nossos artigos seguem todas as diretrizes de conteúdo recomendadas.
+            </div>
+          </div>
+          <div class="faq-item bg-card" onclick="this.classList.toggle('open')">
+            <div class="faq-question">
+              <span>Posso usar em mais de um site?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 faq-icon text-muted-foreground"></i>
+            </div>
+            <div class="faq-answer">
+              Sim! Dependendo do seu plano, você pode gerenciar múltiplos sites WordPress a partir de uma única conta. Os planos Pro e Enterprise oferecem suporte a vários domínios.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final Section -->
+    <section class="relative py-20 md:py-32 overflow-hidden">
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--background)), hsl(280 87% 65% / 0.1));"></div>
+      
+      <!-- Glow effects -->
+      <div class="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 rounded-full blur-[100px] animate-pulse" style="background: hsl(var(--primary) / 0.2);"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-56 md:w-80 h-56 md:h-80 rounded-full blur-[100px] animate-pulse" style="background: hsl(280 87% 65% / 0.15); animation-delay: 1s;"></div>
+
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          <!-- Badge -->
+          <span class="section-badge mb-6">🚀 Comece Agora</span>
+
+          <!-- Title -->
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Transforme seu WordPress em uma <span class="text-gradient">máquina de monetização</span>
+          </h2>
+
+          <!-- Text -->
+          <p class="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+            Pare de depender do manual. Ative a automação, publique com consistência e construa ativos digitais escaláveis.
+          </p>
+
+          <!-- CTA Button -->
+          <a href="auth.html" class="btn-primary text-sm md:text-lg px-5 md:px-8 py-3 md:py-4">
+            Começar agora com AutomaticPress
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+
+          <!-- Trust indicators -->
+          <p class="mt-6 text-sm text-muted-foreground/70">
+            ✓ Setup em 5 minutos &nbsp;•&nbsp; ✓ Sem cartão de crédito &nbsp;•&nbsp; ✓ Cancele quando quiser
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative border-t-2 border-l-2 border-r-2 rounded-t-3xl overflow-hidden" style="border-color: hsl(239 84% 67% / 0.3); background: linear-gradient(180deg, hsl(var(--muted) / 0.5), hsl(var(--background)));">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 relative z-10">
+      <!-- Main footer content -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+        <!-- Brand column -->
+        <div>
+          <a href="#inicio" class="flex items-center gap-3 mb-4">
+            <div class="logo-icon">AP</div>
+            <span class="text-xl font-bold text-foreground">AutomaticPress</span>
+          </a>
+          <p class="text-muted-foreground text-sm leading-relaxed mb-6">
+            Automatize seu blog WordPress com IA. Crie, agende e publique artigos otimizados para monetização.
+          </p>
+          <!-- Social links -->
+          <div class="flex items-center gap-3">
+            <a href="#" class="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all" style="background: hsl(var(--background) / 0.5); border: 1px solid hsl(var(--border) / 0.5);">
+              <i data-lucide="twitter" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all" style="background: hsl(var(--background) / 0.5); border: 1px solid hsl(var(--border) / 0.5);">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all" style="background: hsl(var(--background) / 0.5); border: 1px solid hsl(var(--border) / 0.5);">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all" style="background: hsl(var(--background) / 0.5); border: 1px solid hsl(var(--border) / 0.5);">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
+            <div class="w-1 h-4 rounded-full" style="background: linear-gradient(180deg, hsl(var(--primary)), hsl(280 87% 65%));"></div>
+            Navegação
+          </h3>
+          <ul class="space-y-3">
+            <li><a href="#inicio" class="text-muted-foreground text-sm hover:text-primary">Início</a></li>
+            <li><a href="#como-funciona" class="text-muted-foreground text-sm hover:text-primary">Como Funciona</a></li>
+            <li><a href="#beneficios" class="text-muted-foreground text-sm hover:text-primary">Benefícios</a></li>
+            <li><a href="#precos" class="text-muted-foreground text-sm hover:text-primary">Preços</a></li>
+            <li><a href="#faq" class="text-muted-foreground text-sm hover:text-primary">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
+            <div class="w-1 h-4 rounded-full" style="background: linear-gradient(180deg, hsl(var(--primary)), hsl(280 87% 65%));"></div>
+            Legal
+          </h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-muted-foreground text-sm hover:text-primary">Termos de Uso</a></li>
+            <li><a href="#" class="text-muted-foreground text-sm hover:text-primary">Política de Privacidade</a></li>
+            <li><a href="#" class="text-muted-foreground text-sm hover:text-primary">Política de Cookies</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
+            <div class="w-1 h-4 rounded-full" style="background: linear-gradient(180deg, hsl(var(--primary)), hsl(280 87% 65%));"></div>
+            Contato
+          </h3>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(var(--primary) / 0.1);">
+                <i data-lucide="mail" class="w-4 h-4 text-primary"></i>
+              </div>
+              <a href="mailto:contato@automaticpress.com" class="text-muted-foreground text-sm hover:text-primary pt-1">contato@automaticpress.com</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(var(--primary) / 0.1);">
+                <i data-lucide="phone" class="w-4 h-4 text-primary"></i>
+              </div>
+              <a href="tel:+5511999999999" class="text-muted-foreground text-sm hover:text-primary pt-1">+55 (11) 99999-9999</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: hsl(var(--primary) / 0.1);">
+                <i data-lucide="map-pin" class="w-4 h-4 text-primary"></i>
+              </div>
+              <span class="text-muted-foreground text-sm pt-1">São Paulo, Brasil</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t pt-8" style="border-color: hsl(var(--border) / 0.3);">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-muted-foreground text-sm text-center md:text-left">
+            © 2024 AutomaticPress. Todos os direitos reservados.
+          </p>
+          <p class="text-muted-foreground/70 text-xs text-center md:text-right flex items-center gap-1">
+            Feito com <span class="text-red-500 animate-pulse">❤️</span> para criadores de conteúdo
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          // Close mobile menu if open
+          document.getElementById('mobileMenu').classList.remove('open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
