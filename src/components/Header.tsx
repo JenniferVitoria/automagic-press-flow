@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { Moon, Sun, Menu, X, ChevronRight, Sparkles } from "lucide-react";
+import { Moon, Sun, Menu, X, ChevronRight, Sparkles, LogOut, User } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import APLogo from "@/components/APLogo";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("inicio");
 
@@ -100,22 +104,40 @@ const Header = () => {
           </Button>
 
           {/* Auth Buttons - Hidden on mobile */}
-          <Button 
-            variant="ghost" 
-            className="hidden sm:inline-flex text-sm hover:bg-muted/50" 
-            asChild
-          >
-            <a href="https://app.automaticpress.com.br/login">Login</a>
-          </Button>
-          <Button 
-            asChild 
-            className="hidden sm:inline-flex text-sm px-5 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 shadow-lg shadow-primary/25 border-0"
-          >
-            <a href="https://app.automaticpress.com.br/register" className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4" />
-              Começar Grátis
-            </a>
-          </Button>
+          {user ? (
+            <>
+              <span className="hidden sm:inline-flex text-sm text-muted-foreground">
+                {user.email}
+              </span>
+              <Button 
+                variant="ghost" 
+                className="hidden sm:inline-flex text-sm hover:bg-muted/50 gap-2" 
+                onClick={signOut}
+              >
+                <LogOut className="w-4 h-4" />
+                Sair
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                variant="ghost" 
+                className="hidden sm:inline-flex text-sm hover:bg-muted/50" 
+                onClick={() => navigate('/auth')}
+              >
+                Login
+              </Button>
+              <Button 
+                className="hidden sm:inline-flex text-sm px-5 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 shadow-lg shadow-primary/25 border-0"
+                onClick={() => navigate('/auth')}
+              >
+                <span className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Começar Grátis
+                </span>
+              </Button>
+            </>
+          )}
 
           {/* Mobile Menu Toggle */}
           <Button
@@ -179,19 +201,37 @@ const Header = () => {
           
           {/* Mobile Auth Buttons */}
           <div className="pt-4 mt-4 border-t border-border/30 space-y-3">
-            <a
-              href="https://app.automaticpress.com.br/login"
-              className="flex items-center justify-center gap-2 py-3 px-4 text-center text-muted-foreground hover:text-foreground border border-border/50 rounded-xl transition-all hover:bg-muted/50"
-            >
-              Login
-            </a>
-            <a
-              href="https://app.automaticpress.com.br/register"
-              className="flex items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 font-medium"
-            >
-              <Sparkles className="w-4 h-4" />
-              Começar Grátis
-            </a>
+            {user ? (
+              <>
+                <div className="flex items-center gap-2 py-3 px-4 text-muted-foreground">
+                  <User className="w-4 h-4" />
+                  {user.email}
+                </div>
+                <button
+                  onClick={() => { setIsMenuOpen(false); signOut(); }}
+                  className="flex w-full items-center justify-center gap-2 py-3 px-4 text-center text-muted-foreground hover:text-foreground border border-border/50 rounded-xl transition-all hover:bg-muted/50"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sair
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
+                  className="flex w-full items-center justify-center gap-2 py-3 px-4 text-center text-muted-foreground hover:text-foreground border border-border/50 rounded-xl transition-all hover:bg-muted/50"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
+                  className="flex w-full items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 font-medium"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Começar Grátis
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
