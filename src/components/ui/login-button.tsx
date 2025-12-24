@@ -5,9 +5,10 @@ interface LoginButtonProps {
   onClick?: () => void;
   className?: string;
   children?: React.ReactNode;
+  fullWidth?: boolean;
 }
 
-const LoginButton = ({ onClick, className, children }: LoginButtonProps) => {
+const LoginButton = ({ onClick, className, children, fullWidth = false }: LoginButtonProps) => {
   return (
     <div
       aria-label="User Login Button"
@@ -20,17 +21,19 @@ const LoginButton = ({ onClick, className, children }: LoginButtonProps) => {
         }
       }}
       className={cn(
-        "w-[131px] h-[51px] rounded-[15px] cursor-pointer transition-all duration-300",
+        "h-[51px] rounded-[15px] cursor-pointer transition-all duration-300",
+        fullWidth ? "w-full" : "w-[131px]",
         "bg-gradient-to-br from-primary to-primary/0 bg-primary/20",
         "hover:bg-primary/70 focus:bg-primary/70",
         "hover:shadow-[0_0_10px_hsl(var(--primary)/0.5)] focus:shadow-[0_0_10px_hsl(var(--primary)/0.5)]",
         "focus:outline-none",
-        "flex items-center justify-center",
+        "flex items-center justify-center p-[2px]",
         className
       )}
     >
       <div className={cn(
-        "w-[127px] h-[47px] rounded-[13px]",
+        "h-[47px] rounded-[13px]",
+        fullWidth ? "w-full" : "w-[127px]",
         "bg-background dark:bg-[#1a1a1a]",
         "flex items-center justify-center gap-3",
         "text-foreground font-semibold",
