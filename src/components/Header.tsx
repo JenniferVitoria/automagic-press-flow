@@ -3,6 +3,7 @@ import { Moon, Sun, Menu, X, ChevronRight, Sparkles, LogOut, User } from "lucide
 import { useTheme } from "next-themes";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import LoginButton from "@/components/ui/login-button";
 import APLogo from "@/components/APLogo";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -119,24 +120,10 @@ const Header = () => {
               </Button>
             </>
           ) : (
-            <>
-              <Button 
-                variant="ghost" 
-                className="hidden sm:inline-flex text-sm hover:bg-muted/50" 
-                onClick={() => navigate('/auth')}
-              >
-                Login
-              </Button>
-              <Button 
-                className="hidden sm:inline-flex text-sm px-5 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 shadow-lg shadow-primary/25 border-0"
-                onClick={() => navigate('/auth')}
-              >
-                <span className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
-                  Começar Grátis
-                </span>
-              </Button>
-            </>
+            <LoginButton 
+              onClick={() => navigate('/auth')}
+              className="hidden sm:flex"
+            />
           )}
 
           {/* Mobile Menu Toggle */}
@@ -216,21 +203,11 @@ const Header = () => {
                 </button>
               </>
             ) : (
-              <>
-                <button
+              <div className="flex justify-center">
+                <LoginButton 
                   onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
-                  className="flex w-full items-center justify-center gap-2 py-3 px-4 text-center text-muted-foreground hover:text-foreground border border-border/50 rounded-xl transition-all hover:bg-muted/50"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
-                  className="flex w-full items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 font-medium"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Começar Grátis
-                </button>
-              </>
+                />
+              </div>
             )}
           </div>
         </div>
