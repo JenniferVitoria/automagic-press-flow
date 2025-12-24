@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from 'next-themes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn, UserPlus, Mail, Lock, User } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
+import { Button } from '@/components/ui/button';
 
 // Validation schemas
 const emailSchema = z.string().email('Email inválido').max(255, 'Email muito longo');
@@ -20,6 +22,7 @@ const Auth = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
   
   const { signIn, signUp, user, loading } = useAuth();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -134,24 +137,44 @@ const Auth = () => {
     });
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setErrors({});
-  };
-
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 dark:from-background dark:to-background">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 dark:from-background dark:to-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-hero-gradient p-4">
+      {/* Theme Toggle - Fixed position */}
+      <div className="fixed top-4 right-4 z-50">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="rounded-full bg-background/80 backdrop-blur-sm hover:bg-muted border border-border/50 shadow-lg"
+        >
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Alternar tema</span>
+        </Button>
+      </div>
+
+      {/* Back to Home - Fixed position */}
+      <div className="fixed top-4 left-4 z-50">
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="rounded-full bg-background/80 backdrop-blur-sm hover:bg-muted border border-border/50 shadow-lg text-sm"
+        >
+          ← Voltar
+        </Button>
+      </div>
+
       {/* 3D Container with primary border */}
       <div 
-        className="w-full max-w-[400px] relative animate-fade-in"
+        className="w-full max-w-[420px] relative animate-fade-in"
         style={{
           perspective: '1000px'
         }}
@@ -161,13 +184,10 @@ const Auth = () => {
         
         {/* Main card with 3D effect */}
         <div 
-          className="relative bg-gradient-to-b from-white to-[#f4f7fb] dark:from-card dark:to-card/90 rounded-[40px] p-6 sm:p-8 
+          className="relative bg-card rounded-[40px] p-6 sm:p-8 
             border-[4px] border-primary/40 dark:border-primary/50
             shadow-[8px_8px_0px_0px_hsl(var(--primary)/0.3),_0_25px_50px_-12px_rgba(99,102,241,0.25)]
             dark:shadow-[8px_8px_0px_0px_hsl(var(--primary)/0.4),_0_25px_50px_-12px_rgba(99,102,241,0.4)]
-            hover:shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.3),_0_20px_40px_-10px_rgba(99,102,241,0.3)]
-            dark:hover:shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.4),_0_20px_40px_-10px_rgba(99,102,241,0.5)]
-            hover:translate-x-1 hover:translate-y-1
             transition-all duration-300 ease-out"
         >
           {/* Decorative corner accents */}
@@ -183,18 +203,43 @@ const Auth = () => {
             </div>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-center font-black text-2xl bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent mb-1">
-            {isLogin ? 'Entrar na conta' : 'Criar Conta'}
-          </h1>
+          {/* Tab Toggle - Login / Cadastro */}
+          <div className="flex bg-muted/50 rounded-2xl p-1.5 mb-6 border border-border/50">
+            <button
+              type="button"
+              onClick={() => { setIsLogin(true); setErrors({}); }}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                isLogin 
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25' 
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <LogIn className="w-4 h-4" />
+              Entrar
+            </button>
+            <button
+              type="button"
+              onClick={() => { setIsLogin(false); setErrors({}); }}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                !isLogin 
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25' 
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <UserPlus className="w-4 h-4" />
+              Criar Conta
+            </button>
+          </div>
+
+          {/* Subtitle */}
           <p className="text-center text-sm text-muted-foreground mb-6">
-            {isLogin ? 'Bem-vindo de volta!' : 'Preencha os dados abaixo'}
+            {isLogin ? 'Bem-vindo de volta! Entre com suas credenciais.' : 'Crie sua conta para começar.'}
           </p>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name (only for signup) */}
-            {!isLogin && (
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
               <div className="relative group">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                   <User className="w-5 h-5" />
@@ -205,10 +250,10 @@ const Auth = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
-                    border-2 border-primary/20 dark:border-primary/30
-                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
-                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                  className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
+                    border-2 border-border
+                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
                     focus:translate-x-0.5 focus:translate-y-0.5
                     focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                     transition-all duration-200"
@@ -217,7 +262,7 @@ const Auth = () => {
                   <p className="text-sm text-destructive mt-2 ml-2">{errors.fullName}</p>
                 )}
               </div>
-            )}
+            </div>
 
             {/* Email */}
             <div className="relative group">
@@ -231,10 +276,10 @@ const Auth = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
                 required
-                className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
-                  border-2 border-primary/20 dark:border-primary/30
-                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
-                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
+                  border-2 border-border
+                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
                   focus:translate-x-0.5 focus:translate-y-0.5
                   focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                   transition-all duration-200"
@@ -256,10 +301,10 @@ const Auth = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isSubmitting}
                 required
-                className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
-                  border-2 border-primary/20 dark:border-primary/30
-                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
-                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
+                  border-2 border-border
+                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
                   focus:translate-x-0.5 focus:translate-y-0.5
                   focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                   transition-all duration-200"
@@ -271,7 +316,7 @@ const Auth = () => {
 
             {/* Forgot Password */}
             {isLogin && (
-              <div className="ml-2">
+              <div className="text-right">
                 <a href="#" className="text-xs text-primary hover:underline font-medium">
                   Esqueceu a senha?
                 </a>
@@ -283,7 +328,7 @@ const Auth = () => {
               type="submit"
               disabled={isSubmitting}
               className="w-full flex items-center justify-center gap-3 font-bold text-lg
-                bg-gradient-to-r from-primary to-purple-500 text-white py-4 rounded-2xl 
+                bg-gradient-to-r from-primary to-purple-500 text-primary-foreground py-4 rounded-2xl 
                 border-2 border-primary/50
                 shadow-[6px_6px_0px_0px_hsl(var(--primary)/0.4)]
                 hover:shadow-[3px_3px_0px_0px_hsl(var(--primary)/0.5)]
@@ -309,9 +354,9 @@ const Auth = () => {
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             <span className="text-xs text-muted-foreground font-medium px-2">ou</span>
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
           </div>
 
           {/* Google Login Button */}
@@ -319,10 +364,10 @@ const Auth = () => {
             type="button"
             onClick={handleGoogleLogin}
             className="w-full flex items-center justify-center gap-3 py-3.5 px-5 text-sm font-bold uppercase 
-              text-gray-600 dark:text-foreground bg-white dark:bg-secondary/80 
-              border-2 border-primary/20 dark:border-primary/30 rounded-2xl 
-              shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
-              hover:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+              text-foreground bg-background
+              border-2 border-border rounded-2xl 
+              shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+              hover:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.15)]
               hover:translate-x-0.5 hover:translate-y-0.5
               hover:border-primary/40
               transition-all duration-200"
@@ -336,36 +381,11 @@ const Auth = () => {
             Entrar com Google
           </button>
 
-          {/* Toggle Mode */}
-          <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">
-              {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
-            </span>{' '}
-            <button
-              type="button"
-              onClick={toggleMode}
-              className="text-primary hover:underline font-semibold"
-              disabled={isSubmitting}
-            >
-              {isLogin ? 'Criar conta' : 'Fazer login'}
-            </button>
-          </div>
-
           {/* Agreement */}
-          <div className="mt-4 text-center">
-            <a href="#" className="text-[10px] text-muted-foreground hover:text-primary transition-colors">
-              Termos de uso e política de privacidade
+          <div className="mt-6 text-center">
+            <a href="#" className="text-[11px] text-muted-foreground hover:text-primary transition-colors">
+              Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade
             </a>
-          </div>
-
-          {/* Back to Home */}
-          <div className="mt-4 text-center">
-            <button
-              onClick={() => navigate('/')}
-              className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium"
-            >
-              ← Voltar para o início
-            </button>
           </div>
         </div>
       </div>
