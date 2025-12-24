@@ -317,9 +317,13 @@ const Auth = () => {
             {/* Forgot Password */}
             {isLogin && (
               <div className="text-right">
-                <a href="#" className="text-xs text-primary hover:underline font-medium">
+                <button
+                  type="button"
+                  onClick={() => navigate('/forgot-password')}
+                  className="text-xs text-primary hover:underline font-medium"
+                >
                   Esqueceu a senha?
-                </a>
+                </button>
               </div>
             )}
 
