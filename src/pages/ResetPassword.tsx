@@ -204,8 +204,8 @@ const ResetPassword = () => {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Password */}
-                <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
                     <Lock className="w-5 h-5" />
                   </div>
                   <input
@@ -226,7 +226,7 @@ const ResetPassword = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -236,8 +236,8 @@ const ResetPassword = () => {
                 </div>
 
                 {/* Confirm Password */}
-                <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
                     <Lock className="w-5 h-5" />
                   </div>
                   <input
@@ -258,7 +258,7 @@ const ResetPassword = () => {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
                   >
                     {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -266,6 +266,7 @@ const ResetPassword = () => {
                     <p className="text-sm text-destructive mt-2 ml-2">{errors.confirmPassword}</p>
                   )}
                 </div>
+
 
                 {/* Submit Button */}
                 <button
