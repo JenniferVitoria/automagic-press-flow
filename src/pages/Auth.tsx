@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Mail, Lock, User } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
 
@@ -149,151 +149,224 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50 dark:from-background dark:to-background p-4">
-      {/* Container */}
-      <div className="w-full max-w-[380px] bg-gradient-to-b from-white to-[#f4f7fb] dark:from-card dark:to-card/80 rounded-[40px] p-6 sm:p-8 border-[5px] border-white dark:border-border/30 shadow-[0_30px_30px_-20px_rgba(133,189,215,0.88)] dark:shadow-[0_30px_30px_-20px_rgba(99,102,241,0.3)]">
+      {/* 3D Container with primary border */}
+      <div 
+        className="w-full max-w-[400px] relative animate-fade-in"
+        style={{
+          perspective: '1000px'
+        }}
+      >
+        {/* Glow effect behind card */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-purple-500/30 rounded-[44px] blur-2xl opacity-50 dark:opacity-30" />
         
-        {/* Logo */}
-        <div className="flex justify-center mb-4">
-          <APLogo size="lg" />
-        </div>
+        {/* Main card with 3D effect */}
+        <div 
+          className="relative bg-gradient-to-b from-white to-[#f4f7fb] dark:from-card dark:to-card/90 rounded-[40px] p-6 sm:p-8 
+            border-[4px] border-primary/40 dark:border-primary/50
+            shadow-[8px_8px_0px_0px_hsl(var(--primary)/0.3),_0_25px_50px_-12px_rgba(99,102,241,0.25)]
+            dark:shadow-[8px_8px_0px_0px_hsl(var(--primary)/0.4),_0_25px_50px_-12px_rgba(99,102,241,0.4)]
+            hover:shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.3),_0_20px_40px_-10px_rgba(99,102,241,0.3)]
+            dark:hover:shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.4),_0_20px_40px_-10px_rgba(99,102,241,0.5)]
+            hover:translate-x-1 hover:translate-y-1
+            transition-all duration-300 ease-out"
+        >
+          {/* Decorative corner accents */}
+          <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-primary/50 rounded-tl-xl" />
+          <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-primary/50 rounded-tr-xl" />
+          <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-primary/50 rounded-bl-xl" />
+          <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-primary/50 rounded-br-xl" />
+          
+          {/* Logo */}
+          <div className="flex justify-center mb-5">
+            <div className="p-3 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-2xl border border-primary/20">
+              <APLogo size="lg" />
+            </div>
+          </div>
 
-        {/* Heading */}
-        <h1 className="text-center font-black text-2xl text-primary mb-1">
-          {isLogin ? 'Entrar na conta' : 'Criar Conta'}
-        </h1>
-        <p className="text-center text-sm text-muted-foreground mb-6">
-          {isLogin ? 'Bem-vindo de volta!' : 'Preencha os dados abaixo'}
-        </p>
+          {/* Heading */}
+          <h1 className="text-center font-black text-2xl bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent mb-1">
+            {isLogin ? 'Entrar na conta' : 'Criar Conta'}
+          </h1>
+          <p className="text-center text-sm text-muted-foreground mb-6">
+            {isLogin ? 'Bem-vindo de volta!' : 'Preencha os dados abaixo'}
+          </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Full Name (only for signup) */}
-          {!isLogin && (
-            <div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Full Name (only for signup) */}
+            {!isLogin && (
+              <div className="relative group">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                  <User className="w-5 h-5" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Nome completo"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  disabled={isSubmitting}
+                  className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
+                    border-2 border-primary/20 dark:border-primary/30
+                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
+                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                    focus:translate-x-0.5 focus:translate-y-0.5
+                    focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                    transition-all duration-200"
+                />
+                {errors.fullName && (
+                  <p className="text-sm text-destructive mt-2 ml-2">{errors.fullName}</p>
+                )}
+              </div>
+            )}
+
+            {/* Email */}
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                <Mail className="w-5 h-5" />
+              </div>
               <input
-                type="text"
-                placeholder="Nome completo"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
-                className="w-full bg-white dark:bg-secondary border-none p-4 rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] dark:shadow-[0_10px_10px_-5px_rgba(99,102,241,0.2)] border-x-2 border-x-transparent focus:border-x-primary focus:outline-none placeholder:text-muted-foreground/60 text-foreground transition-all"
+                required
+                className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
+                  border-2 border-primary/20 dark:border-primary/30
+                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
+                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                  focus:translate-x-0.5 focus:translate-y-0.5
+                  focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                  transition-all duration-200"
               />
-              {errors.fullName && (
-                <p className="text-sm text-destructive mt-2 ml-2">{errors.fullName}</p>
+              {errors.email && (
+                <p className="text-sm text-destructive mt-2 ml-2">{errors.email}</p>
               )}
             </div>
-          )}
 
-          {/* Email */}
-          <div>
-            <input
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isSubmitting}
-              required
-              className="w-full bg-white dark:bg-secondary border-none p-4 rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] dark:shadow-[0_10px_10px_-5px_rgba(99,102,241,0.2)] border-x-2 border-x-transparent focus:border-x-primary focus:outline-none placeholder:text-muted-foreground/60 text-foreground transition-all"
-            />
-            {errors.email && (
-              <p className="text-sm text-destructive mt-2 ml-2">{errors.email}</p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div>
-            <input
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isSubmitting}
-              required
-              className="w-full bg-white dark:bg-secondary border-none p-4 rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] dark:shadow-[0_10px_10px_-5px_rgba(99,102,241,0.2)] border-x-2 border-x-transparent focus:border-x-primary focus:outline-none placeholder:text-muted-foreground/60 text-foreground transition-all"
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive mt-2 ml-2">{errors.password}</p>
-            )}
-          </div>
-
-          {/* Forgot Password */}
-          {isLogin && (
-            <div className="ml-2">
-              <a href="#" className="text-xs text-primary hover:underline">
-                Esqueceu a senha?
-              </a>
+            {/* Password */}
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                <Lock className="w-5 h-5" />
+              </div>
+              <input
+                type="password"
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isSubmitting}
+                required
+                className="w-full bg-white dark:bg-secondary/80 pl-12 pr-4 py-4 rounded-2xl 
+                  border-2 border-primary/20 dark:border-primary/30
+                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
+                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.3)]
+                  focus:translate-x-0.5 focus:translate-y-0.5
+                  focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                  transition-all duration-200"
+              />
+              {errors.password && (
+                <p className="text-sm text-destructive mt-2 ml-2">{errors.password}</p>
+              )}
             </div>
-          )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full font-bold bg-gradient-to-r from-primary to-[#12B1D1] dark:from-primary dark:to-purple-500 text-white py-4 rounded-[20px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.88)] dark:shadow-[0_20px_10px_-15px_rgba(99,102,241,0.5)] border-none transition-all duration-200 hover:scale-[1.03] hover:shadow-[0_23px_10px_-20px_rgba(133,189,215,0.88)] active:scale-95 active:shadow-[0_15px_10px_-10px_rgba(133,189,215,0.88)] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-          >
-            {isSubmitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                {isLogin ? 'Entrando...' : 'Criando...'}
-              </span>
-            ) : (
-              isLogin ? 'Entrar' : 'Criar Conta'
+            {/* Forgot Password */}
+            {isLogin && (
+              <div className="ml-2">
+                <a href="#" className="text-xs text-primary hover:underline font-medium">
+                  Esqueceu a senha?
+                </a>
+              </div>
             )}
-          </button>
-        </form>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 my-6">
-          <div className="flex-1 h-px bg-border/50" />
-          <span className="text-xs text-muted-foreground">ou</span>
-          <div className="flex-1 h-px bg-border/50" />
-        </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-3 font-bold text-lg
+                bg-gradient-to-r from-primary to-purple-500 text-white py-4 rounded-2xl 
+                border-2 border-primary/50
+                shadow-[6px_6px_0px_0px_hsl(var(--primary)/0.4)]
+                hover:shadow-[3px_3px_0px_0px_hsl(var(--primary)/0.5)]
+                hover:translate-x-1 hover:translate-y-1
+                active:shadow-[1px_1px_0px_0px_hsl(var(--primary)/0.5)]
+                active:translate-x-1.5 active:translate-y-1.5
+                disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0
+                transition-all duration-200"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  {isLogin ? 'Entrando...' : 'Criando...'}
+                </>
+              ) : (
+                <>
+                  {isLogin ? <LogIn className="h-5 w-5" /> : <UserPlus className="h-5 w-5" />}
+                  {isLogin ? 'Entrar' : 'Criar Conta'}
+                </>
+              )}
+            </button>
+          </form>
 
-        {/* Google Login Button */}
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 py-3 px-5 text-sm font-bold uppercase text-gray-600 dark:text-foreground bg-white dark:bg-secondary border border-black/25 dark:border-border/50 rounded-lg cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-md"
-        >
-          <svg className="h-6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
-            <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
-            <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
-            <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" />
-            <path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" />
-          </svg>
-          Entrar com Google
-        </button>
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            <span className="text-xs text-muted-foreground font-medium px-2">ou</span>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          </div>
 
-        {/* Toggle Mode */}
-        <div className="mt-6 text-center text-sm">
-          <span className="text-muted-foreground">
-            {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
-          </span>{' '}
+          {/* Google Login Button */}
           <button
             type="button"
-            onClick={toggleMode}
-            className="text-primary hover:underline font-medium"
-            disabled={isSubmitting}
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-3 py-3.5 px-5 text-sm font-bold uppercase 
+              text-gray-600 dark:text-foreground bg-white dark:bg-secondary/80 
+              border-2 border-primary/20 dark:border-primary/30 rounded-2xl 
+              shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.15)]
+              hover:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+              hover:translate-x-0.5 hover:translate-y-0.5
+              hover:border-primary/40
+              transition-all duration-200"
           >
-            {isLogin ? 'Criar conta' : 'Fazer login'}
+            <svg className="h-5" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
+              <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
+              <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
+              <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" />
+              <path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" />
+            </svg>
+            Entrar com Google
           </button>
-        </div>
 
-        {/* Agreement */}
-        <div className="mt-4 text-center">
-          <a href="#" className="text-[10px] text-muted-foreground hover:text-primary transition-colors">
-            Termos de uso e política de privacidade
-          </a>
-        </div>
+          {/* Toggle Mode */}
+          <div className="mt-6 text-center text-sm">
+            <span className="text-muted-foreground">
+              {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
+            </span>{' '}
+            <button
+              type="button"
+              onClick={toggleMode}
+              className="text-primary hover:underline font-semibold"
+              disabled={isSubmitting}
+            >
+              {isLogin ? 'Criar conta' : 'Fazer login'}
+            </button>
+          </div>
 
-        {/* Back to Home */}
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => navigate('/')}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← Voltar para o início
-          </button>
+          {/* Agreement */}
+          <div className="mt-4 text-center">
+            <a href="#" className="text-[10px] text-muted-foreground hover:text-primary transition-colors">
+              Termos de uso e política de privacidade
+            </a>
+          </div>
+
+          {/* Back to Home */}
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => navigate('/')}
+              className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium"
+            >
+              ← Voltar para o início
+            </button>
+          </div>
         </div>
       </div>
     </div>
