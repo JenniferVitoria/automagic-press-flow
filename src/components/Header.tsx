@@ -120,10 +120,20 @@ const Header = () => {
               </Button>
             </>
           ) : (
-            <LoginButton 
-              onClick={() => navigate('/auth')}
-              className="hidden sm:flex"
-            />
+            <div className="hidden sm:flex items-center gap-3">
+              <LoginButton 
+                onClick={() => navigate('/auth')}
+              />
+              <Button 
+                className="text-sm px-5 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 shadow-lg shadow-primary/25 border-0"
+                onClick={() => navigate('/auth')}
+              >
+                <span className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Começar Grátis
+                </span>
+              </Button>
+            </div>
           )}
 
           {/* Mobile Menu Toggle */}
@@ -203,10 +213,17 @@ const Header = () => {
                 </button>
               </>
             ) : (
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-3">
                 <LoginButton 
                   onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
                 />
+                <button
+                  onClick={() => { setIsMenuOpen(false); navigate('/auth'); }}
+                  className="flex w-full items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 font-medium"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Começar Grátis
+                </button>
               </div>
             )}
           </div>
