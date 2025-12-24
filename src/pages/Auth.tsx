@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun, Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
   
   const { signIn, signUp, user, loading } = useAuth();
@@ -240,8 +241,8 @@ const Auth = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name (only for signup) */}
             <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="relative group">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
                   <User className="w-5 h-5" />
                 </div>
                 <input
@@ -265,8 +266,8 @@ const Auth = () => {
             </div>
 
             {/* Email */}
-            <div className="relative group">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
                 <Mail className="w-5 h-5" />
               </div>
               <input
@@ -290,18 +291,18 @@ const Auth = () => {
             </div>
 
             {/* Password */}
-            <div className="relative group">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
                 <Lock className="w-5 h-5" />
               </div>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isSubmitting}
                 required
-                className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
+                className="w-full bg-background pl-12 pr-12 py-4 rounded-2xl 
                   border-2 border-border
                   shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
                   focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
@@ -309,6 +310,13 @@ const Auth = () => {
                   focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                   transition-all duration-200"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
               {errors.password && (
                 <p className="text-sm text-destructive mt-2 ml-2">{errors.password}</p>
               )}
