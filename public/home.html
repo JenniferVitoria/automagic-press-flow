@@ -5,28 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AutomaticPress - Automatize seu blog WordPress com IA</title>
   <meta name="description" content="A AutomaticPress cria, agenda e publica artigos otimizados para monetização em blogs WordPress, de forma rápida, segura e escalável.">
-  <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
   <style>
-    /* Additional animations specific to HTML version */
-    @keyframes cursor-to-card {
-      0%, 10% { transform: translate(0, 0); opacity: 0; }
-      30% { opacity: 1; transform: translate(20px, 30px); }
-      50%, 60% { transform: translate(40px, 50px); }
-      70% { transform: translate(40px, 50px) scale(0.9); }
-      80%, 100% { transform: translate(40px, 50px); opacity: 0; }
+    /* CSS Variables */
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 224 71% 4%;
+      --card: 0 0% 100%;
+      --card-foreground: 224 71% 4%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 224 71% 4%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 220 14% 96%;
+      --secondary-foreground: 224 71% 4%;
+      --muted: 220 14% 96%;
+      --muted-foreground: 220 9% 46%;
+      --accent: 220 14% 96%;
+      --accent-foreground: 224 71% 4%;
+      --destructive: 0 84% 60%;
+      --destructive-foreground: 0 0% 100%;
+      --border: 220 13% 91%;
+      --input: 220 13% 91%;
+      --ring: 239 84% 67%;
     }
-    @keyframes cursor-to-button {
-      0%, 10% { transform: translate(-60px, -40px); opacity: 0; }
-      30% { opacity: 1; transform: translate(-30px, -20px); }
-      50%, 60% { transform: translate(0, 0); }
-      70% { transform: translate(0, 0) scale(0.9); }
-      80%, 100% { transform: translate(0, 0); opacity: 0; }
+
+    .dark {
+      --background: 224 71% 4%;
+      --foreground: 210 40% 98%;
+      --card: 224 71% 4%;
+      --card-foreground: 210 40% 98%;
+      --popover: 224 71% 4%;
+      --popover-foreground: 210 40% 98%;
+      --primary: 239 84% 67%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 215 28% 17%;
+      --secondary-foreground: 210 40% 98%;
+      --muted: 215 28% 17%;
+      --muted-foreground: 218 11% 65%;
+      --accent: 215 28% 17%;
+      --accent-foreground: 210 40% 98%;
+      --destructive: 0 62% 30%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 215 28% 17%;
+      --input: 215 28% 17%;
+      --ring: 239 84% 67%;
     }
-    .animate-cursor-to-card { animation: cursor-to-card 3s ease-in-out infinite; }
-    .animate-cursor-to-button { animation: cursor-to-button 3s ease-in-out infinite; }
-    
+
+    * {
+      font-family: 'Inter', system-ui, sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+    }
+
+    /* Background effects */
+    .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(239, 100%, 98%) 100%);
+    }
+    .dark .bg-hero-gradient {
+      background: linear-gradient(180deg, hsl(224, 71%, 4%) 0%, hsl(224, 60%, 8%) 100%);
+    }
+
+    .bg-grid-pattern {
+      background-image: 
+        linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+        linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .dark .bg-grid-pattern {
+      background-image: 
+        linear-gradient(to right, hsl(215 28% 17% / 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, hsl(215 28% 17% / 0.3) 1px, transparent 1px);
+    }
+
+    /* Animations */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+
+    @keyframes float-card {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float-card { animation: float-card 4s ease-in-out infinite; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+
+    @keyframes float-brand-particle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+      50% { transform: translateY(-20px) rotate(10deg); opacity: 0.25; }
+    }
+    .animate-float-brand-particle { animation: float-brand-particle 6s ease-in-out infinite; }
+
     @keyframes grow-bar {
       from { transform: scaleY(0); }
       to { transform: scaleY(1); }
@@ -35,26 +169,26 @@
       animation: grow-bar 0.8s ease-out forwards;
       transform-origin: bottom;
     }
-    
+
     @keyframes wp-rotate {
       0%, 100% { transform: rotate(0deg); }
       25% { transform: rotate(-5deg); }
       75% { transform: rotate(5deg); }
     }
     .animate-wp-rotate { animation: wp-rotate 2s ease-in-out infinite; }
-    
+
     @keyframes glow-pulse {
       0%, 100% { opacity: 0.5; transform: scale(1); }
       50% { opacity: 0.8; transform: scale(1.1); }
     }
     .animate-glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
-    
+
     @keyframes arrow-pulse {
       0%, 100% { opacity: 0.3; transform: translateX(0); }
       50% { opacity: 1; transform: translateX(4px); }
     }
     .animate-arrow-pulse { animation: arrow-pulse 1s ease-in-out infinite; }
-    
+
     @keyframes type-title {
       from { width: 0; }
       to { width: 100%; }
@@ -64,7 +198,7 @@
       white-space: nowrap;
       animation: type-title 1.5s steps(30) forwards;
     }
-    
+
     @keyframes type-line {
       from { width: 0; }
       to { width: 100%; }
@@ -72,11 +206,9 @@
     .animate-type-line-1 { animation: type-line 0.5s ease-out 0.2s forwards; width: 0; }
     .animate-type-line-2 { animation: type-line 0.5s ease-out 0.4s forwards; width: 0; }
     .animate-type-line-3 { animation: type-line 0.5s ease-out 0.6s forwards; width: 0; }
-    
+
     /* Testimonial card flip */
-    .testimonial-card-container {
-      perspective: 800px;
-    }
+    .testimonial-card-container { perspective: 800px; }
     .testimonial-card-inner {
       transform-style: preserve-3d;
       transition: transform 1.2s;
@@ -84,21 +216,10 @@
     .testimonial-card-container:hover .testimonial-card-inner {
       transform: rotateX(180deg) rotateZ(-180deg);
     }
-    .testimonial-front, .testimonial-back {
-      backface-visibility: hidden;
-    }
-    .testimonial-back {
-      transform: rotateX(180deg) rotateZ(-180deg);
-    }
-    
-    /* Float animation for AdSense section */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-    .animate-float { animation: float 3s ease-in-out infinite; }
-    
-    /* Visible state for scroll animations */
+    .testimonial-front, .testimonial-back { backface-visibility: hidden; }
+    .testimonial-back { transform: rotateX(180deg) rotateZ(-180deg); }
+
+    /* Scroll animations */
     .scroll-hidden { opacity: 0; transform: translateY(30px); }
     .scroll-visible { opacity: 1; transform: translateY(0); transition: all 0.7s ease-out; }
     .scroll-hidden-left { opacity: 0; transform: translateX(-30px); }
@@ -107,9 +228,47 @@
     .scroll-visible-right { opacity: 1; transform: translateX(0); transition: all 0.7s ease-out; }
     .scroll-hidden-scale { opacity: 0; transform: scale(0.9); }
     .scroll-visible-scale { opacity: 1; transform: scale(1); transition: all 0.5s ease-out; }
+
+    /* Benefits card 3D effect */
+    .benefits-card {
+      transition: transform 0.3s ease-out;
+      transform-style: preserve-3d;
+    }
+    .benefits-card:hover {
+      transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(10px);
+    }
+    .benefits-card.inverted:hover {
+      transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) translateZ(10px);
+    }
+
+    /* FAQ Accordion */
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .faq-item.open .faq-content {
+      max-height: 500px;
+      padding-top: 1rem;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+    .faq-icon {
+      transition: transform 0.3s ease-out;
+    }
+
+    /* Demo step indicator */
+    .step-indicator {
+      transition: all 0.3s ease-out;
+    }
+    .step-indicator.active {
+      background: hsl(var(--primary));
+      transform: scale(1.2);
+    }
   </style>
 </head>
-<body class="bg-background text-foreground font-sans antialiased">
+<body class="antialiased">
   <!-- Header -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b-2 border-x-2 border-primary/30 rounded-b-2xl shadow-lg">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -137,7 +296,7 @@
       <!-- Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="rounded-full bg-muted/50 hover:bg-muted border border-border/50 w-10 h-10 flex items-center justify-center">
+        <button id="theme-toggle" class="rounded-full bg-muted/50 hover:bg-muted border border-border/50 w-10 h-10 flex items-center justify-center transition-colors">
           <i data-lucide="sun" class="h-4 w-4 dark:hidden"></i>
           <i data-lucide="moon" class="h-4 w-4 hidden dark:block"></i>
         </button>
@@ -147,14 +306,14 @@
           <a href="auth.html" class="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Entrar
           </a>
-          <a href="auth.html" class="text-sm px-5 py-2 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 text-primary-foreground rounded-full shadow-lg shadow-primary/25 font-medium flex items-center gap-2">
+          <a href="auth.html" class="text-sm px-5 py-2 bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 text-primary-foreground rounded-full shadow-lg shadow-primary/25 font-medium flex items-center gap-2 transition-all">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
             Começar Grátis
           </a>
         </div>
 
         <!-- Mobile Menu Toggle -->
-        <button id="mobile-menu-toggle" class="lg:hidden rounded-full bg-muted/50 hover:bg-muted border border-border/50 w-10 h-10 flex items-center justify-center">
+        <button id="mobile-menu-toggle" class="lg:hidden rounded-full bg-muted/50 hover:bg-muted border border-border/50 w-10 h-10 flex items-center justify-center transition-colors">
           <i data-lucide="menu" class="h-5 w-5" id="menu-icon"></i>
           <i data-lucide="x" class="h-5 w-5 hidden" id="close-icon"></i>
         </button>
@@ -164,35 +323,35 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="lg:hidden hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b-2 border-x-2 border-primary/30 rounded-b-3xl shadow-2xl">
       <div class="px-4 py-6 space-y-1">
-        <a href="#inicio" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50">
+        <a href="#inicio" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-lg">🏠</span>
             <span class="font-medium">Início</span>
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
         </a>
-        <a href="#como-funciona" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50">
+        <a href="#como-funciona" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-lg">⚙️</span>
             <span class="font-medium">Como Funciona</span>
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
         </a>
-        <a href="#beneficios" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50">
+        <a href="#beneficios" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-lg">✨</span>
             <span class="font-medium">Benefícios</span>
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
         </a>
-        <a href="#precos" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50">
+        <a href="#precos" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-lg">💰</span>
             <span class="font-medium">Preços</span>
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
         </a>
-        <a href="#faq" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50">
+        <a href="#faq" class="flex items-center justify-between py-3.5 px-4 rounded-xl text-foreground hover:bg-muted/50 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-lg">❓</span>
             <span class="font-medium">FAQ</span>
@@ -200,7 +359,7 @@
           <i data-lucide="chevron-right" class="w-4 h-4 text-muted-foreground"></i>
         </a>
         <div class="pt-4 mt-4 border-t border-border/30 space-y-3">
-          <a href="auth.html" class="flex w-full items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 font-medium">
+          <a href="auth.html" class="flex w-full items-center justify-center gap-2 py-3.5 px-4 text-center bg-gradient-to-r from-primary to-purple-500 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 font-medium transition-all">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
             Começar Grátis
           </a>
@@ -209,7 +368,7 @@
     </div>
   </header>
 
-  <main class="min-h-screen bg-background pt-16">
+  <main class="min-h-screen pt-16">
     <!-- ========== HERO SECTION ========== -->
     <section id="inicio" class="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden py-12 md:py-16">
       <!-- Background effects -->
@@ -230,12 +389,12 @@
 
             <!-- Headline -->
             <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-              <span class="block">Automatize conteúdos,</span>
-              <span class="block">publique todos os dias e</span>
+              <span class="block text-foreground">Automatize conteúdos,</span>
+              <span class="block text-foreground">publique todos os dias e</span>
               <span class="block bg-gradient-to-r from-primary via-purple-500 to-primary bg-clip-text text-transparent">
                 monetize com AdSense
               </span>
-              <span class="block">no piloto automático</span>
+              <span class="block text-foreground">no piloto automático</span>
             </h1>
 
             <!-- Subheadline -->
@@ -287,7 +446,7 @@
             <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
               <div class="absolute animate-float-brand-particle" style="top: 8%; left: 5%; animation-delay: 0s; opacity: 0.15;">
                 <svg viewBox="0 0 24 24" style="width: 28px; height: 28px;" fill="#21759b">
-                  <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902zm.643 10.521A8.963 8.963 0 0020.991 12c0-1.052-.181-2.062-.514-3.001l-3.211 9.314zM12 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                  <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902z"/>
                 </svg>
               </div>
               <div class="absolute animate-float-brand-particle" style="top: 18%; right: 6%; animation-delay: 1.2s; opacity: 0.15;">
@@ -314,244 +473,151 @@
               </div>
 
               <!-- Browser header -->
-              <div class="flex items-center gap-1.5 sm:gap-2 border-b border-border/50 bg-muted/30 px-2 sm:px-4 py-2 sm:py-3 mt-1.5">
-                <div class="flex gap-1 sm:gap-1.5">
-                  <div class="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-red-400"></div>
-                  <div class="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-yellow-400"></div>
-                  <div class="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-400"></div>
-                </div>
-                <div class="flex-1 mx-2 sm:mx-4">
-                  <div class="h-5 sm:h-7 rounded-md bg-background/60 flex items-center px-2 sm:px-3">
-                    <span class="text-[10px] sm:text-xs text-muted-foreground truncate">automaticpress.com.br/dashboard</span>
-                  </div>
+              <div class="h-10 bg-muted/50 border-b border-border/30 flex items-center px-4 gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                <div class="flex-1 mx-4 h-6 bg-muted/50 rounded-full flex items-center px-3">
+                  <span class="text-xs text-muted-foreground truncate">automaticpress.com</span>
                 </div>
               </div>
 
-              <!-- Content area - Steps will be dynamically shown here -->
-              <div class="relative h-[calc(100%-44px)] sm:h-[calc(100%-60px)] overflow-hidden" id="demo-content">
-                <!-- Step 0: Seleção de Nicho -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col transition-all duration-700" data-step="0">
-                  <div class="text-center mb-3 sm:mb-6">
-                    <h3 class="text-sm sm:text-lg font-bold text-foreground mb-0.5 sm:mb-1">Escolha seu Nicho</h3>
-                    <p class="text-xs sm:text-sm text-muted-foreground">Selecione o tema do seu blog</p>
-                  </div>
-                  <div class="flex justify-center gap-2 sm:gap-4 flex-wrap">
-                    <div class="relative px-3 py-2 sm:px-6 sm:py-4 rounded-xl border-2 border-border/50 bg-card/50 transition-all animate-fade-in" style="animation-delay: 0ms;">
-                      <div class="text-xl sm:text-3xl mb-1 sm:mb-2 text-center">💻</div>
-                      <p class="text-xs sm:text-sm font-medium text-foreground">Tecnologia</p>
-                    </div>
-                    <div class="relative px-3 py-2 sm:px-6 sm:py-4 rounded-xl border-2 border-primary bg-primary/10 scale-105 shadow-lg shadow-primary/20 transition-all animate-fade-in" style="animation-delay: 150ms;">
-                      <div class="text-xl sm:text-3xl mb-1 sm:mb-2 text-center">💰</div>
-                      <p class="text-xs sm:text-sm font-medium text-foreground">Finanças</p>
-                      <div class="absolute -top-1.5 -right-1.5 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 bg-primary rounded-full flex items-center justify-center animate-bounce">
-                        <i data-lucide="check" class="w-2.5 h-2.5 sm:w-4 sm:h-4 text-primary-foreground"></i>
-                      </div>
-                    </div>
-                    <div class="relative px-3 py-2 sm:px-6 sm:py-4 rounded-xl border-2 border-border/50 bg-card/50 transition-all animate-fade-in" style="animation-delay: 300ms;">
-                      <div class="text-xl sm:text-3xl mb-1 sm:mb-2 text-center">🏥</div>
-                      <p class="text-xs sm:text-sm font-medium text-foreground">Saúde</p>
-                    </div>
-                  </div>
-                  <div class="mt-auto text-center">
-                    <span class="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-primary font-medium animate-pulse">
-                      <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></span>
-                      Nicho selecionado!
-                    </span>
-                  </div>
+              <!-- Demo content area -->
+              <div class="relative h-[calc(100%-2.5rem)] w-full p-4 overflow-hidden" id="demo-content">
+                <!-- Step indicators -->
+                <div class="absolute top-4 left-4 flex gap-2 z-10">
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30 active" data-step="0"></div>
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30" data-step="1"></div>
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30" data-step="2"></div>
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30" data-step="3"></div>
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30" data-step="4"></div>
+                  <div class="step-indicator w-2 h-2 rounded-full bg-muted-foreground/30" data-step="5"></div>
                 </div>
 
-                <!-- Step 1: Geração com IA -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col transition-all duration-700 opacity-0 translate-x-full pointer-events-none" data-step="1">
-                  <div class="text-center mb-2 sm:mb-4">
-                    <h3 class="text-sm sm:text-lg font-bold text-foreground flex items-center justify-center gap-1.5 sm:gap-2">
-                      <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-primary animate-pulse"></i>
-                      Gerando com IA
-                    </h3>
-                  </div>
-                  <!-- Progress Circle -->
-                  <div class="flex justify-center mb-2 sm:mb-4">
-                    <div class="relative w-16 h-16 sm:w-24 sm:h-24">
-                      <svg class="w-full h-full -rotate-90" viewBox="0 0 96 96">
-                        <circle cx="48" cy="48" r="40" fill="none" stroke="hsl(var(--muted))" stroke-width="8"></circle>
-                        <circle id="seo-circle" cx="48" cy="48" r="40" fill="none" stroke="hsl(var(--primary))" stroke-width="8" stroke-dasharray="0 251.2" class="transition-all duration-300"></circle>
-                      </svg>
-                      <div class="absolute inset-0 flex items-center justify-center">
-                        <span id="seo-score" class="text-base sm:text-xl font-bold text-primary">0%</span>
+                <!-- Demo steps container -->
+                <div class="h-full flex items-center justify-center">
+                  <!-- Step 1: Choose niche -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-100 transition-opacity duration-500" data-step="0">
+                    <div class="text-center mb-4">
+                      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="target" class="w-6 h-6 text-primary"></i>
+                      </div>
+                      <h3 class="text-lg font-bold text-foreground mb-1">Escolha seu nicho</h3>
+                      <p class="text-sm text-muted-foreground">Selecione a categoria do seu blog</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 w-full max-w-xs">
+                      <div class="p-3 rounded-lg bg-primary/10 border border-primary/30 text-center cursor-pointer hover:bg-primary/20 transition-colors">
+                        <span class="text-sm font-medium text-primary">Tecnologia</span>
+                      </div>
+                      <div class="p-3 rounded-lg bg-muted/50 border border-border text-center cursor-pointer hover:bg-muted transition-colors">
+                        <span class="text-sm font-medium text-muted-foreground">Finanças</span>
+                      </div>
+                      <div class="p-3 rounded-lg bg-muted/50 border border-border text-center cursor-pointer hover:bg-muted transition-colors">
+                        <span class="text-sm font-medium text-muted-foreground">Saúde</span>
+                      </div>
+                      <div class="p-3 rounded-lg bg-muted/50 border border-border text-center cursor-pointer hover:bg-muted transition-colors">
+                        <span class="text-sm font-medium text-muted-foreground">Viagens</span>
                       </div>
                     </div>
                   </div>
-                  <!-- Word count -->
-                  <div class="text-center mb-2 sm:mb-4">
-                    <p class="text-xs sm:text-sm text-muted-foreground">Palavras geradas</p>
-                    <p id="word-count" class="text-lg sm:text-2xl font-mono font-bold text-foreground">0</p>
-                  </div>
-                  <!-- Keywords -->
-                  <div class="flex justify-center gap-1.5 sm:gap-2 flex-wrap mb-2 sm:mb-4">
-                    <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-medium animate-bounce" style="animation-delay: 500ms;">#Marketing</span>
-                    <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-medium animate-bounce" style="animation-delay: 700ms;">#SEO</span>
-                    <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-medium animate-bounce" style="animation-delay: 900ms;">#Vendas</span>
-                    <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-medium animate-bounce" style="animation-delay: 1100ms;">#Conversão</span>
-                  </div>
-                  <!-- Title -->
-                  <div class="bg-background/60 rounded-lg p-2 sm:p-3 border border-border/50">
-                    <p class="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">Título gerado:</p>
-                    <div class="flex items-center gap-1">
-                      <p class="text-xs sm:text-sm font-semibold text-foreground animate-type-title line-clamp-1">Como Aumentar Suas Vendas em 2024</p>
-                      <div class="w-0.5 h-3 sm:h-4 bg-primary animate-blink"></div>
-                    </div>
-                  </div>
-                  <!-- SEO Badge -->
-                  <div class="absolute top-2 right-2 sm:top-4 sm:right-4 flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-2 py-0.5 sm:px-3 sm:py-1 animate-bounce">
-                    <i data-lucide="check" class="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500"></i>
-                    <span id="seo-badge" class="text-[10px] sm:text-xs font-medium text-emerald-600">SEO: 0/100</span>
-                  </div>
-                </div>
 
-                <!-- Step 2: Preview do Artigo -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col transition-all duration-700 opacity-0 translate-x-full pointer-events-none" data-step="2">
-                  <div class="flex-1 rounded-xl border border-border/50 bg-background/60 p-2 sm:p-4 overflow-hidden">
-                    <div class="flex gap-2 sm:gap-4 animate-fade-in">
-                      <div class="w-14 h-14 sm:w-24 sm:h-24 rounded-lg bg-gradient-to-br from-primary/20 to-violet-500/20 flex items-center justify-center shrink-0">
-                        <i data-lucide="file-text" class="w-6 h-6 sm:w-10 sm:h-10 text-primary/60"></i>
+                  <!-- Step 2: AI generating -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500" data-step="1">
+                    <div class="text-center mb-4">
+                      <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mx-auto mb-3 animate-pulse">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-violet-500"></i>
                       </div>
-                      <div class="flex-1 min-w-0">
-                        <h4 class="text-xs sm:text-base font-bold text-foreground mb-1 sm:mb-2 line-clamp-2">Como Aumentar Suas Vendas em 2024</h4>
-                        <div class="flex gap-1 sm:gap-2 mb-1.5 sm:mb-3 flex-wrap">
-                          <span class="px-1.5 py-0.5 sm:px-2 rounded bg-primary/10 text-primary text-[10px] sm:text-xs">#Marketing</span>
-                          <span class="px-1.5 py-0.5 sm:px-2 rounded bg-primary/10 text-primary text-[10px] sm:text-xs">#Vendas</span>
+                      <h3 class="text-lg font-bold text-foreground mb-1">IA criando artigo...</h3>
+                      <p class="text-sm text-muted-foreground">Gerando conteúdo otimizado para SEO</p>
+                    </div>
+                    <div class="w-full max-w-xs space-y-3">
+                      <div class="h-4 bg-muted rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-primary to-violet-500 animate-pulse" style="width: 80%;"></div>
+                      </div>
+                      <div class="space-y-2">
+                        <div class="h-3 bg-muted rounded animate-type-line-1"></div>
+                        <div class="h-3 bg-muted rounded animate-type-line-2"></div>
+                        <div class="h-3 bg-muted rounded animate-type-line-3"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Step 3: Preview article -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500" data-step="2">
+                    <div class="w-full max-w-xs bg-card border border-border rounded-xl p-4 shadow-lg">
+                      <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center">
+                          <span class="text-white text-xs font-bold">AP</span>
                         </div>
-                        <div class="flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground">
-                          <span class="flex items-center gap-1"><i data-lucide="file-text" class="w-2.5 h-2.5 sm:w-3 sm:h-3"></i>1.500 palavras</span>
-                          <span class="flex items-center gap-1"><i data-lucide="clock" class="w-2.5 h-2.5 sm:w-3 sm:h-3"></i>7 min</span>
+                        <div>
+                          <div class="text-sm font-semibold text-foreground">Novo Artigo</div>
+                          <div class="text-xs text-muted-foreground">Pronto para publicar</div>
                         </div>
                       </div>
-                    </div>
-                    <div class="mt-2 sm:mt-4 space-y-1.5 sm:space-y-2">
-                      <div class="h-1.5 sm:h-2 bg-muted-foreground/20 rounded animate-type-line-1"></div>
-                      <div class="h-1.5 sm:h-2 bg-muted-foreground/20 rounded w-11/12 animate-type-line-2"></div>
-                      <div class="h-1.5 sm:h-2 bg-muted-foreground/20 rounded animate-type-line-3"></div>
-                    </div>
-                  </div>
-                  <div class="mt-2 sm:mt-4 flex justify-center">
-                    <button class="relative px-4 py-2 sm:px-8 sm:py-3 rounded-xl text-xs sm:text-base font-bold bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30 animate-pulse">
-                      <span class="flex items-center gap-1.5 sm:gap-2">
-                        <i data-lucide="zap" class="w-3.5 h-3.5 sm:w-5 sm:h-5"></i>
-                        Publicar Agora
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Step 3: Publicando no WordPress -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col items-center justify-center transition-all duration-700 opacity-0 translate-x-full pointer-events-none" data-step="3">
-                  <div class="relative mb-3 sm:mb-6">
-                    <div class="w-12 h-12 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/30 animate-wp-rotate">
-                      <svg viewBox="0 0 24 24" class="w-7 h-7 sm:w-12 sm:h-12" fill="white">
-                        <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902z"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="space-y-1.5 sm:space-y-3 text-left w-full max-w-xs px-2">
-                    <div class="flex items-center gap-2 sm:gap-3 animate-fade-in" style="animation-delay: 0ms;">
-                      <div class="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                        <i data-lucide="check" class="w-2 h-2 sm:w-3 sm:h-3 text-white"></i>
-                      </div>
-                      <span class="text-[11px] sm:text-sm text-muted-foreground line-through">Formatando artigo...</span>
-                    </div>
-                    <div class="flex items-center gap-2 sm:gap-3 animate-fade-in" style="animation-delay: 400ms;">
-                      <div class="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                        <i data-lucide="check" class="w-2 h-2 sm:w-3 sm:h-3 text-white"></i>
-                      </div>
-                      <span class="text-[11px] sm:text-sm text-muted-foreground line-through">Otimizando imagens...</span>
-                    </div>
-                    <div class="flex items-center gap-2 sm:gap-3 animate-fade-in" style="animation-delay: 800ms;">
-                      <div class="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                        <i data-lucide="check" class="w-2 h-2 sm:w-3 sm:h-3 text-white"></i>
-                      </div>
-                      <span class="text-[11px] sm:text-sm text-muted-foreground line-through">Configurando SEO...</span>
-                    </div>
-                    <div class="flex items-center gap-2 sm:gap-3 animate-fade-in" style="animation-delay: 1200ms;">
-                      <div class="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full bg-primary flex items-center justify-center animate-pulse">
-                        <div class="w-1 h-1 sm:w-2 sm:h-2 rounded-full bg-white"></div>
-                      </div>
-                      <span class="text-[11px] sm:text-sm text-foreground font-medium">Publicando...</span>
-                    </div>
-                  </div>
-                  <div class="mt-3 sm:mt-6 px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-blue-500/10 border border-blue-500/30">
-                    <span class="text-[11px] sm:text-sm text-blue-600 font-medium">128 artigos publicados</span>
-                  </div>
-                </div>
-
-                <!-- Step 4: Tráfego Chegando -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col transition-all duration-700 opacity-0 translate-x-full pointer-events-none" data-step="4">
-                  <div class="text-center mb-2 sm:mb-4">
-                    <h3 class="text-sm sm:text-lg font-bold text-foreground flex items-center justify-center gap-1.5 sm:gap-2">
-                      <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500"></i>
-                      Tráfego Chegando!
-                    </h3>
-                  </div>
-                  <div class="flex-1 flex items-center justify-center">
-                    <div class="w-full max-w-sm">
-                      <div class="flex items-end justify-between gap-1 sm:gap-2 h-16 sm:h-32 px-2 sm:px-4">
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 20%; animation-delay: 0ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 35%; animation-delay: 100ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 45%; animation-delay: 200ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 60%; animation-delay: 300ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 75%; animation-delay: 400ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 85%; animation-delay: 500ms;"></div>
-                        <div class="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm animate-grow-bar" style="height: 100%; animation-delay: 600ms;"></div>
-                      </div>
-                      <div class="text-center mt-2 sm:mt-4">
-                        <p class="text-[10px] sm:text-sm text-muted-foreground">Visitantes hoje</p>
-                        <p id="visitors-count" class="text-lg sm:text-3xl font-mono font-bold text-emerald-500">0</p>
-                      </div>
-                      <div class="flex justify-center gap-3 sm:gap-6 mt-2 sm:mt-4">
-                        <div class="flex items-center gap-1 sm:gap-2"><span class="text-base sm:text-xl">🇧🇷</span><span class="text-[10px] sm:text-xs text-muted-foreground">52%</span></div>
-                        <div class="flex items-center gap-1 sm:gap-2"><span class="text-base sm:text-xl">🇺🇸</span><span class="text-[10px] sm:text-xs text-muted-foreground">28%</span></div>
-                        <div class="flex items-center gap-1 sm:gap-2"><span class="text-base sm:text-xl">🇵🇹</span><span class="text-[10px] sm:text-xs text-muted-foreground">20%</span></div>
-                      </div>
-                      <div class="flex justify-center mt-2 sm:mt-4">
-                        <div class="flex items-center gap-1.5 sm:gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-2.5 py-1 sm:px-4 sm:py-2 animate-bounce">
-                          <i data-lucide="medal" class="w-3 h-3 sm:w-4 sm:h-4 text-amber-500"></i>
-                          <span class="text-[11px] sm:text-sm font-medium text-amber-600">Top 3 Google</span>
+                      <h4 class="text-base font-bold text-foreground mb-2 animate-type-title">10 Tendências de IA em 2025</h4>
+                      <p class="text-xs text-muted-foreground mb-3">Descubra as principais inovações em inteligência artificial que vão transformar o mercado...</p>
+                      <div class="flex items-center justify-between">
+                        <span class="text-xs text-primary font-medium">1.500 palavras</span>
+                        <div class="flex items-center gap-1">
+                          <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                          <span class="text-xs text-green-500">SEO OK</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Step 5: Monetização AdSense -->
-                <div class="demo-step absolute inset-0 p-3 sm:p-6 flex flex-col items-center justify-center transition-all duration-700 opacity-0 translate-x-full pointer-events-none" data-step="5">
-                  <div class="relative mb-2 sm:mb-4">
-                    <div class="absolute inset-0 bg-amber-500/30 rounded-xl sm:rounded-2xl blur-xl sm:blur-2xl animate-glow-pulse"></div>
-                    <div class="relative w-14 h-14 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-card flex items-center justify-center shadow-xl shadow-amber-500/20 border-2 border-amber-200">
-                      <img src="https://www.gstatic.com/adsense/autoads/icons/gdn_icon.svg" alt="Google AdSense" class="w-9 h-9 sm:w-16 sm:h-16 object-contain">
+                  <!-- Step 4: Publishing to WordPress -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500" data-step="3">
+                    <div class="text-center mb-4">
+                      <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mx-auto mb-3 animate-wp-rotate">
+                        <svg viewBox="0 0 24 24" class="w-8 h-8" fill="#21759b">
+                          <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568zM3.009 12c0 3.559 2.068 6.634 5.067 8.092L4.144 8.756A8.953 8.953 0 003.009 12zm15.614-1.608c0-1.109-.398-1.877-.74-2.474-.455-.74-.882-1.365-.882-2.105 0-.825.626-1.593 1.509-1.593.04 0 .078.005.116.007A8.963 8.963 0 0012 3.009a8.987 8.987 0 00-7.524 4.078c.211.007.41.011.579.011.94 0 2.396-.114 2.396-.114.485-.028.542.684.057.74 0 0-.487.057-1.029.085l3.274 9.739 1.968-5.901-1.401-3.838c-.485-.028-.944-.085-.944-.085-.485-.029-.428-.768.057-.741 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.485-.028.543.684.057.74 0 0-.488.057-1.029.085l3.249 9.665.897-2.996c.388-1.242.684-2.133.684-2.902z"/>
+                        </svg>
+                      </div>
+                      <h3 class="text-lg font-bold text-foreground mb-1">Publicando no WordPress</h3>
+                      <p class="text-sm text-muted-foreground">Enviando artigo para seu blog...</p>
+                    </div>
+                    <div class="flex items-center justify-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0s;"></div>
+                      <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0.1s;"></div>
+                      <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0.2s;"></div>
                     </div>
                   </div>
-                  <div class="grid grid-cols-3 gap-1.5 sm:gap-4 w-full max-w-sm mb-2 sm:mb-4">
-                    <div class="text-center p-1.5 sm:p-3 rounded-lg bg-background/60 border border-border/50 animate-bounce" style="animation-delay: 0ms;">
-                      <i data-lucide="eye" class="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground mx-auto mb-0.5 sm:mb-1"></i>
-                      <p class="text-sm sm:text-lg font-bold text-foreground">24.5K</p>
-                      <p class="text-[9px] sm:text-xs text-muted-foreground">Impressões</p>
+
+                  <!-- Step 5: Traffic growing -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500" data-step="4">
+                    <div class="text-center mb-4">
+                      <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="trending-up" class="w-6 h-6 text-green-500"></i>
+                      </div>
+                      <h3 class="text-lg font-bold text-foreground mb-1">Tráfego crescendo!</h3>
+                      <p class="text-sm text-muted-foreground">Visitantes chegando ao seu blog</p>
                     </div>
-                    <div class="text-center p-1.5 sm:p-3 rounded-lg bg-background/60 border border-border/50 animate-bounce" style="animation-delay: 150ms;">
-                      <i data-lucide="mouse-pointer-2" class="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground mx-auto mb-0.5 sm:mb-1"></i>
-                      <p class="text-sm sm:text-lg font-bold text-foreground">847</p>
-                      <p class="text-[9px] sm:text-xs text-muted-foreground">Cliques</p>
-                    </div>
-                    <div class="text-center p-1.5 sm:p-3 rounded-lg bg-background/60 border border-border/50 animate-bounce" style="animation-delay: 300ms;">
-                      <i data-lucide="bar-chart-3" class="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground mx-auto mb-0.5 sm:mb-1"></i>
-                      <p class="text-sm sm:text-lg font-bold text-foreground">3.45%</p>
-                      <p class="text-[9px] sm:text-xs text-muted-foreground">CTR</p>
+                    <div class="w-full max-w-xs h-24 flex items-end justify-around gap-2">
+                      <div class="w-8 bg-gradient-to-t from-primary to-violet-500 rounded-t-lg animate-grow-bar" style="height: 30%; animation-delay: 0s;"></div>
+                      <div class="w-8 bg-gradient-to-t from-primary to-violet-500 rounded-t-lg animate-grow-bar" style="height: 45%; animation-delay: 0.1s;"></div>
+                      <div class="w-8 bg-gradient-to-t from-primary to-violet-500 rounded-t-lg animate-grow-bar" style="height: 60%; animation-delay: 0.2s;"></div>
+                      <div class="w-8 bg-gradient-to-t from-primary to-violet-500 rounded-t-lg animate-grow-bar" style="height: 80%; animation-delay: 0.3s;"></div>
+                      <div class="w-8 bg-gradient-to-t from-primary to-amber-500 rounded-t-lg animate-grow-bar" style="height: 100%; animation-delay: 0.4s;"></div>
                     </div>
                   </div>
-                  <div class="text-center mb-2 sm:mb-4">
-                    <p class="text-[10px] sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">Receita do Mês</p>
-                    <p id="revenue-display" class="text-2xl sm:text-4xl font-mono font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">R$ 0,00</p>
-                  </div>
-                  <div class="flex items-center gap-1.5 sm:gap-2 bg-emerald-500 text-white text-[10px] sm:text-sm font-bold px-2.5 py-1 sm:px-4 sm:py-2 rounded-full shadow-lg shadow-emerald-500/30 animate-bounce">
-                    <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white animate-pulse"></span>
-                    MONETIZAÇÃO ATIVA
+
+                  <!-- Step 6: AdSense revenue -->
+                  <div class="demo-step absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500" data-step="5">
+                    <div class="text-center mb-4">
+                      <div class="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mx-auto mb-3 animate-float">
+                        <img src="https://www.gstatic.com/adsense/autoads/icons/gdn_icon.svg" alt="AdSense" class="w-8 h-8">
+                      </div>
+                      <h3 class="text-lg font-bold text-foreground mb-1">Receita AdSense</h3>
+                      <p class="text-sm text-muted-foreground">Monetização ativa!</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-amber-500/10 to-green-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
+                      <div class="text-3xl font-bold text-foreground mb-1">$124.50</div>
+                      <div class="flex items-center justify-center gap-1 text-green-500 text-sm">
+                        <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                        <span>+32% este mês</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -562,253 +628,384 @@
     </section>
 
     <!-- ========== PAIN SECTION ========== -->
-    <section class="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-muted/40 via-muted/20 to-background relative overflow-hidden">
-      <div class="absolute inset-0 bg-grid-pattern opacity-60"></div>
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/[0.02] to-transparent"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-12 md:mb-16 px-2 scroll-hidden" data-scroll>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
-            <span class="block md:inline">Criar conteúdo manualmente é lento.</span>
-            <span class="block md:inline text-muted-foreground">Blog sem consistência não monetiza.</span>
+    <section class="py-16 md:py-24 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 scroll-hidden" id="pain-header">
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Criar conteúdo manualmente é <span class="text-primary">lento</span>
           </h2>
-          <p class="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Produzir artigos com frequência, otimizar SEO e ainda pensar em monetização exige tempo e processo. Sem consistência, o blog não cresce — e o AdSense demora ou nem chega.
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Compare o trabalho manual com a automação inteligente
           </p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto items-stretch px-2">
-          <!-- Left Card - Situação Atual -->
-          <div class="bg-background rounded-2xl border border-destructive/20 shadow-lg p-5 sm:p-6 md:p-8 relative scroll-hidden" data-scroll style="transition-delay: 200ms;">
-            <div class="absolute inset-0 bg-gradient-to-br from-destructive/[0.03] to-transparent rounded-2xl pointer-events-none"></div>
-            <div class="relative z-10">
-              <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
-                  <i data-lucide="alert-circle" class="w-5 h-5 text-destructive"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-foreground">Situação Atual</h3>
+
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <!-- Manual card -->
+          <div class="scroll-hidden-left rounded-2xl border-2 border-red-500/30 bg-red-500/5 p-6" id="manual-card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+                <i data-lucide="x" class="w-5 h-5 text-red-500"></i>
               </div>
-              <div class="space-y-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="clock" class="w-4 h-4 text-destructive"></i>
-                  </div>
-                  <span class="text-muted-foreground">Horas criando um único artigo</span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="list-todo" class="w-4 h-4 text-destructive"></i>
-                  </div>
-                  <span class="text-muted-foreground">Lista de tarefas infinita</span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="file-text" class="w-4 h-4 text-destructive"></i>
-                  </div>
-                  <span class="text-muted-foreground">Publicação inconsistente</span>
-                </div>
-              </div>
-              <div class="mt-8 pt-6 border-t border-border">
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="p-3 rounded-lg bg-destructive/5 border border-destructive/10">
-                    <p class="text-xs text-muted-foreground mb-1">Posts/mês</p>
-                    <p class="text-xl font-bold text-destructive">2-4</p>
-                  </div>
-                  <div class="p-3 rounded-lg bg-destructive/5 border border-destructive/10">
-                    <p class="text-xs text-muted-foreground mb-1">Tempo gasto</p>
-                    <p class="text-xl font-bold text-destructive">+20h</p>
-                  </div>
-                </div>
-              </div>
+              <h3 class="text-xl font-bold text-foreground">Método Manual</h3>
             </div>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <i data-lucide="clock" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">4-6 horas para escrever um artigo</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="brain" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Bloqueio criativo constante</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="calendar-x" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Publicação inconsistente</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="trending-down" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Difícil escalar para múltiplos blogs</span>
+              </li>
+            </ul>
           </div>
-          <!-- Right Card - Com AutomaticPress -->
-          <div class="bg-background rounded-2xl border border-primary/30 shadow-lg p-5 sm:p-6 md:p-8 relative scroll-hidden" data-scroll style="transition-delay: 300ms;">
-            <div class="absolute inset-0 bg-gradient-to-br from-primary/[0.05] to-transparent rounded-2xl pointer-events-none"></div>
-            <div class="relative z-10">
-              <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <i data-lucide="sparkles" class="w-5 h-5 text-primary"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-foreground">Com AutomaticPress</h3>
+
+          <!-- Automatic card -->
+          <div class="scroll-hidden-right rounded-2xl border-2 border-green-500/30 bg-green-500/5 p-6" id="auto-card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
               </div>
-              <div class="space-y-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="brain" class="w-4 h-4 text-primary"></i>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
-                    <span class="text-foreground">IA cria artigos otimizados</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="zap" class="w-4 h-4 text-primary"></i>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
-                    <span class="text-foreground">Publicação automática diária</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="trending-up" class="w-4 h-4 text-primary"></i>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
-                    <span class="text-foreground">Crescimento consistente</span>
-                  </div>
-                </div>
-              </div>
-              <div class="mt-8 pt-6 border-t border-border">
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="p-3 rounded-lg bg-primary/5 border border-primary/10">
-                    <p class="text-xs text-muted-foreground mb-1">Posts/mês</p>
-                    <p class="text-xl font-bold text-primary">30+</p>
-                  </div>
-                  <div class="p-3 rounded-lg bg-primary/5 border border-primary/10">
-                    <p class="text-xs text-muted-foreground mb-1">Tempo gasto</p>
-                    <p class="text-xl font-bold text-primary">~2h</p>
-                  </div>
-                </div>
-              </div>
+              <h3 class="text-xl font-bold text-foreground">Com AutomaticPress</h3>
             </div>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <i data-lucide="zap" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Artigos gerados em minutos</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="sparkles" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">IA criativa 24/7</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="calendar-check" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Publicação agendada automática</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="trending-up" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                <span class="text-muted-foreground">Escale para dezenas de blogs</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========== HOW IT WORKS SECTION ========== -->
-    <section id="como-funciona" class="py-12 sm:py-16 md:py-24 bg-background relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent"></div>
-      <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-12 md:mb-16 px-2 scroll-hidden" data-scroll>
-          <span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">Como Funciona</span>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
-            <span class="block sm:inline">Como a AutomaticPress funciona</span>
-            <span class="block sm:inline bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">na prática</span>
+    <section id="como-funciona" class="py-16 md:py-24 bg-muted/30 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16 scroll-hidden" id="how-header">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-4">
+            <i data-lucide="settings" class="w-4 h-4 text-primary"></i>
+            <span class="text-sm font-medium text-primary">Simples e Eficiente</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Como funciona
           </h2>
-          <p class="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">Do setup inicial à monetização, tudo automatizado em 5 passos simples.</p>
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Em 5 passos simples, você configura sua máquina de conteúdo
+          </p>
         </div>
 
-        <!-- Desktop Timeline -->
-        <div class="hidden lg:block">
-          <div class="relative max-w-6xl mx-auto">
-            <div class="absolute top-16 left-0 right-0 h-0.5 bg-border">
-              <div id="timeline-progress" class="h-full bg-gradient-to-r from-primary via-primary to-primary/50 transition-all duration-1000 ease-out" style="width: 0%;"></div>
+        <!-- Timeline -->
+        <div class="relative max-w-4xl mx-auto">
+          <!-- Vertical line -->
+          <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary via-violet-500 to-amber-500 rounded-full hidden md:block"></div>
+
+          <!-- Steps -->
+          <div class="space-y-12 md:space-y-0">
+            <!-- Step 1 -->
+            <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 scroll-hidden" id="step-1">
+              <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                <div class="bg-card border border-border rounded-2xl p-6 md:ml-auto md:mr-8 max-w-sm shadow-lg">
+                  <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <svg viewBox="0 0 24 24" class="w-6 h-6" fill="#21759b">
+                      <path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.517-.024-.038-.046-.078-.066-.12l-2.762-7.568z"/>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">Conecte seu WordPress</h3>
+                  <p class="text-muted-foreground">Integre sua conta WordPress em poucos cliques, sem conhecimento técnico.</p>
+                </div>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg z-10 order-1 md:order-2 shadow-lg shadow-primary/30">
+                1
+              </div>
+              <div class="md:w-1/2 order-3 hidden md:block"></div>
             </div>
-            <div class="grid grid-cols-5 gap-4" id="steps-container">
-              <!-- Steps will be created dynamically -->
+
+            <!-- Step 2 -->
+            <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 scroll-hidden" id="step-2" style="animation-delay: 0.1s;">
+              <div class="md:w-1/2 order-2 hidden md:block"></div>
+              <div class="w-12 h-12 rounded-full bg-violet-500 text-white flex items-center justify-center font-bold text-lg z-10 order-1 shadow-lg shadow-violet-500/30">
+                2
+              </div>
+              <div class="md:w-1/2 order-2 md:order-3">
+                <div class="bg-card border border-border rounded-2xl p-6 md:mr-auto md:ml-8 max-w-sm shadow-lg">
+                  <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4">
+                    <i data-lucide="list" class="w-6 h-6 text-violet-500"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">Defina categorias</h3>
+                  <p class="text-muted-foreground">Escolha os nichos e temas que a IA vai usar para gerar conteúdo relevante.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 scroll-hidden" id="step-3" style="animation-delay: 0.2s;">
+              <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                <div class="bg-card border border-border rounded-2xl p-6 md:ml-auto md:mr-8 max-w-sm shadow-lg">
+                  <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-primary"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">IA cria artigos</h3>
+                  <p class="text-muted-foreground">Nossa IA gera artigos otimizados para SEO e monetização automaticamente.</p>
+                </div>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg z-10 order-1 md:order-2 shadow-lg shadow-primary/30">
+                3
+              </div>
+              <div class="md:w-1/2 order-3 hidden md:block"></div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 scroll-hidden" id="step-4" style="animation-delay: 0.3s;">
+              <div class="md:w-1/2 order-2 hidden md:block"></div>
+              <div class="w-12 h-12 rounded-full bg-violet-500 text-white flex items-center justify-center font-bold text-lg z-10 order-1 shadow-lg shadow-violet-500/30">
+                4
+              </div>
+              <div class="md:w-1/2 order-2 md:order-3">
+                <div class="bg-card border border-border rounded-2xl p-6 md:mr-auto md:ml-8 max-w-sm shadow-lg">
+                  <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4">
+                    <i data-lucide="send" class="w-6 h-6 text-violet-500"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">Publicação automática</h3>
+                  <p class="text-muted-foreground">Os artigos são publicados automaticamente no horário ideal para seu público.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 scroll-hidden" id="step-5" style="animation-delay: 0.4s;">
+              <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                <div class="bg-card border border-border rounded-2xl p-6 md:ml-auto md:mr-8 max-w-sm shadow-lg">
+                  <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <i data-lucide="dollar-sign" class="w-6 h-6 text-amber-500"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">Escale e monetize</h3>
+                  <p class="text-muted-foreground">Multiplique seus blogs e aumente sua receita com AdSense no piloto automático.</p>
+                </div>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-lg z-10 order-1 md:order-2 shadow-lg shadow-amber-500/30">
+                5
+              </div>
+              <div class="md:w-1/2 order-3 hidden md:block"></div>
             </div>
           </div>
-        </div>
-
-        <!-- Mobile Timeline -->
-        <div class="lg:hidden">
-          <div class="relative max-w-md mx-auto">
-            <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-border">
-              <div id="mobile-timeline-progress" class="w-full bg-gradient-to-b from-primary via-primary to-primary/50 transition-all duration-1000 ease-out" style="height: 0%;"></div>
-            </div>
-            <div class="space-y-8" id="mobile-steps-container">
-              <!-- Steps will be created dynamically -->
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center mt-12 md:mt-16 px-4 scroll-hidden" data-scroll style="transition-delay: 1000ms;">
-          <p class="text-sm sm:text-base text-muted-foreground mb-4">Pronto para automatizar seu blog?</p>
-          <a href="auth.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors group">
-            Começar Agora
-            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-          </a>
         </div>
       </div>
     </section>
 
     <!-- ========== BENEFITS SECTION ========== -->
-    <section id="beneficios" class="relative py-12 sm:py-16 md:py-24 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background pointer-events-none"></div>
-      <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="container mx-auto px-4 sm:px-6 relative z-10">
-        <div class="text-center mb-10 sm:mb-16 scroll-hidden" data-scroll>
-          <span class="inline-block px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-primary/10 text-primary mb-4 sm:mb-6">Benefícios</span>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-            Automação real para quem quer <span class="block sm:inline text-primary">escalar</span>
-          </h2>
-          <p class="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">Tudo que você precisa para transformar seu blog em uma máquina de conteúdo</p>
-        </div>
-        <div class="max-w-4xl mx-auto">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-4 sm:mb-5 justify-items-center" id="benefits-row-1">
-            <!-- Benefits cards will be created dynamically -->
+    <section id="beneficios" class="py-16 md:py-24 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 scroll-hidden" id="benefits-header">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-primary"></i>
+            <span class="text-sm font-medium text-primary">Vantagens Exclusivas</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 max-w-xl sm:max-w-2xl mx-auto justify-items-center" id="benefits-row-2">
-            <!-- Benefits cards will be created dynamically -->
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Por que escolher a AutomaticPress?
+          </h2>
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Recursos poderosos para maximizar sua produtividade e receita
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <!-- Benefit 1 -->
+          <div class="benefits-card scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300" style="animation-delay: 0s;">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-violet-500/20 flex items-center justify-center mb-4">
+              <i data-lucide="clock" class="w-7 h-7 text-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-foreground mb-2">Economia de Tempo</h3>
+            <p class="text-muted-foreground">Economize horas de trabalho com geração automática de conteúdo de qualidade.</p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="benefits-card scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300" style="animation-delay: 0.1s;">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mb-4">
+              <i data-lucide="search" class="w-7 h-7 text-violet-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-foreground mb-2">SEO Otimizado</h3>
+            <p class="text-muted-foreground">Artigos escritos seguindo as melhores práticas de SEO para ranquear no Google.</p>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="benefits-card scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300" style="animation-delay: 0.2s;">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-4">
+              <i data-lucide="dollar-sign" class="w-7 h-7 text-amber-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-foreground mb-2">Foco em AdSense</h3>
+            <p class="text-muted-foreground">Conteúdo estruturado para maximizar impressões e cliques em anúncios.</p>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="benefits-card inverted scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300" style="animation-delay: 0.3s;">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center mb-4">
+              <i data-lucide="layers" class="w-7 h-7 text-green-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-foreground mb-2">Multi-Sites</h3>
+            <p class="text-muted-foreground">Gerencie dezenas de blogs WordPress a partir de uma única dashboard.</p>
+          </div>
+
+          <!-- Benefit 5 -->
+          <div class="benefits-card inverted scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 md:col-span-2 lg:col-span-2" style="animation-delay: 0.4s;">
+            <div class="flex flex-col md:flex-row items-start gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="shield-check" class="w-7 h-7 text-blue-500"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-foreground mb-2">Segurança e Confiabilidade</h3>
+                <p class="text-muted-foreground">Infraestrutura robusta com backup automático e suporte prioritário. Seus blogs estão sempre protegidos e funcionando 24/7.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========== ADSENSE SECTION ========== -->
-    <section class="py-12 sm:py-16 md:py-24 overflow-hidden relative">
-      <div class="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background pointer-events-none"></div>
-      <div class="absolute top-1/2 left-1/4 w-64 h-64 bg-green-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute top-1/3 right-1/4 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-10 sm:mb-14">
-          <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full mb-6 scroll-hidden" data-scroll>
-            <i data-lucide="dollar-sign" class="w-4 h-4 text-green-500"></i>
-            <span class="text-sm font-medium text-green-600 dark:text-green-400">Monetização</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 scroll-hidden" data-scroll style="transition-delay: 100ms;">
-            Conteúdo pensado para monetização com <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400">AdSense</span>
-          </h2>
-        </div>
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-5xl mx-auto">
-          <!-- Illustration -->
-          <div class="order-first lg:order-last scroll-hidden-right" data-scroll style="transition-delay: 200ms;">
-            <div class="relative w-full max-w-sm mx-auto">
-              <div class="relative bg-gradient-to-br from-background to-muted/30 border border-border/50 rounded-3xl p-6 sm:p-8 shadow-xl overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
-                <div class="relative z-10">
-                  <div class="flex justify-center mb-6">
-                    <div class="relative">
-                      <div class="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
-                      <img src="https://www.gstatic.com/adsense/autoads/icons/gdn_icon.svg" alt="Google AdSense" class="relative w-16 h-16 sm:w-20 sm:h-20 object-contain">
-                    </div>
-                  </div>
-                  <div class="flex items-end justify-center gap-2 sm:gap-3 h-32 sm:h-40 mb-4" id="adsense-bars">
-                    <!-- Bars will be animated -->
-                  </div>
-                  <div class="flex items-center justify-center gap-2 text-green-500">
-                    <i data-lucide="trending-up" class="w-5 h-5"></i>
-                    <span class="text-sm font-semibold">+127% crescimento</span>
-                  </div>
+    <section class="py-16 md:py-24 bg-muted/30 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          <!-- Left column - Text -->
+          <div class="scroll-hidden-left" id="adsense-text">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full mb-4">
+              <img src="https://www.gstatic.com/adsense/autoads/icons/gdn_icon.svg" alt="AdSense" class="w-4 h-4">
+              <span class="text-sm font-medium text-amber-600 dark:text-amber-400">Otimizado para AdSense</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Conteúdo que <span class="text-amber-500">gera receita</span>
+            </h2>
+            <p class="text-lg text-muted-foreground mb-8">
+              Nossa IA é treinada para criar artigos que não apenas engajam leitores, mas também são estruturados para maximizar sua receita com Google AdSense.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-start gap-3 p-4 bg-card border border-border rounded-xl">
+                <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
                 </div>
-                <div class="absolute top-4 right-4"><i data-lucide="check-circle" class="w-6 h-6 text-green-500"></i></div>
-                <div class="absolute top-12 left-4"><i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i></div>
-                <div class="absolute bottom-16 right-6"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i></div>
-                <div class="absolute top-8 left-8 bg-green-500/10 border border-green-500/20 rounded-lg px-2 py-1 animate-float" style="animation-delay: 0s;">
-                  <i data-lucide="dollar-sign" class="w-4 h-4 text-green-500"></i>
+                <div>
+                  <h4 class="font-semibold text-foreground">Estrutura Google-friendly</h4>
+                  <p class="text-sm text-muted-foreground">Formatação ideal para anúncios</p>
                 </div>
-                <div class="absolute bottom-24 left-6 bg-green-500/10 border border-green-500/20 rounded-lg px-2 py-1 animate-float" style="animation-delay: 0.5s;">
-                  <span class="text-xs font-bold text-green-500">$$$</span>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 bg-card border border-border rounded-xl">
+                <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
                 </div>
-                <div class="absolute top-20 right-8 bg-green-500/10 border border-green-500/20 rounded-lg px-2 py-1 animate-float" style="animation-delay: 1s;">
-                  <span class="text-xs font-bold text-green-500">+$</span>
+                <div>
+                  <h4 class="font-semibold text-foreground">Conteúdo informativo</h4>
+                  <p class="text-sm text-muted-foreground">Alto tempo de permanência</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 bg-card border border-border rounded-xl">
+                <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-foreground">Consistência</h4>
+                  <p class="text-sm text-muted-foreground">Publicações regulares</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 bg-card border border-border rounded-xl">
+                <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-foreground">SEO integrado</h4>
+                  <p class="text-sm text-muted-foreground">Tráfego orgânico crescente</p>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Text column -->
-          <div class="scroll-hidden-left" data-scroll style="transition-delay: 300ms;">
-            <p class="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed">
-              A AutomaticPress não gera textos aleatórios. O conteúdo é estruturado para <span class="text-foreground font-medium">informar, reter leitores</span> e atender boas práticas que facilitam a monetização via Google AdSense.
-            </p>
-            <div class="space-y-4" id="adsense-highlights">
-              <!-- Highlights will be created dynamically -->
+
+          <!-- Right column - Illustration -->
+          <div class="scroll-hidden-right relative" id="adsense-illustration">
+            <div class="relative aspect-square max-w-md mx-auto">
+              <!-- Background glow -->
+              <div class="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-green-500/20 rounded-3xl blur-3xl"></div>
+              
+              <!-- Chart container -->
+              <div class="relative bg-card border border-border rounded-2xl p-6 shadow-2xl">
+                <div class="flex items-center justify-between mb-6">
+                  <h3 class="font-bold text-foreground">Receita AdSense</h3>
+                  <span class="text-sm text-green-500 font-medium flex items-center gap-1">
+                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                    +45%
+                  </span>
+                </div>
+
+                <!-- Bar chart -->
+                <div class="h-48 flex items-end justify-around gap-3 mb-4">
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-primary/60 to-primary rounded-t-lg animate-grow-bar" style="height: 40%;"></div>
+                    <span class="text-xs text-muted-foreground">Jan</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-primary/60 to-primary rounded-t-lg animate-grow-bar" style="height: 55%; animation-delay: 0.1s;"></div>
+                    <span class="text-xs text-muted-foreground">Fev</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-violet-500/60 to-violet-500 rounded-t-lg animate-grow-bar" style="height: 65%; animation-delay: 0.2s;"></div>
+                    <span class="text-xs text-muted-foreground">Mar</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-violet-500/60 to-violet-500 rounded-t-lg animate-grow-bar" style="height: 80%; animation-delay: 0.3s;"></div>
+                    <span class="text-xs text-muted-foreground">Abr</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-amber-500/60 to-amber-500 rounded-t-lg animate-grow-bar" style="height: 95%; animation-delay: 0.4s;"></div>
+                    <span class="text-xs text-muted-foreground">Mai</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-2">
+                    <div class="w-full bg-gradient-to-t from-green-500/60 to-green-500 rounded-t-lg animate-grow-bar" style="height: 100%; animation-delay: 0.5s;"></div>
+                    <span class="text-xs text-muted-foreground">Jun</span>
+                  </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-border">
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-foreground">$2,450</div>
+                    <div class="text-sm text-muted-foreground">Receita mensal</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-foreground">145k</div>
+                    <div class="text-sm text-muted-foreground">Impressões</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating elements -->
+              <div class="absolute -top-4 -right-4 w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center animate-float border border-amber-500/30">
+                <img src="https://www.gstatic.com/adsense/autoads/icons/gdn_icon.svg" alt="AdSense" class="w-8 h-8">
+              </div>
+              <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center animate-float border border-green-500/30" style="animation-delay: 1s;">
+                <i data-lucide="check" class="w-6 h-6 text-green-500"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -817,94 +1014,342 @@
 
     <!-- ========== PRICING SECTION ========== -->
     <section id="precos" class="py-16 md:py-24 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-background via-muted/5 to-background"></div>
-      <div class="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-green-500/5 rounded-full blur-3xl"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-12 sm:mb-16 scroll-hidden" data-scroll>
-          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <i data-lucide="sparkles" class="w-4 h-4"></i>
-            Planos flexíveis
-          </span>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Planos simples e <span class="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">transparentes</span>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 scroll-hidden" id="pricing-header">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-4">
+            <i data-lucide="tag" class="w-4 h-4 text-primary"></i>
+            <span class="text-sm font-medium text-primary">Preços Acessíveis</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Escolha seu plano
           </h2>
-          <p class="text-muted-foreground text-lg max-w-2xl mx-auto">Escolha o plano ideal para o seu crescimento. Todos incluem acesso à nossa IA avançada.</p>
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Comece grátis e escale conforme seu negócio cresce
+          </p>
         </div>
-        <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch" id="pricing-cards">
-          <!-- Pricing cards will be created dynamically -->
+
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <!-- Free plan -->
+          <div class="scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/30 transition-all" style="animation-delay: 0s;">
+            <div class="text-center mb-6">
+              <h3 class="text-xl font-bold text-foreground mb-2">Grátis</h3>
+              <div class="text-4xl font-extrabold text-foreground mb-1">R$ 0</div>
+              <p class="text-sm text-muted-foreground">Para começar</p>
+            </div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">1 blog WordPress</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">5 artigos/mês</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">Suporte por email</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="x" class="w-5 h-5 text-muted-foreground/50"></i>
+                <span class="text-muted-foreground/50">Agendamento avançado</span>
+              </li>
+            </ul>
+            <a href="auth.html" class="block w-full py-3 px-6 text-center font-semibold border border-border rounded-xl hover:bg-muted transition-colors text-foreground">
+              Começar Grátis
+            </a>
+          </div>
+
+          <!-- Pro plan -->
+          <div class="scroll-hidden-scale relative bg-gradient-to-b from-primary/10 to-card border-2 border-primary rounded-2xl p-6 shadow-lg shadow-primary/20" style="animation-delay: 0.1s;">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-primary-foreground text-sm font-bold rounded-full">
+              Popular
+            </div>
+            <div class="text-center mb-6 mt-2">
+              <h3 class="text-xl font-bold text-foreground mb-2">Pro</h3>
+              <div class="text-4xl font-extrabold text-foreground mb-1">R$ 97</div>
+              <p class="text-sm text-muted-foreground">/mês</p>
+            </div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-foreground">5 blogs WordPress</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-foreground">100 artigos/mês</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-foreground">Agendamento avançado</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-foreground">Suporte prioritário</span>
+              </li>
+            </ul>
+            <a href="auth.html" class="block w-full py-3 px-6 text-center font-bold bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25">
+              Assinar Pro
+            </a>
+          </div>
+
+          <!-- Enterprise plan -->
+          <div class="scroll-hidden-scale bg-card border border-border rounded-2xl p-6 hover:border-primary/30 transition-all" style="animation-delay: 0.2s;">
+            <div class="text-center mb-6">
+              <h3 class="text-xl font-bold text-foreground mb-2">Enterprise</h3>
+              <div class="text-4xl font-extrabold text-foreground mb-1">R$ 297</div>
+              <p class="text-sm text-muted-foreground">/mês</p>
+            </div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">Blogs ilimitados</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">Artigos ilimitados</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">API de integração</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-muted-foreground">Gerente de conta</span>
+              </li>
+            </ul>
+            <a href="auth.html" class="block w-full py-3 px-6 text-center font-semibold border border-border rounded-xl hover:bg-muted transition-colors text-foreground">
+              Falar com Vendas
+            </a>
+          </div>
         </div>
-        <p class="text-center text-sm text-muted-foreground mt-10 scroll-hidden" data-scroll style="transition-delay: 800ms;">
-          Todos os planos incluem suporte técnico e atualizações gratuitas. Cancele quando quiser.
-        </p>
       </div>
     </section>
 
     <!-- ========== TESTIMONIALS SECTION ========== -->
-    <section class="py-16 md:py-24 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-background via-muted/5 to-background"></div>
-      <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/3 left-1/4 w-64 h-64 bg-primary/3 rounded-full blur-3xl"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-12 sm:mb-16 scroll-hidden" data-scroll>
-          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
-            Depoimentos
-          </span>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">O que nossos clientes estão dizendo</h2>
-          <p class="text-muted-foreground text-lg max-w-2xl mx-auto">Veja como a AutomaticPress está transformando a forma de criar conteúdo</p>
+    <section class="py-16 md:py-24 bg-muted/30 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 scroll-hidden" id="testimonials-header">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-4">
+            <i data-lucide="users" class="w-4 h-4 text-primary"></i>
+            <span class="text-sm font-medium text-primary">Depoimentos</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            O que nossos clientes dizem
+          </h2>
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Histórias reais de quem já automatizou seu blog
+          </p>
         </div>
-        <div class="scroll-hidden" data-scroll style="transition-delay: 200ms;">
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="testimonials-container">
-            <!-- Testimonials will be created dynamically -->
+
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card-container scroll-hidden-scale h-64" style="animation-delay: 0s;">
+            <div class="testimonial-card-inner relative w-full h-full">
+              <!-- Front -->
+              <div class="testimonial-front absolute inset-0 bg-card border border-border rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white font-bold">
+                    MC
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-foreground">Marcos Costa</h4>
+                    <p class="text-sm text-muted-foreground">Blogueiro</p>
+                  </div>
+                </div>
+                <div class="flex gap-1 mb-3">
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                </div>
+                <p class="text-muted-foreground text-sm">
+                  "Economizo mais de 20 horas por semana desde que comecei a usar a AutomaticPress. Minha receita com AdSense triplicou!"
+                </p>
+              </div>
+              <!-- Back -->
+              <div class="testimonial-back absolute inset-0 bg-gradient-to-br from-primary to-purple-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                <div class="text-4xl font-extrabold text-white mb-2">+300%</div>
+                <p class="text-white/90">Aumento na receita</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card-container scroll-hidden-scale h-64" style="animation-delay: 0.1s;">
+            <div class="testimonial-card-inner relative w-full h-full">
+              <!-- Front -->
+              <div class="testimonial-front absolute inset-0 bg-card border border-border rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                    AS
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-foreground">Ana Silva</h4>
+                    <p class="text-sm text-muted-foreground">Empreendedora Digital</p>
+                  </div>
+                </div>
+                <div class="flex gap-1 mb-3">
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                </div>
+                <p class="text-muted-foreground text-sm">
+                  "Gerencio 12 blogs diferentes com a AutomaticPress. Seria impossível fazer isso manualmente!"
+                </p>
+              </div>
+              <!-- Back -->
+              <div class="testimonial-back absolute inset-0 bg-gradient-to-br from-violet-500 to-pink-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                <div class="text-4xl font-extrabold text-white mb-2">12</div>
+                <p class="text-white/90">Blogs gerenciados</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card-container scroll-hidden-scale h-64" style="animation-delay: 0.2s;">
+            <div class="testimonial-card-inner relative w-full h-full">
+              <!-- Front -->
+              <div class="testimonial-front absolute inset-0 bg-card border border-border rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold">
+                    PO
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-foreground">Pedro Oliveira</h4>
+                    <p class="text-sm text-muted-foreground">Afiliado</p>
+                  </div>
+                </div>
+                <div class="flex gap-1 mb-3">
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>
+                </div>
+                <p class="text-muted-foreground text-sm">
+                  "A qualidade dos artigos gerados é surpreendente. Meus leitores nem percebem que é IA!"
+                </p>
+              </div>
+              <!-- Back -->
+              <div class="testimonial-back absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                <div class="text-4xl font-extrabold text-white mb-2">50k+</div>
+                <p class="text-white/90">Visitantes/mês</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========== FAQ SECTION ========== -->
-    <section id="faq" class="py-16 md:py-24 bg-muted/30">
-      <div class="container mx-auto px-4 max-w-3xl">
-        <div class="text-center mb-12 scroll-hidden" data-scroll>
-          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">❓ FAQ</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-foreground">Perguntas Frequentes</h2>
+    <section id="faq" class="py-16 md:py-24 relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12 scroll-hidden" id="faq-header">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-4">
+            <i data-lucide="help-circle" class="w-4 h-4 text-primary"></i>
+            <span class="text-sm font-medium text-primary">Dúvidas Frequentes</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Perguntas Frequentes
+          </h2>
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Tire suas dúvidas sobre a AutomaticPress
+          </p>
         </div>
-        <div class="space-y-3" id="faq-container">
-          <!-- FAQ items will be created dynamically -->
+
+        <div class="max-w-3xl mx-auto space-y-4">
+          <!-- FAQ 1 -->
+          <div class="faq-item scroll-hidden-scale bg-card border border-border rounded-2xl overflow-hidden" style="animation-delay: 0s;">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+              <span class="font-semibold text-foreground">O conteúdo gerado pela IA é único?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground faq-icon"></i>
+            </button>
+            <div class="faq-content px-5 pb-5">
+              <p class="text-muted-foreground">
+                Sim! Cada artigo é gerado de forma única, utilizando algoritmos avançados de IA que garantem conteúdo original e livre de plágio. Todos os textos passam por verificação antes da publicação.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item scroll-hidden-scale bg-card border border-border rounded-2xl overflow-hidden" style="animation-delay: 0.1s;">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+              <span class="font-semibold text-foreground">Posso revisar os artigos antes de publicar?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground faq-icon"></i>
+            </button>
+            <div class="faq-content px-5 pb-5">
+              <p class="text-muted-foreground">
+                Claro! Você tem total controle sobre o conteúdo. Pode revisar, editar e aprovar cada artigo antes da publicação, ou configurar para publicação automática.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item scroll-hidden-scale bg-card border border-border rounded-2xl overflow-hidden" style="animation-delay: 0.2s;">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+              <span class="font-semibold text-foreground">A plataforma funciona com qualquer tema WordPress?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground faq-icon"></i>
+            </button>
+            <div class="faq-content px-5 pb-5">
+              <p class="text-muted-foreground">
+                Sim! A AutomaticPress é compatível com qualquer tema WordPress. Utilizamos a API oficial do WordPress, garantindo integração perfeita com seu site.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item scroll-hidden-scale bg-card border border-border rounded-2xl overflow-hidden" style="animation-delay: 0.3s;">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+              <span class="font-semibold text-foreground">Existe garantia de reembolso?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground faq-icon"></i>
+            </button>
+            <div class="faq-content px-5 pb-5">
+              <p class="text-muted-foreground">
+                Sim! Oferecemos garantia de 7 dias. Se não ficar satisfeito, devolvemos 100% do seu investimento, sem burocracia.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item scroll-hidden-scale bg-card border border-border rounded-2xl overflow-hidden" style="animation-delay: 0.4s;">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+              <span class="font-semibold text-foreground">Como funciona o suporte?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground faq-icon"></i>
+            </button>
+            <div class="faq-content px-5 pb-5">
+              <p class="text-muted-foreground">
+                Oferecemos suporte por email para o plano grátis e chat prioritário para planos pagos. Nos planos Enterprise, você tem um gerente de conta dedicado.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== CTA FINAL SECTION ========== -->
-    <section class="relative py-20 md:py-32 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-purple-500/10"></div>
-      <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px); background-size: 40px 40px;"></div>
-      <div class="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-56 md:w-80 h-56 md:h-80 bg-purple-500/15 rounded-full blur-[100px] animate-pulse" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-[500px] h-72 md:h-[500px] bg-primary/10 rounded-full blur-[120px]"></div>
+    <!-- ========== FINAL CTA SECTION ========== -->
+    <section class="py-16 md:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-violet-500/10 to-primary/10"></div>
       <div class="container mx-auto px-4 relative z-10">
-        <div class="max-w-3xl mx-auto text-center">
-          <div class="scroll-hidden" data-scroll>
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">🚀 Comece Agora</span>
-          </div>
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 scroll-hidden" data-scroll style="transition-delay: 100ms;">
-            Transforme seu WordPress em uma <span class="bg-gradient-to-r from-primary via-purple-500 to-primary bg-clip-text text-transparent">máquina de monetização</span>
+        <div class="max-w-3xl mx-auto text-center scroll-hidden" id="cta-final">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-6">
+            Pronto para automatizar seu blog?
           </h2>
-          <p class="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed scroll-hidden" data-scroll style="transition-delay: 200ms;">
-            Pare de depender do manual. Ative a automação, publique com consistência e construa ativos digitais escaláveis.
+          <p class="text-lg md:text-xl text-muted-foreground mb-8">
+            Junte-se a milhares de blogueiros que já economizam tempo e aumentam sua receita com a AutomaticPress.
           </p>
-          <div class="scroll-hidden flex justify-center" data-scroll style="transition-delay: 300ms;">
-            <a href="auth.html" class="group relative inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 text-sm md:text-lg font-bold bg-primary text-primary-foreground rounded-lg shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all transform -skew-x-3 hover:skew-x-0">
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="auth.html" class="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-bold bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all transform -skew-x-3 hover:skew-x-0">
               <span class="skew-x-3 group-hover:skew-x-0 transition-transform flex items-center gap-2">
-                Começar agora com AutomaticPress
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
+                Começar Agora - É Grátis
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
               </span>
             </a>
           </div>
-          <p class="mt-6 text-sm text-muted-foreground/70 scroll-hidden" data-scroll style="transition-delay: 400ms;">
-            ✓ Setup em 5 minutos &nbsp;•&nbsp; ✓ Sem cartão de crédito &nbsp;•&nbsp; ✓ Cancele quando quiser
+          <p class="text-sm text-muted-foreground mt-4">
+            Não precisa de cartão de crédito • Cancele quando quiser
           </p>
         </div>
       </div>
@@ -912,658 +1357,189 @@
   </main>
 
   <!-- ========== FOOTER ========== -->
-  <footer class="relative border-t-2 border-x-2 border-primary/30 rounded-t-3xl bg-gradient-to-b from-muted/50 to-background overflow-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"></div>
-    <div class="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-br-full"></div>
-    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full"></div>
-    <div class="container mx-auto px-4 py-12 md:py-16 relative z-10">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
-        <!-- Brand column -->
-        <div class="lg:col-span-1">
-          <a href="#inicio" class="flex items-center gap-3 mb-4 group">
+  <footer class="bg-muted/50 border-t-2 border-x-2 border-primary/30 rounded-t-3xl mt-8">
+    <div class="container mx-auto px-4 py-12">
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Logo & Description -->
+        <div class="md:col-span-2">
+          <a href="#inicio" class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/30">
               <span class="text-white font-bold text-lg">AP</span>
             </div>
-            <span class="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:from-primary group-hover:to-purple-500 transition-all">AutomaticPress</span>
+            <span class="text-xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+              AutomaticPress
+            </span>
           </a>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">Automatize seu blog WordPress com IA. Crie, agende e publique artigos otimizados para monetização.</p>
-          <div class="flex items-center gap-3">
-            <a href="#" class="w-10 h-10 bg-background/50 hover:bg-primary/10 border border-border/50 hover:border-primary/50 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-            <a href="#" class="w-10 h-10 bg-background/50 hover:bg-primary/10 border border-border/50 hover:border-primary/50 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-            <a href="#" class="w-10 h-10 bg-background/50 hover:bg-primary/10 border border-border/50 hover:border-primary/50 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-            <a href="#" class="w-10 h-10 bg-background/50 hover:bg-primary/10 border border-border/50 hover:border-primary/50 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"><i data-lucide="youtube" class="w-4 h-4"></i></a>
-          </div>
+          <p class="text-muted-foreground max-w-sm">
+            Automatize a criação de conteúdo para seu blog WordPress e maximize sua receita com AdSense.
+          </p>
         </div>
-        <!-- Navigation -->
+
+        <!-- Links -->
         <div>
-          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
-            <div class="w-1 h-4 bg-gradient-to-b from-primary to-purple-500 rounded-full"></div>
-            Navegação
-          </h3>
-          <ul class="space-y-3">
-            <li><a href="#inicio" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Início</a></li>
-            <li><a href="#como-funciona" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Como Funciona</a></li>
-            <li><a href="#beneficios" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Benefícios</a></li>
-            <li><a href="#precos" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Preços</a></li>
-            <li><a href="#faq" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">FAQ</a></li>
+          <h4 class="font-bold text-foreground mb-4">Navegação</h4>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="text-muted-foreground hover:text-primary transition-colors">Início</a></li>
+            <li><a href="#como-funciona" class="text-muted-foreground hover:text-primary transition-colors">Como Funciona</a></li>
+            <li><a href="#beneficios" class="text-muted-foreground hover:text-primary transition-colors">Benefícios</a></li>
+            <li><a href="#precos" class="text-muted-foreground hover:text-primary transition-colors">Preços</a></li>
+            <li><a href="#faq" class="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
           </ul>
         </div>
-        <!-- Legal -->
-        <div>
-          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
-            <div class="w-1 h-4 bg-gradient-to-b from-primary to-purple-500 rounded-full"></div>
-            Legal
-          </h3>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Termos de Uso</a></li>
-            <li><a href="#" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Política de Privacidade</a></li>
-            <li><a href="#" class="text-muted-foreground hover:text-primary text-sm transition-all duration-200 hover:translate-x-1 inline-block">Política de Cookies</a></li>
-          </ul>
-        </div>
+
         <!-- Contact -->
         <div>
-          <h3 class="text-foreground font-semibold mb-4 flex items-center gap-2">
-            <div class="w-1 h-4 bg-gradient-to-b from-primary to-purple-500 rounded-full"></div>
-            Contato
-          </h3>
-          <ul class="space-y-4">
-            <li class="flex items-start gap-3 group">
-              <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors"><i data-lucide="mail" class="w-4 h-4 text-primary"></i></div>
-              <a href="mailto:contato@automaticpress.com" class="text-muted-foreground hover:text-primary text-sm transition-colors duration-200 pt-1">contato@automaticpress.com</a>
-            </li>
-            <li class="flex items-start gap-3 group">
-              <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors"><i data-lucide="phone" class="w-4 h-4 text-primary"></i></div>
-              <a href="tel:+5511999999999" class="text-muted-foreground hover:text-primary text-sm transition-colors duration-200 pt-1">+55 (11) 99999-9999</a>
-            </li>
-            <li class="flex items-start gap-3 group">
-              <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors"><i data-lucide="map-pin" class="w-4 h-4 text-primary"></i></div>
-              <span class="text-muted-foreground text-sm pt-1">São Paulo, Brasil</span>
-            </li>
+          <h4 class="font-bold text-foreground mb-4">Contato</h4>
+          <ul class="space-y-2">
+            <li><a href="mailto:contato@automaticpress.com" class="text-muted-foreground hover:text-primary transition-colors">contato@automaticpress.com</a></li>
+            <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Termos de Uso</a></li>
+            <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Política de Privacidade</a></li>
           </ul>
         </div>
       </div>
-      <div class="border-t border-border/30 pt-8">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-muted-foreground text-sm text-center md:text-left">© 2024 AutomaticPress. Todos os direitos reservados.</p>
-          <p class="text-muted-foreground/70 text-xs text-center md:text-right flex items-center gap-1">Feito com <span class="text-red-500 animate-pulse">❤️</span> para criadores de conteúdo</p>
-        </div>
+
+      <div class="border-t border-border/50 mt-8 pt-8 text-center">
+        <p class="text-sm text-muted-foreground">
+          © 2024 AutomaticPress. Todos os direitos reservados.
+        </p>
       </div>
     </div>
   </footer>
 
   <script>
     // Initialize Lucide icons
-    lucide.createIcons();
-
-    // ========== THEME TOGGLE ==========
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    
-    themeToggle.addEventListener('click', () => {
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+      initScrollAnimations();
+      initDemoAnimation();
+      initMobileMenu();
+      initThemeToggle();
+      initNavHighlight();
     });
-    
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'light') {
-      html.classList.remove('dark');
+
+    // Theme toggle
+    function initThemeToggle() {
+      const toggle = document.getElementById('theme-toggle');
+      toggle.addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+        lucide.createIcons();
+      });
     }
 
-    // ========== MOBILE MENU ==========
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
+    // Mobile menu
+    function initMobileMenu() {
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
 
-    mobileMenuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      menuIcon.classList.toggle('hidden');
-      closeIcon.classList.toggle('hidden');
-    });
-
-    // Close mobile menu on link click
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
-      });
-    });
-
-    // ========== SMOOTH SCROLL ==========
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    // ========== ACTIVE NAV LINK ==========
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = ['inicio', 'como-funciona', 'beneficios', 'precos', 'faq'];
-
-    window.addEventListener('scroll', () => {
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element && element.offsetTop <= scrollPosition) {
-          navLinks.forEach(link => {
-            link.classList.remove('text-primary-foreground', 'bg-primary', 'shadow-md');
-            link.classList.add('text-muted-foreground');
-            if (link.dataset.section === section) {
-              link.classList.add('text-primary-foreground', 'bg-primary', 'shadow-md');
-              link.classList.remove('text-muted-foreground');
-            }
-          });
-          break;
-        }
-      }
-    });
-
-    // ========== ANIMATED DEMO ==========
-    let currentStep = 0;
-    const totalSteps = 6;
-    const demoProgress = document.getElementById('demo-progress');
-    const demoSteps = document.querySelectorAll('.demo-step');
-    let wordCount = 0;
-    let seoScore = 0;
-    let visitors = 0;
-    let revenue = 0;
-
-    function updateDemoStep() {
-      demoProgress.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
-      
-      demoSteps.forEach((step, index) => {
-        if (index === currentStep) {
-          step.classList.remove('opacity-0', 'translate-x-full', '-translate-x-full', 'pointer-events-none');
-          step.classList.add('opacity-100', 'translate-x-0');
-        } else if (index < currentStep) {
-          step.classList.remove('opacity-100', 'translate-x-0', 'translate-x-full');
-          step.classList.add('opacity-0', '-translate-x-full', 'pointer-events-none');
-        } else {
-          step.classList.remove('opacity-100', 'translate-x-0', '-translate-x-full');
-          step.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
-        }
+      toggle.addEventListener('click', function() {
+        menu.classList.toggle('hidden');
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
       });
 
-      // Animate counters based on step
-      if (currentStep === 1) {
-        animateWordCount();
-        animateSeoScore();
-      } else if (currentStep === 4) {
-        animateVisitors();
-      } else if (currentStep === 5) {
-        animateRevenue();
-      }
-    }
-
-    function animateWordCount() {
-      wordCount = 0;
-      const wordCountEl = document.getElementById('word-count');
-      const interval = setInterval(() => {
-        wordCount += Math.floor(Math.random() * 50) + 20;
-        if (wordCount >= 1247) {
-          wordCount = 1247;
-          clearInterval(interval);
-        }
-        wordCountEl.textContent = wordCount.toLocaleString();
-      }, 100);
-    }
-
-    function animateSeoScore() {
-      seoScore = 0;
-      const seoCircle = document.getElementById('seo-circle');
-      const seoScoreEl = document.getElementById('seo-score');
-      const seoBadge = document.getElementById('seo-badge');
-      const interval = setInterval(() => {
-        seoScore += 2;
-        if (seoScore >= 94) {
-          seoScore = 94;
-          clearInterval(interval);
-        }
-        seoScoreEl.textContent = `${seoScore}%`;
-        seoBadge.textContent = `SEO: ${seoScore}/100`;
-        seoCircle.style.strokeDasharray = `${(seoScore / 100) * 251.2} 251.2`;
-      }, 50);
-    }
-
-    function animateVisitors() {
-      visitors = 0;
-      const visitorsEl = document.getElementById('visitors-count');
-      const interval = setInterval(() => {
-        visitors += Math.floor(Math.random() * 80) + 30;
-        if (visitors >= 1847) {
-          visitors = 1847;
-          clearInterval(interval);
-        }
-        visitorsEl.textContent = visitors.toLocaleString();
-      }, 80);
-    }
-
-    function animateRevenue() {
-      revenue = 0;
-      const revenueEl = document.getElementById('revenue-display');
-      const interval = setInterval(() => {
-        revenue += 5.75;
-        if (revenue >= 287.50) {
-          revenue = 287.50;
-          clearInterval(interval);
-        }
-        revenueEl.textContent = `R$ ${revenue.toFixed(2).replace('.', ',')}`;
-      }, 100);
-    }
-
-    // Start demo animation
-    setInterval(() => {
-      currentStep = (currentStep + 1) % totalSteps;
-      updateDemoStep();
-    }, 3000);
-
-    // ========== SCROLL ANIMATIONS ==========
-    const scrollObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const delay = entry.target.style.transitionDelay || '0ms';
-          setTimeout(() => {
-            entry.target.classList.remove('scroll-hidden', 'scroll-hidden-left', 'scroll-hidden-right', 'scroll-hidden-scale');
-            entry.target.classList.add('scroll-visible', 'scroll-visible-left', 'scroll-visible-right', 'scroll-visible-scale');
-          }, parseInt(delay));
-        }
-      });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('[data-scroll]').forEach(el => {
-      scrollObserver.observe(el);
-    });
-
-    // ========== HOW IT WORKS STEPS ==========
-    const stepsData = [
-      { number: "01", title: "Conecte seu WordPress", description: "Integração simples e segura com seu site.", icon: "link-2" },
-      { number: "02", title: "Defina categorias e frequência", description: "Você escolhe os temas e o ritmo de publicação.", icon: "settings-2" },
-      { number: "03", title: "A IA cria os artigos", description: "Conteúdo estruturado, informativo e otimizado.", icon: "brain" },
-      { number: "04", title: "Publicação automática", description: "Os posts entram no ar sozinhos, no horário certo.", icon: "rocket" },
-      { number: "05", title: "Escala e monetização", description: "Seu site cresce com consistência e SEO.", icon: "trending-up" }
-    ];
-
-    const stepsContainer = document.getElementById('steps-container');
-    const mobileStepsContainer = document.getElementById('mobile-steps-container');
-    let activeStep = -1;
-
-    // Create desktop steps
-    stepsData.forEach((step, index) => {
-      const stepEl = document.createElement('div');
-      stepEl.className = 'relative pt-8 scroll-hidden';
-      stepEl.dataset.scroll = '';
-      stepEl.style.transitionDelay = `${300 + index * 100}ms`;
-      stepEl.innerHTML = `
-        <div class="flex justify-center mb-6">
-          <div class="step-node relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 bg-muted text-muted-foreground" data-index="${index}">
-            <i data-lucide="${step.icon}" class="w-7 h-7"></i>
-            <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-muted-foreground/20 text-muted-foreground">${index + 1}</span>
-          </div>
-        </div>
-        <div class="text-center px-2">
-          <h3 class="font-semibold mb-2 text-muted-foreground">${step.title}</h3>
-          <p class="text-sm text-muted-foreground leading-relaxed">${step.description}</p>
-        </div>
-      `;
-      stepsContainer.appendChild(stepEl);
-    });
-
-    // Create mobile steps
-    stepsData.forEach((step, index) => {
-      const stepEl = document.createElement('div');
-      stepEl.className = 'relative pl-20 scroll-hidden-left';
-      stepEl.dataset.scroll = '';
-      stepEl.style.transitionDelay = `${300 + index * 100}ms`;
-      stepEl.innerHTML = `
-        <div class="mobile-step-node absolute left-0 w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 bg-muted text-muted-foreground" data-index="${index}">
-          <i data-lucide="${step.icon}" class="w-7 h-7"></i>
-          <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center bg-muted-foreground/20 text-muted-foreground">${index + 1}</span>
-        </div>
-        <div class="py-2">
-          <h3 class="font-semibold mb-1 text-muted-foreground">${step.title}</h3>
-          <p class="text-sm text-muted-foreground">${step.description}</p>
-        </div>
-      `;
-      mobileStepsContainer.appendChild(stepEl);
-    });
-
-    lucide.createIcons();
-
-    // Animate steps on scroll
-    const howItWorksSection = document.getElementById('como-funciona');
-    const stepsObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        stepsData.forEach((_, index) => {
-          setTimeout(() => {
-            activeStep = index;
-            updateStepNodes();
-            updateTimelineProgress();
-          }, 300 + index * 200);
+      // Close menu when clicking a link
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.add('hidden');
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
         });
-      }
-    }, { threshold: 0.2 });
-    stepsObserver.observe(howItWorksSection);
-
-    function updateStepNodes() {
-      document.querySelectorAll('.step-node, .mobile-step-node').forEach(node => {
-        const index = parseInt(node.dataset.index);
-        if (index <= activeStep) {
-          node.classList.remove('bg-muted', 'text-muted-foreground');
-          node.classList.add('bg-primary', 'text-primary-foreground', 'shadow-lg', 'shadow-primary/25');
-          node.querySelector('span').classList.remove('bg-muted-foreground/20', 'text-muted-foreground');
-          node.querySelector('span').classList.add('bg-background', 'text-primary', 'border-2', 'border-primary');
-        }
       });
     }
 
-    function updateTimelineProgress() {
-      const progress = activeStep >= 4 ? 100 : activeStep >= 0 ? ((activeStep + 1) * 20) : 0;
-      document.getElementById('timeline-progress').style.width = `${progress}%`;
-      document.getElementById('mobile-timeline-progress').style.height = `${progress}%`;
-    }
+    // Navigation highlight
+    function initNavHighlight() {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-link');
 
-    // ========== BENEFITS CARDS ==========
-    const benefitsData = [
-      { icon: "refresh-cw", title: "Publicação automática", description: "Artigos publicados automaticamente no horário ideal" },
-      { icon: "clock", title: "Economia de tempo", description: "Libere horas da sua rotina para focar no que importa" },
-      { icon: "folder-open", title: "Conteúdo organizado", description: "Artigos estruturados e distribuídos por nicho" },
-      { icon: "layers", title: "Múltiplos sites", description: "Gerencie vários blogs a partir de um único painel" },
-      { icon: "activity", title: "Processo previsível", description: "Fluxo constante de conteúdo, sem surpresas" }
-    ];
-
-    const benefitsRow1 = document.getElementById('benefits-row-1');
-    const benefitsRow2 = document.getElementById('benefits-row-2');
-
-    benefitsData.slice(0, 3).forEach((benefit, index) => {
-      benefitsRow1.appendChild(createBenefitCard(benefit, index, false));
-    });
-
-    benefitsData.slice(3).forEach((benefit, index) => {
-      benefitsRow2.appendChild(createBenefitCard(benefit, index + 3, true));
-    });
-
-    function createBenefitCard(benefit, index, inverted) {
-      const card = document.createElement('div');
-      card.className = `benefit-parent ${inverted ? 'inverted' : ''} scroll-hidden-scale`;
-      card.dataset.scroll = '';
-      card.style.transitionDelay = `${index * 100}ms`;
-      card.innerHTML = `
-        <div class="benefit-card">
-          <div class="benefit-logo">
-            <span class="benefit-circle benefit-circle1"></span>
-            <span class="benefit-circle benefit-circle2"></span>
-            <span class="benefit-circle benefit-circle3"></span>
-            <span class="benefit-circle benefit-circle4"></span>
-            <span class="benefit-circle benefit-circle5">
-              <i data-lucide="${benefit.icon}" class="benefit-icon w-5 h-5"></i>
-            </span>
-          </div>
-          <div class="benefit-glass"></div>
-          <div class="benefit-content">
-            <span class="benefit-title">${benefit.title}</span>
-            <span class="benefit-text">${benefit.description}</span>
-          </div>
-        </div>
-      `;
-      return card;
-    }
-
-    lucide.createIcons();
-
-    // ========== ADSENSE SECTION ==========
-    const adsenseHighlights = [
-      { icon: "globe", text: "Estrutura amigável ao Google" },
-      { icon: "file-text", text: "Conteúdo informativo e útil" },
-      { icon: "calendar-check", text: "Consistência de publicações" },
-      { icon: "search", text: "SEO aplicado automaticamente" }
-    ];
-
-    const adsenseHighlightsContainer = document.getElementById('adsense-highlights');
-    adsenseHighlights.forEach((highlight, index) => {
-      const el = document.createElement('div');
-      el.className = 'group relative flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-muted/50 to-muted/20 backdrop-blur-sm border border-border/40 transition-all duration-500 ease-out hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 hover:-translate-y-1 scroll-hidden-left';
-      el.dataset.scroll = '';
-      el.style.transitionDelay = `${400 + index * 150}ms`;
-      el.innerHTML = `
-        <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="relative flex-shrink-0">
-          <div class="absolute inset-0 bg-green-500/30 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div class="relative w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl flex items-center justify-center border border-green-500/20 group-hover:border-green-500/40 transition-all duration-300 group-hover:rotate-6">
-            <i data-lucide="${highlight.icon}" class="w-6 h-6 text-green-500 transition-transform duration-300 group-hover:scale-110"></i>
-          </div>
-        </div>
-        <span class="relative text-foreground font-medium text-base sm:text-lg">${highlight.text}</span>
-        <div class="relative ml-auto flex-shrink-0">
-          <div class="absolute inset-0 bg-green-500 rounded-full blur-sm opacity-50 animate-pulse"></div>
-          <div class="relative w-7 h-7 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
-            <i data-lucide="check" class="w-4 h-4 text-white" stroke-width="3"></i>
-          </div>
-        </div>
-      `;
-      adsenseHighlightsContainer.appendChild(el);
-    });
-
-    // Create AdSense bars
-    const adsenseBars = document.getElementById('adsense-bars');
-    const barHeights = [40, 55, 45, 70, 90];
-    barHeights.forEach((height, i) => {
-      const bar = document.createElement('div');
-      bar.className = 'w-8 sm:w-10 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg shadow-lg';
-      bar.style.height = '0%';
-      bar.style.transition = `height 0.7s ease-out ${i * 100 + 300}ms`;
-      adsenseBars.appendChild(bar);
-      
-      // Animate on scroll
-      setTimeout(() => {
-        const observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            bar.style.height = `${height}%`;
+      window.addEventListener('scroll', function() {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
           }
-        }, { threshold: 0.2 });
-        observer.observe(adsenseBars);
-      }, 100);
-    });
+        });
 
-    lucide.createIcons();
-
-    // ========== PRICING CARDS ==========
-    const plansData = [
-      {
-        name: "Plano Básico",
-        icon: "zap",
-        price: "49",
-        cents: "90",
-        period: "/mês",
-        description: "Ideal para começar",
-        features: ["50 artigos por mês", "Suporte por email", "1 site conectado", "Relatórios básicos"],
-        cta: "Começar agora",
-        popular: false,
-        highlighted: false
-      },
-      {
-        name: "Plano Pro",
-        icon: "sparkles",
-        price: "79",
-        cents: "90",
-        period: "/mês",
-        description: "O mais escolhido",
-        features: ["100 artigos por mês", "Suporte prioritário", "5 sites conectados", "Agendamento automático", "Relatórios avançados"],
-        cta: "Testar 7 dias grátis",
-        popular: true,
-        highlighted: true
-      },
-      {
-        name: "Plano Enterprise",
-        icon: "crown",
-        price: "197",
-        cents: "00",
-        period: "/mês",
-        description: "Para grandes operações",
-        features: ["Artigos ilimitados", "Suporte 24/7 dedicado", "Sites ilimitados", "Agendamento automático", "API de integração", "Gerente de conta"],
-        cta: "Falar com vendas",
-        popular: false,
-        highlighted: false
-      }
-    ];
-
-    const pricingCards = document.getElementById('pricing-cards');
-    plansData.forEach((plan, index) => {
-      const card = document.createElement('div');
-      const isHighlighted = plan.highlighted;
-      card.className = `group relative rounded-3xl p-6 sm:p-8 transition-all duration-700 ease-out scroll-hidden hover:-translate-y-2 ${isHighlighted ? 'bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white md:scale-105 shadow-2xl shadow-primary/30 z-10' : 'bg-card/80 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5'}`;
-      card.dataset.scroll = '';
-      card.style.transitionDelay = `${150 + index * 150}ms`;
-      
-      let featuresHTML = plan.features.map((feature, i) => `
-        <li class="flex items-center gap-3">
-          <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${isHighlighted ? 'bg-white/20' : 'bg-green-500/10'}">
-            <i data-lucide="check" class="w-3 h-3 ${isHighlighted ? 'text-white' : 'text-green-500'}" stroke-width="3"></i>
-          </div>
-          <span class="text-sm ${isHighlighted ? 'text-white/90' : 'text-muted-foreground'}">${feature}</span>
-        </li>
-      `).join('');
-
-      card.innerHTML = `
-        ${isHighlighted ? '<div class="absolute inset-0 rounded-3xl bg-primary/20 blur-xl -z-10 animate-pulse"></div>' : ''}
-        ${plan.popular ? `
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
-            <span class="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
-              <i data-lucide="sparkles" class="w-3 h-3"></i>
-              Mais Popular
-            </span>
-          </div>
-        ` : ''}
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 ${isHighlighted ? 'bg-white/20' : 'bg-primary/10'}">
-            <i data-lucide="${plan.icon}" class="w-5 h-5 ${isHighlighted ? 'text-white' : 'text-primary'}"></i>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold ${isHighlighted ? 'text-white' : 'text-foreground'}">${plan.name}</h3>
-            <p class="text-sm ${isHighlighted ? 'text-white/70' : 'text-muted-foreground'}">${plan.description}</p>
-          </div>
-        </div>
-        <div class="mb-6 flex items-baseline gap-1">
-          <span class="text-sm ${isHighlighted ? 'text-white/70' : 'text-muted-foreground'}">R$</span>
-          <span class="text-5xl sm:text-6xl font-bold tracking-tight ${isHighlighted ? 'text-white' : 'text-foreground'}">${plan.price}</span>
-          <span class="text-2xl font-bold ${isHighlighted ? 'text-white/90' : 'text-foreground'}">,${plan.cents}</span>
-          <span class="text-sm ml-1 ${isHighlighted ? 'text-white/70' : 'text-muted-foreground'}">${plan.period}</span>
-        </div>
-        <div class="h-px mb-6 ${isHighlighted ? 'bg-white/20' : 'bg-border'}"></div>
-        <ul class="space-y-3 mb-8">${featuresHTML}</ul>
-        <a href="auth.html" class="block w-full text-center py-3 rounded-lg font-medium transition-all duration-300 ${isHighlighted ? 'bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl' : 'border border-border hover:bg-muted hover:shadow-lg'}">${plan.cta}</a>
-      `;
-      pricingCards.appendChild(card);
-    });
-
-    lucide.createIcons();
-
-    // ========== TESTIMONIALS ==========
-    const testimonialsData = [
-      { name: "Lucas Andrade", text: "Eu sempre travava na parte de manter consistência no blog. Com a AutomaticPress, os posts simplesmente começaram a sair sozinhos." },
-      { name: "Mariana Lopes", text: "O que mais me chamou atenção foi a organização. Tudo é automático, mas ao mesmo tempo muito bem estruturado." },
-      { name: "Rafael Monteiro", text: "Antes eu publicava quando dava tempo. Agora meu WordPress posta todos os dias sem eu precisar entrar no painel." },
-      { name: "Thiago Nunes", text: "A AutomaticPress mudou minha visão sobre criação de conteúdo. Não é só gerar texto, é manter o site vivo e atualizado." },
-      { name: "Camila Ferreira", text: "Eu não tenho tempo para escrever artigos toda semana. Com a plataforma, meu blog nunca mais ficou parado." },
-      { name: "Bruno Almeida", text: "Já testei outras ferramentas, mas nenhuma focava tanto em SEO e monetização. Aqui você sente que o objetivo é ajudar o blog a crescer." }
-    ];
-
-    const testimonialsContainer = document.getElementById('testimonials-container');
-    testimonialsData.forEach((testimonial, index) => {
-      const card = document.createElement('div');
-      card.className = 'testimonial-card-container h-[240px] w-full group cursor-pointer';
-      card.innerHTML = `
-        <div class="testimonial-card-inner relative w-full h-full">
-          <div class="testimonial-front absolute w-full h-full rounded-xl p-5 bg-card/95 backdrop-blur-sm border border-primary/20 shadow-[0_0_20px_0_hsl(var(--primary)/0.15)] flex flex-col hover:border-primary/40 transition-colors duration-300">
-            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary rounded-full shadow-lg shadow-primary/30">
-              <p class="text-[10px] font-semibold text-primary-foreground tracking-wide">Depoimento</p>
-            </div>
-            <i data-lucide="quote" class="absolute top-3 right-3 w-5 h-5 text-primary/30"></i>
-            <div class="flex items-center gap-3 mt-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-                <i data-lucide="user" class="w-5 h-5 text-primary"></i>
-              </div>
-              <div class="min-w-0">
-                <h4 class="font-semibold text-foreground text-sm truncate">${testimonial.name}</h4>
-                <div class="flex gap-0.5 mt-0.5">
-                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
-                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
-                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
-                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
-                  <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
-                </div>
-              </div>
-            </div>
-            <p class="text-muted-foreground text-[13px] leading-relaxed mt-4 line-clamp-5">"${testimonial.text}"</p>
-          </div>
-          <div class="testimonial-back absolute w-full h-full rounded-xl p-5 bg-gradient-to-br from-primary/10 via-card to-primary/5 border border-primary/30 shadow-[0_0_25px_0_hsl(var(--primary)/0.2)] flex flex-col items-center justify-center gap-3">
-            <div class="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-              <i data-lucide="badge-check" class="w-8 h-8 text-primary"></i>
-            </div>
-            <div class="text-center">
-              <p class="text-base font-bold text-foreground">Usuário Verificado</p>
-              <p class="text-primary font-semibold text-sm">no AdSense</p>
-            </div>
-            <div class="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-full border border-green-500/20 mt-2">
-              <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-              <span class="text-[11px] text-green-400 font-medium">Monetização Ativa</span>
-            </div>
-          </div>
-        </div>
-      `;
-      testimonialsContainer.appendChild(card);
-    });
-
-    lucide.createIcons();
-
-    // ========== FAQ ==========
-    const faqsData = [
-      { question: "Preciso saber SEO para usar?", answer: "Não! A AutomaticPress já aplica automaticamente as melhores práticas de SEO em todos os artigos gerados. Títulos otimizados, meta descriptions, headings estruturadas e densidade de palavras-chave são configurados automaticamente." },
-      { question: "Funciona em qualquer WordPress?", answer: "Sim, funciona em qualquer instalação WordPress com acesso à API REST, que é o padrão na maioria das hospedagens. Basta conectar suas credenciais e começar a automatizar." },
-      { question: "Isso garante aprovação no AdSense?", answer: "A plataforma foca em criar conteúdo de alta qualidade que aumenta significativamente suas chances de aprovação, mas a decisão final depende das políticas do Google. Nossos artigos seguem todas as diretrizes de conteúdo recomendadas." },
-      { question: "Posso usar em mais de um site?", answer: "Sim! Dependendo do seu plano, você pode gerenciar múltiplos sites WordPress a partir de uma única conta. Os planos Pro e Enterprise oferecem suporte a vários domínios." }
-    ];
-
-    const faqContainer = document.getElementById('faq-container');
-    faqsData.forEach((faq, index) => {
-      const item = document.createElement('div');
-      item.className = 'bg-card border border-border/50 rounded-xl px-6 transition-colors duration-200 hover:border-primary/20';
-      item.innerHTML = `
-        <button class="faq-trigger w-full flex items-center justify-between py-5 text-left text-foreground text-base md:text-lg font-medium group" onclick="toggleFaq(this)">
-          <span>${faq.question}</span>
-          <i data-lucide="chevron-down" class="w-5 h-5 text-muted-foreground transition-transform duration-200 group-[.open]:rotate-180"></i>
-        </button>
-        <div class="faq-content hidden pb-5 text-muted-foreground text-sm md:text-base leading-relaxed">
-          ${faq.answer}
-        </div>
-      `;
-      faqContainer.appendChild(item);
-    });
-
-    lucide.createIcons();
-
-    function toggleFaq(trigger) {
-      const content = trigger.nextElementSibling;
-      const isOpen = !content.classList.contains('hidden');
-      
-      // Close all others
-      document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
-      document.querySelectorAll('.faq-trigger').forEach(t => t.classList.remove('open'));
-      
-      if (!isOpen) {
-        content.classList.remove('hidden');
-        trigger.classList.add('open');
-      }
+        navLinks.forEach(link => {
+          link.classList.remove('text-primary-foreground', 'bg-primary', 'shadow-md');
+          link.classList.add('text-muted-foreground');
+          if (link.getAttribute('data-section') === current) {
+            link.classList.add('text-primary-foreground', 'bg-primary', 'shadow-md');
+            link.classList.remove('text-muted-foreground');
+          }
+        });
+      });
     }
 
-    // Re-initialize icons after dynamic content
-    setTimeout(() => lucide.createIcons(), 500);
+    // Scroll animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (entry.target.classList.contains('scroll-hidden')) {
+              entry.target.classList.remove('scroll-hidden');
+              entry.target.classList.add('scroll-visible');
+            } else if (entry.target.classList.contains('scroll-hidden-left')) {
+              entry.target.classList.remove('scroll-hidden-left');
+              entry.target.classList.add('scroll-visible-left');
+            } else if (entry.target.classList.contains('scroll-hidden-right')) {
+              entry.target.classList.remove('scroll-hidden-right');
+              entry.target.classList.add('scroll-visible-right');
+            } else if (entry.target.classList.contains('scroll-hidden-scale')) {
+              entry.target.classList.remove('scroll-hidden-scale');
+              entry.target.classList.add('scroll-visible-scale');
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.scroll-hidden, .scroll-hidden-left, .scroll-hidden-right, .scroll-hidden-scale').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    // Demo animation
+    function initDemoAnimation() {
+      const steps = document.querySelectorAll('.demo-step');
+      const indicators = document.querySelectorAll('.step-indicator');
+      const progressBar = document.getElementById('demo-progress');
+      let currentStep = 0;
+      const totalSteps = steps.length;
+
+      function showStep(index) {
+        steps.forEach((step, i) => {
+          step.style.opacity = i === index ? '1' : '0';
+        });
+        indicators.forEach((ind, i) => {
+          ind.classList.toggle('active', i === index);
+        });
+        progressBar.style.width = ((index + 1) / totalSteps * 100) + '%';
+      }
+
+      setInterval(() => {
+        currentStep = (currentStep + 1) % totalSteps;
+        showStep(currentStep);
+      }, 3000);
+    }
+
+    // FAQ accordion
+    function toggleFaq(button) {
+      const item = button.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('open');
+      });
+      
+      // Open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
   </script>
 </body>
 </html>
