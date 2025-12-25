@@ -5,9 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - AutomaticPress</title>
   <meta name="description" content="Faça login ou crie sua conta na AutomaticPress para automatizar seu blog WordPress.">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
   <style>
     :root {
       --background: 0 0% 100%;
@@ -38,7 +75,8 @@
       --border: 215 28% 17%;
     }
 
-    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+    * { font-family: 'Inter', system-ui, sans-serif; box-sizing: border-box; }
+    
     body { 
       background-color: hsl(var(--background)); 
       color: hsl(var(--foreground)); 
@@ -56,45 +94,8 @@
       background: linear-gradient(180deg, hsl(224, 71%, 4%) 0%, hsl(224, 60%, 8%) 100%);
     }
 
-    .text-gradient {
-      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .bg-primary { background-color: hsl(var(--primary)); }
-    .text-primary { color: hsl(var(--primary)); }
-    .text-primary-foreground { color: hsl(var(--primary-foreground)); }
-    .bg-muted { background-color: hsl(var(--muted)); }
-    .text-muted-foreground { color: hsl(var(--muted-foreground)); }
-    .bg-card { background-color: hsl(var(--card)); }
-    .text-foreground { color: hsl(var(--foreground)); }
-    .border-border { border-color: hsl(var(--border)); }
-    .bg-background { background-color: hsl(var(--background)); }
-    .text-destructive { color: hsl(var(--destructive)); }
-
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-
-    .logo-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(280, 87%, 65%) 100%);
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 800;
-      font-size: 1rem;
-    }
-
-    .card-container {
-      width: 100%;
-      max-width: 420px;
-      position: relative;
-    }
 
     .card-glow {
       position: absolute;
@@ -134,36 +135,6 @@
     .corner-bl { bottom: 0.75rem; left: 0.75rem; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 0.75rem; }
     .corner-br { bottom: 0.75rem; right: 0.75rem; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 0.75rem 0; }
 
-    .tab-container {
-      display: flex;
-      background: hsl(var(--muted) / 0.5);
-      border-radius: 1rem;
-      padding: 0.375rem;
-      border: 1px solid hsl(var(--border) / 0.5);
-    }
-    .tab-btn {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 0.875rem;
-      transition: all 0.3s;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: hsl(var(--muted-foreground));
-    }
-    .tab-btn:hover { color: hsl(var(--foreground)); }
-    .tab-btn.active {
-      background: hsl(var(--primary));
-      color: white;
-      box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
-    }
-
     .input-field {
       width: 100%;
       background: hsl(var(--background));
@@ -182,30 +153,6 @@
       box-shadow: 2px 2px 0px 0px hsl(var(--primary) / 0.2);
       transform: translateX(2px) translateY(2px);
     }
-
-    .input-wrapper {
-      position: relative;
-    }
-    .input-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: hsl(var(--primary));
-      pointer-events: none;
-    }
-    .password-toggle {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: hsl(var(--muted-foreground));
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-    }
-    .password-toggle:hover { color: hsl(var(--primary)); }
 
     .btn-submit {
       width: 100%;
@@ -227,10 +174,6 @@
     .btn-submit:hover {
       box-shadow: 3px 3px 0px 0px hsl(var(--primary) / 0.5);
       transform: translateX(4px) translateY(4px);
-    }
-    .btn-submit:active {
-      box-shadow: 1px 1px 0px 0px hsl(var(--primary) / 0.5);
-      transform: translateX(6px) translateY(6px);
     }
 
     .btn-google {
@@ -257,68 +200,25 @@
       border-color: hsl(var(--primary) / 0.4);
     }
 
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
-    }
-    .divider-text {
-      font-size: 0.75rem;
-      color: hsl(var(--muted-foreground));
-      font-weight: 500;
-      padding: 0 0.5rem;
-    }
-
-    .fixed-btn {
-      position: fixed;
-      z-index: 50;
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 9999px;
-      background: hsl(var(--background) / 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid hsl(var(--border) / 0.5);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .fixed-btn:hover { background: hsl(var(--muted)); }
-    .theme-btn { top: 1rem; right: 1rem; }
-    .back-btn { 
-      top: 1rem; 
-      left: 1rem; 
-      width: auto;
-      padding: 0 1rem;
-      font-size: 0.875rem;
-      gap: 0.25rem;
-    }
-
     #signupFields { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.3s; }
-    #signupFields.visible { max-height: 100px; opacity: 1; }
+    #signupFields.visible { max-height: 100px; opacity: 1; margin-bottom: 1rem; }
   </style>
 </head>
 <body class="bg-hero-gradient antialiased">
   <!-- Theme Toggle -->
-  <button class="fixed-btn theme-btn" onclick="document.documentElement.classList.toggle('dark')">
+  <button class="fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-lg flex items-center justify-center cursor-pointer transition-colors hover:bg-muted" onclick="document.documentElement.classList.toggle('dark'); lucide.createIcons();">
     <i data-lucide="sun" class="w-4 h-4 dark:hidden"></i>
     <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
   </button>
 
   <!-- Back Button -->
-  <a href="home.html" class="fixed-btn back-btn">
-    ← Voltar
+  <a href="home.html" class="fixed top-4 left-4 z-50 px-4 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-lg flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:bg-muted">
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Voltar
   </a>
 
   <!-- Card Container -->
-  <div class="card-container animate-fade-in">
+  <div class="w-full max-w-[420px] relative animate-fade-in">
     <!-- Glow effect -->
     <div class="card-glow"></div>
     
@@ -333,17 +233,19 @@
       <!-- Logo -->
       <div class="flex justify-center mb-5">
         <div class="p-3 rounded-2xl" style="background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(280 87% 65% / 0.1)); border: 1px solid hsl(var(--primary) / 0.2);">
-          <div class="logo-icon">AP</div>
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-white" style="background: linear-gradient(135deg, hsl(239, 84%, 67%), hsl(280, 87%, 65%));">
+            AP
+          </div>
         </div>
       </div>
 
       <!-- Tab Toggle -->
-      <div class="tab-container mb-6">
-        <button type="button" class="tab-btn active" id="loginTab" onclick="switchTab('login')">
+      <div class="flex bg-muted/50 rounded-2xl p-1.5 border border-border/50 mb-6">
+        <button type="button" class="tab-btn flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all" id="loginTab" onclick="switchTab('login')">
           <i data-lucide="log-in" class="w-4 h-4"></i>
           Entrar
         </button>
-        <button type="button" class="tab-btn" id="signupTab" onclick="switchTab('signup')">
+        <button type="button" class="tab-btn flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all" id="signupTab" onclick="switchTab('signup')">
           <i data-lucide="user-plus" class="w-4 h-4"></i>
           Criar Conta
         </button>
@@ -358,23 +260,23 @@
       <form onsubmit="handleSubmit(event)" class="space-y-4">
         <!-- Full Name (signup only) -->
         <div id="signupFields">
-          <div class="input-wrapper">
-            <i data-lucide="user" class="w-5 h-5 input-icon"></i>
+          <div class="relative">
+            <i data-lucide="user" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"></i>
             <input type="text" placeholder="Nome completo" class="input-field" id="fullName">
           </div>
         </div>
 
         <!-- Email -->
-        <div class="input-wrapper">
-          <i data-lucide="mail" class="w-5 h-5 input-icon"></i>
+        <div class="relative">
+          <i data-lucide="mail" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"></i>
           <input type="email" placeholder="E-mail" class="input-field" id="email" required>
         </div>
 
         <!-- Password -->
-        <div class="input-wrapper">
-          <i data-lucide="lock" class="w-5 h-5 input-icon"></i>
+        <div class="relative">
+          <i data-lucide="lock" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"></i>
           <input type="password" placeholder="Senha" class="input-field" id="password" required style="padding-right: 3rem;">
-          <button type="button" class="password-toggle" onclick="togglePassword()">
+          <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors" onclick="togglePassword()">
             <i data-lucide="eye" class="w-5 h-5" id="eyeIcon"></i>
           </button>
         </div>
@@ -394,10 +296,10 @@
       </form>
 
       <!-- Divider -->
-      <div class="divider my-6">
-        <div class="divider-line"></div>
-        <span class="divider-text">ou</span>
-        <div class="divider-line"></div>
+      <div class="flex items-center gap-3 my-6">
+        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);"></div>
+        <span class="text-xs text-muted-foreground font-medium px-2">ou</span>
+        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);"></div>
       </div>
 
       <!-- Google Login Button -->
@@ -421,15 +323,38 @@
   </div>
 
   <script>
-    lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+      updateTabStyles();
+    });
 
     let isLogin = true;
 
+    function updateTabStyles() {
+      const loginTab = document.getElementById('loginTab');
+      const signupTab = document.getElementById('signupTab');
+      
+      if (isLogin) {
+        loginTab.style.background = 'hsl(var(--primary))';
+        loginTab.style.color = 'white';
+        loginTab.style.boxShadow = '0 4px 12px hsl(var(--primary) / 0.25)';
+        signupTab.style.background = 'transparent';
+        signupTab.style.color = 'hsl(var(--muted-foreground))';
+        signupTab.style.boxShadow = 'none';
+      } else {
+        signupTab.style.background = 'hsl(var(--primary))';
+        signupTab.style.color = 'white';
+        signupTab.style.boxShadow = '0 4px 12px hsl(var(--primary) / 0.25)';
+        loginTab.style.background = 'transparent';
+        loginTab.style.color = 'hsl(var(--muted-foreground))';
+        loginTab.style.boxShadow = 'none';
+      }
+    }
+
     function switchTab(tab) {
       isLogin = tab === 'login';
+      updateTabStyles();
       
-      document.getElementById('loginTab').classList.toggle('active', isLogin);
-      document.getElementById('signupTab').classList.toggle('active', !isLogin);
       document.getElementById('signupFields').classList.toggle('visible', !isLogin);
       document.getElementById('forgotLink').style.display = isLogin ? 'block' : 'none';
       document.getElementById('subtitle').textContent = isLogin 
@@ -437,7 +362,6 @@
         : 'Crie sua conta para começar.';
       document.getElementById('submitText').textContent = isLogin ? 'Entrar' : 'Criar Conta';
       
-      // Update icon
       const submitIcon = document.getElementById('submitIcon');
       submitIcon.setAttribute('data-lucide', isLogin ? 'log-in' : 'user-plus');
       lucide.createIcons();
