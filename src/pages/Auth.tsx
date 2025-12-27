@@ -267,12 +267,15 @@ const Auth = () => {
       </div>
 
       {/* Hero Section acima do form */}
-      <div className="text-center mb-6 sm:mb-8 animate-fade-in">
-        {/* Logo */}
-        <div className="flex justify-center mb-4">
-          <div className="p-3 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-2xl border border-primary/20">
-            <APLogo size="lg" />
+      <div className="text-center mb-6 sm:mb-8 mt-8 sm:mt-12 animate-fade-in">
+        {/* Logo com texto */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="p-2.5 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-xl border border-primary/20">
+            <APLogo size="default" />
           </div>
+          <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+            AutomaticPress
+          </span>
         </div>
         
         {/* Headline */}
