@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun, Eye, EyeOff, Phone, CreditCard, Calendar } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Moon, Sun, Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
 import { Button } from '@/components/ui/button';
@@ -326,203 +326,175 @@ const Auth = () => {
           </div>
 
           {/* Subtitle */}
-          <p className="text-center text-sm text-muted-foreground mb-6">
+          <p className="text-center text-sm text-muted-foreground mb-4">
             {isLogin ? 'Bem-vindo de volta! Entre com suas credenciais.' : 'Crie sua conta para começar.'}
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {/* Full Name (only for signup) */}
-            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                  <User className="w-5 h-5" />
-                </div>
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Nome Completo</label>
                 <input
                   type="text"
-                  placeholder="Nome completo"
+                  placeholder="Seu nome completo"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
-                    border-2 border-border
-                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                    focus:translate-x-0.5 focus:translate-y-0.5
+                  className="w-full bg-background px-4 py-3 rounded-xl 
+                    border border-border
+                    focus:border-primary focus:ring-1 focus:ring-primary/20
                     focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                     transition-all duration-200"
                 />
                 {errors.fullName && (
-                  <p className="text-sm text-destructive mt-2 ml-2">{errors.fullName}</p>
+                  <p className="text-xs text-destructive mt-1">{errors.fullName}</p>
                 )}
               </div>
             </div>
 
             {/* Email */}
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                <Mail className="w-5 h-5" />
-              </div>
+            <div>
+              <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
               <input
                 type="email"
-                placeholder="E-mail"
+                placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
                 required
-                className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
-                  border-2 border-border
-                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                  focus:translate-x-0.5 focus:translate-y-0.5
+                className="w-full bg-background px-4 py-3 rounded-xl 
+                  border border-border
+                  focus:border-primary focus:ring-1 focus:ring-primary/20
                   focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                   transition-all duration-200"
               />
               {errors.email && (
-                <p className="text-sm text-destructive mt-2 ml-2">{errors.email}</p>
+                <p className="text-xs text-destructive mt-1">{errors.email}</p>
               )}
             </div>
 
             {/* CPF and WhatsApp (only for signup) */}
-            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
               <div className="grid grid-cols-2 gap-3">
                 {/* CPF */}
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                    <CreditCard className="w-5 h-5" />
-                  </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1.5 block">CPF</label>
                   <input
                     type="text"
-                    placeholder="CPF"
+                    placeholder="000.000.000-00"
                     value={cpf}
                     onChange={(e) => setCpf(formatCPF(e.target.value))}
                     disabled={isSubmitting}
-                    className="w-full bg-background pl-12 pr-3 py-4 rounded-2xl 
-                      border-2 border-border
-                      shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                      focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                      focus:translate-x-0.5 focus:translate-y-0.5
+                    className="w-full bg-background px-4 py-3 rounded-xl 
+                      border border-border
+                      focus:border-primary focus:ring-1 focus:ring-primary/20
                       focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                       transition-all duration-200 text-sm"
                   />
+                  {errors.cpf && <p className="text-xs text-destructive mt-1">{errors.cpf}</p>}
                 </div>
 
                 {/* WhatsApp */}
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                    <Phone className="w-5 h-5" />
-                  </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1.5 block">WhatsApp</label>
                   <input
                     type="text"
-                    placeholder="WhatsApp"
+                    placeholder="(11) 99999-9999"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(formatWhatsApp(e.target.value))}
                     disabled={isSubmitting}
-                    className="w-full bg-background pl-12 pr-3 py-4 rounded-2xl 
-                      border-2 border-border
-                      shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                      focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                      focus:translate-x-0.5 focus:translate-y-0.5
+                    className="w-full bg-background px-4 py-3 rounded-xl 
+                      border border-border
+                      focus:border-primary focus:ring-1 focus:ring-primary/20
                       focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                       transition-all duration-200 text-sm"
                   />
+                  {errors.whatsapp && <p className="text-xs text-destructive mt-1">{errors.whatsapp}</p>}
                 </div>
               </div>
-              {(errors.cpf || errors.whatsapp) && (
-                <div className="grid grid-cols-2 gap-3 mt-1">
-                  <p className="text-xs text-destructive ml-2">{errors.cpf || ''}</p>
-                  <p className="text-xs text-destructive ml-2">{errors.whatsapp || ''}</p>
-                </div>
-              )}
             </div>
 
             {/* Birth Date (only for signup) */}
-            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                  <Calendar className="w-5 h-5" />
-                </div>
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Data de Nascimento</label>
                 <input
                   type="text"
-                  placeholder="Data de Nascimento (DD/MM/AAAA)"
+                  placeholder="DD/MM/AAAA"
                   value={birthDate}
                   onChange={(e) => setBirthDate(formatBirthDate(e.target.value))}
                   disabled={isSubmitting}
-                  className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
-                    border-2 border-border
-                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                    focus:translate-x-0.5 focus:translate-y-0.5
+                  className="w-full bg-background px-4 py-3 rounded-xl 
+                    border border-border
+                    focus:border-primary focus:ring-1 focus:ring-primary/20
                     focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                     transition-all duration-200"
                 />
                 {errors.birthDate && (
-                  <p className="text-sm text-destructive mt-2 ml-2">{errors.birthDate}</p>
+                  <p className="text-xs text-destructive mt-1">{errors.birthDate}</p>
                 )}
               </div>
             </div>
 
             {/* Password */}
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                <Lock className="w-5 h-5" />
-              </div>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isSubmitting}
-                required
-                className="w-full bg-background pl-12 pr-12 py-4 rounded-2xl 
-                  border-2 border-border
-                  shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                  focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                  focus:translate-x-0.5 focus:translate-y-0.5
-                  focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
-                  transition-all duration-200"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-              {errors.password && (
-                <p className="text-sm text-destructive mt-2 ml-2">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Confirm Password (only for signup) */}
-            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div>
+              <label className="text-sm font-medium text-foreground mb-1.5 block">Senha</label>
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
-                  <Lock className="w-5 h-5" />
-                </div>
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="Confirmar Senha"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full bg-background pl-12 pr-12 py-4 rounded-2xl 
-                    border-2 border-border
-                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
-                    focus:translate-x-0.5 focus:translate-y-0.5
+                  required
+                  className="w-full bg-background px-4 py-3 pr-12 rounded-xl 
+                    border border-border
+                    focus:border-primary focus:ring-1 focus:ring-primary/20
                     focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
                     transition-all duration-200"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
+              </div>
+              {errors.password && (
+                <p className="text-xs text-destructive mt-1">{errors.password}</p>
+              )}
+            </div>
+
+            {/* Confirm Password (only for signup) */}
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Confirmar Senha</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-background px-4 py-3 pr-12 rounded-xl 
+                      border border-border
+                      focus:border-primary focus:ring-1 focus:ring-primary/20
+                      focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                      transition-all duration-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
                 {errors.confirmPassword && (
-                  <p className="text-sm text-destructive mt-2 ml-2">{errors.confirmPassword}</p>
+                  <p className="text-xs text-destructive mt-1">{errors.confirmPassword}</p>
                 )}
               </div>
             </div>
@@ -544,25 +516,25 @@ const Auth = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-3 font-bold text-lg
-                bg-gradient-to-r from-primary to-purple-500 text-primary-foreground py-4 rounded-2xl 
-                border-2 border-primary/50
-                shadow-[6px_6px_0px_0px_hsl(var(--primary)/0.4)]
-                hover:shadow-[3px_3px_0px_0px_hsl(var(--primary)/0.5)]
-                hover:translate-x-1 hover:translate-y-1
-                active:shadow-[1px_1px_0px_0px_hsl(var(--primary)/0.5)]
-                active:translate-x-1.5 active:translate-y-1.5
+              className="w-full flex items-center justify-center gap-2 font-semibold text-base
+                bg-gradient-to-r from-primary to-purple-500 text-primary-foreground py-3 rounded-xl 
+                border border-primary/50
+                shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.3)]
+                hover:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.4)]
+                hover:translate-x-0.5 hover:translate-y-0.5
+                active:shadow-[1px_1px_0px_0px_hsl(var(--primary)/0.4)]
+                active:translate-x-1 active:translate-y-1
                 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0
                 transition-all duration-200"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   {isLogin ? 'Entrando...' : 'Criando...'}
                 </>
               ) : (
                 <>
-                  {isLogin ? <LogIn className="h-5 w-5" /> : <UserPlus className="h-5 w-5" />}
+                  {isLogin ? <LogIn className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
                   {isLogin ? 'Entrar' : 'Criar Conta'}
                 </>
               )}
@@ -570,7 +542,7 @@ const Auth = () => {
           </form>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
+          <div className="flex items-center gap-3 my-4">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             <span className="text-xs text-muted-foreground font-medium px-2">ou</span>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
@@ -580,16 +552,13 @@ const Auth = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 py-3.5 px-5 text-sm font-bold uppercase 
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold
               text-foreground bg-background
-              border-2 border-border rounded-2xl 
-              shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
-              hover:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.15)]
-              hover:translate-x-0.5 hover:translate-y-0.5
-              hover:border-primary/40
+              border border-border rounded-xl 
+              hover:border-primary/40 hover:bg-muted/50
               transition-all duration-200"
           >
-            <svg className="h-5" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
+            <svg className="h-4" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
               <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
               <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
               <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" />
@@ -599,7 +568,7 @@ const Auth = () => {
           </button>
 
           {/* Agreement */}
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
             <a href="#" className="text-[11px] text-muted-foreground hover:text-primary transition-colors">
               Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade
             </a>
