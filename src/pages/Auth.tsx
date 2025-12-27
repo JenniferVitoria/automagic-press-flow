@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun, Eye, EyeOff } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Mail, Lock, User, Moon, Sun, Eye, EyeOff, Phone, CreditCard, Calendar } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
 import { Button } from '@/components/ui/button';
@@ -12,15 +12,54 @@ import { Button } from '@/components/ui/button';
 const emailSchema = z.string().email('Email inválido').max(255, 'Email muito longo');
 const passwordSchema = z.string().min(6, 'Senha deve ter pelo menos 6 caracteres').max(72, 'Senha muito longa');
 const nameSchema = z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').max(100, 'Nome muito longo').optional();
+const cpfSchema = z.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido (formato: 000.000.000-00)');
+const whatsappSchema = z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, 'WhatsApp inválido (formato: (11) 99999-9999)');
+const birthDateSchema = z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Data inválida (formato: DD/MM/AAAA)');
+
+// Format functions
+const formatCPF = (value: string) => {
+  const numbers = value.replace(/\D/g, '').slice(0, 11);
+  return numbers
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+};
+
+const formatWhatsApp = (value: string) => {
+  const numbers = value.replace(/\D/g, '').slice(0, 11);
+  if (numbers.length <= 2) return numbers.length ? `(${numbers}` : '';
+  if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+  return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
+};
+
+const formatBirthDate = (value: string) => {
+  const numbers = value.replace(/\D/g, '').slice(0, 8);
+  if (numbers.length <= 2) return numbers;
+  if (numbers.length <= 4) return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
+  return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4)}`;
+};
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<{ 
+    email?: string; 
+    password?: string; 
+    confirmPassword?: string;
+    fullName?: string;
+    cpf?: string;
+    whatsapp?: string;
+    birthDate?: string;
+  }>({});
   
   const { signIn, signUp, user, loading } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -35,7 +74,15 @@ const Auth = () => {
   }, [user, loading, navigate]);
 
   const validateForm = () => {
-    const newErrors: { email?: string; password?: string; fullName?: string } = {};
+    const newErrors: { 
+      email?: string; 
+      password?: string; 
+      confirmPassword?: string;
+      fullName?: string;
+      cpf?: string;
+      whatsapp?: string;
+      birthDate?: string;
+    } = {};
     
     try {
       emailSchema.parse(email);
@@ -53,12 +100,53 @@ const Auth = () => {
       }
     }
     
-    if (!isLogin && fullName) {
-      try {
-        nameSchema.parse(fullName);
-      } catch (e) {
-        if (e instanceof z.ZodError) {
-          newErrors.fullName = e.errors[0].message;
+    if (!isLogin) {
+      // Validate confirm password
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = 'As senhas não coincidem';
+      }
+      
+      // Validate full name
+      if (fullName) {
+        try {
+          nameSchema.parse(fullName);
+        } catch (e) {
+          if (e instanceof z.ZodError) {
+            newErrors.fullName = e.errors[0].message;
+          }
+        }
+      }
+      
+      // Validate CPF
+      if (cpf) {
+        try {
+          cpfSchema.parse(cpf);
+        } catch (e) {
+          if (e instanceof z.ZodError) {
+            newErrors.cpf = e.errors[0].message;
+          }
+        }
+      }
+      
+      // Validate WhatsApp
+      if (whatsapp) {
+        try {
+          whatsappSchema.parse(whatsapp);
+        } catch (e) {
+          if (e instanceof z.ZodError) {
+            newErrors.whatsapp = e.errors[0].message;
+          }
+        }
+      }
+      
+      // Validate Birth Date
+      if (birthDate) {
+        try {
+          birthDateSchema.parse(birthDate);
+        } catch (e) {
+          if (e instanceof z.ZodError) {
+            newErrors.birthDate = e.errors[0].message;
+          }
         }
       }
     }
@@ -99,7 +187,12 @@ const Auth = () => {
           navigate('/');
         }
       } else {
-        const { error } = await signUp(email, password, fullName || undefined);
+        const { error } = await signUp(email, password, {
+          fullName: fullName || undefined,
+          cpf: cpf || undefined,
+          whatsapp: whatsapp || undefined,
+          birthDate: birthDate || undefined,
+        });
         if (error) {
           let message = 'Erro ao criar conta';
           if (error.message.includes('already registered')) {
@@ -290,6 +383,85 @@ const Auth = () => {
               )}
             </div>
 
+            {/* CPF and WhatsApp (only for signup) */}
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="grid grid-cols-2 gap-3">
+                {/* CPF */}
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
+                    <CreditCard className="w-5 h-5" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="CPF"
+                    value={cpf}
+                    onChange={(e) => setCpf(formatCPF(e.target.value))}
+                    disabled={isSubmitting}
+                    className="w-full bg-background pl-12 pr-3 py-4 rounded-2xl 
+                      border-2 border-border
+                      shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                      focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+                      focus:translate-x-0.5 focus:translate-y-0.5
+                      focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                      transition-all duration-200 text-sm"
+                  />
+                </div>
+
+                {/* WhatsApp */}
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="WhatsApp"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(formatWhatsApp(e.target.value))}
+                    disabled={isSubmitting}
+                    className="w-full bg-background pl-12 pr-3 py-4 rounded-2xl 
+                      border-2 border-border
+                      shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                      focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+                      focus:translate-x-0.5 focus:translate-y-0.5
+                      focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                      transition-all duration-200 text-sm"
+                  />
+                </div>
+              </div>
+              {(errors.cpf || errors.whatsapp) && (
+                <div className="grid grid-cols-2 gap-3 mt-1">
+                  <p className="text-xs text-destructive ml-2">{errors.cpf || ''}</p>
+                  <p className="text-xs text-destructive ml-2">{errors.whatsapp || ''}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Birth Date (only for signup) */}
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Data de Nascimento (DD/MM/AAAA)"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(formatBirthDate(e.target.value))}
+                  disabled={isSubmitting}
+                  className="w-full bg-background pl-12 pr-4 py-4 rounded-2xl 
+                    border-2 border-border
+                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+                    focus:translate-x-0.5 focus:translate-y-0.5
+                    focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                    transition-all duration-200"
+                />
+                {errors.birthDate && (
+                  <p className="text-sm text-destructive mt-2 ml-2">{errors.birthDate}</p>
+                )}
+              </div>
+            </div>
+
             {/* Password */}
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
@@ -320,6 +492,39 @@ const Auth = () => {
               {errors.password && (
                 <p className="text-sm text-destructive mt-2 ml-2">{errors.password}</p>
               )}
+            </div>
+
+            {/* Confirm Password (only for signup) */}
+            <div className={`overflow-hidden transition-all duration-300 ${!isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Confirmar Senha"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={isSubmitting}
+                  className="w-full bg-background pl-12 pr-12 py-4 rounded-2xl 
+                    border-2 border-border
+                    shadow-[4px_4px_0px_0px_hsl(var(--primary)/0.1)]
+                    focus:border-primary focus:shadow-[2px_2px_0px_0px_hsl(var(--primary)/0.2)]
+                    focus:translate-x-0.5 focus:translate-y-0.5
+                    focus:outline-none placeholder:text-muted-foreground/50 text-foreground 
+                    transition-all duration-200"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors z-10"
+                >
+                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive mt-2 ml-2">{errors.confirmPassword}</p>
+                )}
+              </div>
             </div>
 
             {/* Forgot Password */}

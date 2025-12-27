@@ -1,11 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+interface UserData {
+  fullName?: string;
+  cpf?: string;
+  whatsapp?: string;
+  birthDate?: string;
+}
+
 // Mock User type (similar to Supabase User)
 interface MockUser {
   id: string;
   email: string;
   user_metadata?: {
     full_name?: string;
+    cpf?: string;
+    whatsapp?: string;
+    birth_date?: string;
   };
 }
 
@@ -13,7 +23,7 @@ interface MockAuthContextType {
   user: MockUser | null;
   session: { user: MockUser } | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName?: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, userData?: UserData) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 }
@@ -27,6 +37,9 @@ interface StoredUser {
   email: string;
   password: string;
   fullName?: string;
+  cpf?: string;
+  whatsapp?: string;
+  birthDate?: string;
 }
 
 export const MockAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -69,7 +82,7 @@ export const MockAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
   };
 
-  const signUp = async (email: string, password: string, fullName?: string): Promise<{ error: Error | null }> => {
+  const signUp = async (email: string, password: string, userData?: UserData): Promise<{ error: Error | null }> => {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -81,13 +94,25 @@ export const MockAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     // Save user
-    saveUser({ email, password, fullName });
+    saveUser({ 
+      email, 
+      password, 
+      fullName: userData?.fullName,
+      cpf: userData?.cpf,
+      whatsapp: userData?.whatsapp,
+      birthDate: userData?.birthDate
+    });
 
     // Create session
     const mockUser: MockUser = {
       id: crypto.randomUUID(),
       email,
-      user_metadata: { full_name: fullName }
+      user_metadata: { 
+        full_name: userData?.fullName,
+        cpf: userData?.cpf,
+        whatsapp: userData?.whatsapp,
+        birth_date: userData?.birthDate
+      }
     };
 
     setUser(mockUser);
@@ -110,7 +135,12 @@ export const MockAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const mockUser: MockUser = {
       id: crypto.randomUUID(),
       email: foundUser.email,
-      user_metadata: { full_name: foundUser.fullName }
+      user_metadata: { 
+        full_name: foundUser.fullName,
+        cpf: foundUser.cpf,
+        whatsapp: foundUser.whatsapp,
+        birth_date: foundUser.birthDate
+      }
     };
 
     setUser(mockUser);
