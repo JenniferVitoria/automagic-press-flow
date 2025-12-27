@@ -267,7 +267,7 @@ const Auth = () => {
       </div>
 
       {/* Hero Section acima do form */}
-      <div className="text-center mb-6 sm:mb-8 mt-8 sm:mt-12 animate-fade-in">
+      <div className="text-center mb-6 sm:mb-8 mt-16 sm:mt-20 animate-fade-in">
         {/* Logo com texto */}
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="p-2.5 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-xl border border-primary/20">
