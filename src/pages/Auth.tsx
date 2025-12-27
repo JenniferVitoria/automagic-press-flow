@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn, UserPlus, Moon, Sun, Eye, EyeOff } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Moon, Sun, Eye, EyeOff, Shield, Zap, Sparkles } from 'lucide-react';
 import { z } from 'zod';
 import APLogo from '@/components/APLogo';
 import { Button } from '@/components/ui/button';
@@ -240,7 +240,7 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-hero-gradient p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-hero-gradient p-4">
       {/* Theme Toggle - Fixed position */}
       <div className="fixed top-4 right-4 z-50">
         <Button
@@ -266,6 +266,44 @@ const Auth = () => {
         </Button>
       </div>
 
+      {/* Hero Section acima do form */}
+      <div className="text-center mb-6 sm:mb-8 animate-fade-in">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <div className="p-3 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-2xl border border-primary/20">
+            <APLogo size="lg" />
+          </div>
+        </div>
+        
+        {/* Headline */}
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
+          O Futuro dos Blogs Chegou!
+        </h1>
+        
+        {/* Subtítulo */}
+        <p className="text-muted-foreground text-sm sm:text-base mb-3">
+          Automatize seu blog agora mesmo!
+        </p>
+        
+        {/* CTA Text */}
+        <p className="text-primary font-bold text-lg sm:text-xl mb-4">
+          COMECE GRÁTIS!
+        </p>
+        
+        {/* Badges */}
+        <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4 text-green-500" /> Seguro
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-yellow-500" /> Rápido
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-purple-500" /> Inteligente
+          </span>
+        </div>
+      </div>
+
       {/* 3D Container with primary border */}
       <div 
         className="w-full max-w-[420px] relative animate-fade-in"
@@ -289,13 +327,6 @@ const Auth = () => {
           <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-primary/50 rounded-tr-xl" />
           <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-primary/50 rounded-bl-xl" />
           <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-primary/50 rounded-br-xl" />
-          
-          {/* Logo */}
-          <div className="flex justify-center mb-5">
-            <div className="p-3 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-2xl border border-primary/20">
-              <APLogo size="lg" />
-            </div>
-          </div>
 
           {/* Tab Toggle - Login / Cadastro */}
           <div className="flex bg-muted/50 rounded-2xl p-1.5 mb-6 border border-border/50">
